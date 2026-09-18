@@ -1,0 +1,15 @@
+PRAAN Phase 1 — Signal Validation Results
+==================================================
+
+CORRELATION RESULTS:
+         district  n_rainfall  r_rainfall  p_rainfall sig_rainfall  n_ndvi  r_ndvi  p_ndvi sig_ndvi
+Rajshahi Division          32      -0.266       0.142            ✗      16   -0.08   0.769        ✗
+
+MODEL COMPARISON (Rajshahi Division):
+  LOO R² Baseline  (trend only)     : -0.106
+  LOO R² Satellite (trend + CHIRPS)  : -0.072
+  Delta R²                           : +0.035
+
+DEFICIT YEARS IDENTIFIED:
+district
+Rajshahi Division    [1987, 1988, 1995, 1996, 1997]

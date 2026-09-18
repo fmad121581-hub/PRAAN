@@ -1,0 +1,45 @@
+PRAAN Phase 2 — Mobility Pressure Summary
+=======================================================
+
+ENVIRONMENTAL STRESS (Phase 1 validated):
+  GRACE TWS trend: -0.0104 cm/year
+  r = -0.921, p < 0.001
+  Projected TWS 2026: -0.357 cm
+  Stress multiplier vs 2002: 3.49x
+
+EXPOSED POPULATION:
+  Rajshahi Division (2026 est.): 22,139,483
+  Exposed (rural+ag+Barind):     7,168,817
+  Source: BBS Census 2011, Labour Force Survey
+
+MOBILITY PRESSURE ESTIMATE:
+  Low:     1,433,763
+  Central: 2,580,774
+  High:    3,584,408
+  Basis: Khalily/Khandker/Samad (36% monga mobility rate)
+  DISCLAIMER: Literature-informed scenario estimate.
+  NOT independently validated against migration series.
+
+DESTINATION PROBABILITIES (BBS Census 2011, Table 3.8):
+  Among Rajshahi out-migrants:
+    Dhaka Division            66.0%
+    Khulna Division           13.0%
+    Rangpur Division          7.8%
+    Chittagong Division       5.6%
+    Sylhet Division           5.3%
+    Barisal Division          2.3%
+
+WITHIN DHAKA DIVISION:
+    Dhaka City           45%  (~766,489 central estimate)
+    Gazipur              22%  (~374,728 central estimate)
+    Narayanganj          15%  (~255,496 central estimate)
+    Narsingdi            10%  (~170,331 central estimate)
+    Other Dhaka          8%  (~136,264 central estimate)
+
+LAYER TRANSPARENCY:
+  VALIDATED:          GRACE groundwater depletion trend
+  LITERATURE-INFORMED: Mobility rate (monga literature)
+  EMPIRICAL BASIS:    Destination probabilities (Census 2011)
+  SCENARIO FRAMEWORK: Stress multiplier assumption
+
+NEXT: Phase 3 — Urban Absorption Capacity (Dhaka wards)
