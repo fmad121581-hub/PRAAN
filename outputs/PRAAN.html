@@ -254,7 +254,7 @@ footer strong{color:var(--text);}
   <div class="map-layout">
     <div>
       <div id="map"></div>
-      <div class="map-source">Boundaries: GADM 4.1 · Data: BBS Census 2022, WorldPop 2020, JRC GHSL, OCHA COD-AB</div>
+      <div class="map-source">Coloured wards are the 61 city-corporation wards ranked on the Crisis Index. Slate wards are inside DNCC/DSCC but have no BBS 2022 match. Faint wards are the rest of Dhaka district — Savar, Keraniganj, Dhamrai, Dohar, Nawabganj — which carry an Absorption Stress score but are outside the Crisis Index scope. Click any ward for detail.<br>Boundaries: GADM 4.1 · Data: BBS Census 2022, WorldPop 2020, JRC GHSL, OCHA COD-AB</div>
     </div>
     <div>
       <div id="ward-panel">
@@ -550,15 +550,45 @@ function showWardPanel(p) {
                       p.stress_tier === 'Moderate stress' ? 'badge-moderate' :
                       p.stress_tier ? 'badge-low' : 'badge-nodata';
 
-  content.innerHTML =
-    '<h3>' + (p.NAME_3 || '—') + '</h3>' +
-    '<div class="wp-sub">' + (p.NAME_4 || '—') + ' &nbsp;·&nbsp; ' + (p.city_corp || '—') + '</div>' +
-    '<div class="wp-row"><span class="wpr-label">Crisis Index</span><span class="wpr-val">' + ci + '</span></div>' +
-    '<div class="wp-row"><span class="wpr-label">Crisis tier</span><span class="wpr-val"><span class="wp-badge ' + crisisBadge + '">' + (p.crisis_tier || 'No data') + '</span></span></div>' +
-    '<div class="wp-row"><span class="wpr-label">Absorption Stress</span><span class="wpr-val">' + asi + '</span></div>' +
-    '<div class="wp-row"><span class="wpr-label">Stress tier</span><span class="wpr-val"><span class="wp-badge ' + stressBadge + '">' + (p.stress_tier || 'No data') + '</span></span></div>' +
-    '<div class="wp-row"><span class="wpr-label">Population (2022)</span><span class="wpr-val">' + pop + '</span></div>' +
-    '<div class="wp-row"><span class="wpr-label">Arrivals (' + scenLabel + ')</span><span class="wpr-val" style="color:var(--orange)">' + arrivals + '</span></div>';
+  const row = (l,v) => '<div class="wp-row"><span class="wpr-label">'+l+'</span><span class="wpr-val">'+v+'</span></div>';
+  const badge = (c,t) => '<span class="wp-badge '+c+'">'+t+'</span>';
+  const note = t => '<div class="wp-row" style="border:0;display:block;padding-top:.6rem">'
+      + '<span class="wpr-label" style="display:block;line-height:1.5">'+t+'</span></div>';
+
+  const ranked = p.crisis_index != null;
+  const inCity = p.in_city === true;
+  const where  = ranked || inCity
+      ? (p.city_corp || 'Dhaka city corporation')
+      : 'Dhaka district \u00b7 outside the city corporations';
+
+  let body =
+    '<h3>' + (p.NAME_3 || '\u2014') + '</h3>' +
+    '<div class="wp-sub">' + (p.NAME_4 || '\u2014') + ' &nbsp;\u00b7&nbsp; ' + where + '</div>';
+
+  if (ranked) {
+    body += row('Crisis Index', ci)
+         +  row('Crisis tier', badge(crisisBadge, p.crisis_tier))
+         +  row('Absorption Stress', asi)
+         +  row('Stress tier', badge(stressBadge, p.stress_tier || 'No data'))
+         +  row('Population (2022)', pop)
+         +  '<div class="wp-row"><span class="wpr-label">Arrivals (' + scenLabel + ')</span>'
+         +  '<span class="wpr-val" style="color:var(--orange)">' + arrivals + '</span></div>';
+  } else if (inCity) {
+    body += row('Absorption Stress', asi)
+         +  row('Stress tier', badge(stressBadge, p.stress_tier || 'No data'))
+         +  note('This GADM polygon is a &ldquo;(Part)&rdquo; fragment with no matching '
+              + 'BBS 2022 ward record, so it carries an Absorption Stress score but is '
+              + 'not ranked on the Crisis Index. 77 of 138 city-corporation polygons '
+              + 'are in this position; ranking them would mean imputing their population.');
+  } else {
+    body += row('Absorption Stress', asi)
+         +  row('Stress tier', badge(stressBadge, p.stress_tier || 'No data'))
+         +  note('Dhaka district beyond DNCC and DSCC. Absorption Stress is computed here '
+              + 'too, but the Crisis Index is a city-corporation result, so this ward is '
+              + 'not ranked. Savar and Keraniganj in particular absorb substantial '
+              + 'peri-urban in-migration and are a natural extension of this work.');
+  }
+  content.innerHTML = body;
 }
 
 // ── TOP WARDS LIST
