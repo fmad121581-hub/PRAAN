@@ -432,7 +432,11 @@ function getColor(p) { return currentLayer === 'crisis' ? getCrisisColor(p) : ge
 
 // ── MAP INIT
 function initMap() {
-  map = L.map('map', { center:[23.76, 90.40], zoom:11, zoomControl:true });
+  map = L.map('map', { center:[23.76, 90.40], zoom:11, zoomControl:true,
+    // Leaflet snaps to whole zoom levels by default, so fitBounds picks the
+    // largest integer zoom that still fits and can leave the city at a third
+    // of the frame. zoomSnap:0 allows fractional zoom so the fit is exact.
+    zoomSnap: 0, zoomDelta: 0.5, wheelPxPerZoomLevel: 120 });
   // NO tile layer — polygons only on dark background
 
   geojsonLayer = L.geoJSON(WARD_GEO, {
