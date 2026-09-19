@@ -440,7 +440,14 @@ function initMap() {
     onEachFeature: onEachFeature
   }).addTo(map);
 
-  map.fitBounds(geojsonLayer.getBounds(), { padding:[20,20] });
+  // Fit to the city corporations, not the whole division: the Crisis Index
+  // is a Dhaka city result and the outer division wards are context that
+  // should bleed off the edges rather than shrink the subject.
+  const cityLayers = [];
+  geojsonLayer.eachLayer(l => { if (l.feature.properties.in_city) cityLayers.push(l); });
+  const cityBounds = cityLayers.reduce(
+    (b, l) => b ? b.extend(l.getBounds()) : L.latLngBounds(l.getBounds()), null);
+  map.fitBounds(cityBounds || geojsonLayer.getBounds(), { padding:[24,24] });
   buildTopList();
 }
 
@@ -469,7 +476,7 @@ function styleFeature(feat) {
     // the city corporations.
     fillColor = getASIColor(p); fillOpacity = 0.40;
   } else {
-    fillColor = '#2b3138'; fillOpacity = 0.30;
+    fillColor = '#232931'; fillOpacity = 0.28;
   }
   return { fillColor, fillOpacity, color: '#0d1117', weight: 0.8, opacity: 1 };
 }
