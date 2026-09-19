@@ -85,26 +85,30 @@ means a ward must score highly on **both** local absorption stress and
 projected arrival pressure to reach the highest category — a ward that is
 merely crowded, or merely receives many arrivals, does not qualify alone.
 
-**Results (61 fully-observed city-corporation wards):**
-39 low / 15 moderate / **7 high concern**.
+**Results (75 city-corporation wards with complete BBS 2022 records):**
+52 low / 18 moderate / **5 high concern**.
+
+GADM 4.1 splits some wards across thana boundaries, so one ward appears as
+several "(Part)" polygons that match no census record by name. Dissolving
+those fragments and keying on `(city_corp, ward_no)` — how BBS is actually
+indexed — takes the rankable set from 61 to 75 and corrects a corporation
+mislabelling (DNCC has wards 1–54 only, so Ward No-55 is DSCC).
 
 | rank | ward | corporation | Crisis Index |
 |---|---|---|---|
-| 1 | Rampura Ward No-22 | DNCC | 1.000 |
-| 2 | Chak Bazar Ward No-65 | DSCC | 0.874 |
-| 3 | Lalbagh Ward No-60 | DSCC | 0.849 |
-| 4 | Ramna Ward No-55 | DNCC | 0.818 |
-| 5 | Lalbagh Ward No-62 | DSCC | 0.781 |
-| 6 | Mirpur Ward No-12 | DNCC | 0.760 |
-| 7 | Pallabi Ward No-06 | DNCC | 0.709 |
+| 1 | Kafrul Ward No-14 | DNCC | 1.000 |
+| 2 | Rampura Ward No-22 | DNCC | 0.859 |
+| 3 | Chak Bazar Ward No-65 | DSCC | 0.732 |
+| 4 | Lalbagh Ward No-60 | DSCC | 0.693 |
+| 5 | Ramna Ward No-55 | DSCC | 0.691 |
 
 **Robustness.** Across 625 weight combinations (±10pp on each of the four
-indicators, renormalised), the top-ranked ward is unchanged in **90.7%** of
+indicators, renormalised), the top-ranked ward is unchanged in **99.7%** of
 combinations and the top five overlap by **4.2 of 5** on average. Membership
 at the boundary of the top 13 is weighting-dependent — the exact set
-reproduces in 21.9% of combinations, mean overlap 11.1 of 13 — and should be
+reproduces in 6.6% of combinations, mean overlap 10.8 of 13 — and should be
 read as indicative. Reversing the arrival-allocation rule so that arrivals
-are routed toward *more* stressed wards preserves 10 of the 13 top wards.
+are routed toward *more* stressed wards preserves 9 of the 13 top wards.
 
 ## Key Limitations — Transparently Stated
 
@@ -127,11 +131,14 @@ are routed toward *more* stressed wards preserves 10 of the 13 top wards.
   signal is assumed, not estimated.
 - BBS destination splits reflect general internal migration patterns;
   climate migrants may cluster differently.
-- **Ward coverage.** 77 of the 138 GADM ward polygons inside the city
-  corporations have no matching BBS 2022 record, largely because GADM splits
-  wards into "(Part)" fragments. They are excluded from the ranking rather
-  than imputed. An extended 138-ward table is produced with an `observed`
-  flag; no imputed ward reaches its top 13.
+- **Ward coverage.** 75 of the 119 city-corporation ward polygons carry a
+  BBS 2022 record after fragments are dissolved. The remaining 44 cannot be
+  matched: 23 carry union names with no ward number, and GADM 4.1 predates
+  the ward expansion, so 55 census wards have no polygon at all. Substituting
+  satellite population was tested and rejected — WorldPop density correlates
+  *negatively* with census counts (it is a density, not a count) and density
+  × ward area gives rank agreement of only rho = 0.20 with 47% median error.
+  Unmatched wards are mapped but not ranked, never imputed.
 
 ## Repository Structure
 
@@ -157,6 +164,7 @@ are routed toward *more* stressed wards preserves 10 of the 13 top wards.
 | 11 | GRACE-FO extension (2002–2024) |
 | 12 | GeoJSON export |
 | 13 | Sensitivity analysis — ASI weight robustness |
+| 15 | **Dissolve GADM ward fragments, key on ward number, re-rank** |
 
 Run order for Phase 3: `10` → `13` (13 reads the deduplicated frame written
 by 10, so their ASI normalisation bases cannot drift apart).
