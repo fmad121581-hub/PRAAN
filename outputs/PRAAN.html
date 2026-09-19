@@ -443,11 +443,20 @@ function initMap() {
   // Fit to the city corporations, not the whole division: the Crisis Index
   // is a Dhaka city result and the outer division wards are context that
   // should bleed off the edges rather than shrink the subject.
-  const cityLayers = [];
-  geojsonLayer.eachLayer(l => { if (l.feature.properties.in_city) cityLayers.push(l); });
-  const cityBounds = cityLayers.reduce(
-    (b, l) => b ? b.extend(l.getBounds()) : L.latLngBounds(l.getBounds()), null);
-  map.fitBounds(cityBounds || geojsonLayer.getBounds(), { padding:[24,24] });
+  // NB: L.latLngBounds() does not accept a LatLngBounds, so seed from the
+  // corners and extend, otherwise the bounds come out invalid and the map
+  // zooms all the way out.
+  let cityBounds = null;
+  geojsonLayer.eachLayer(l => {
+    if (!l.feature.properties.in_city) return;
+    const b = l.getBounds();
+    if (!b.isValid()) return;
+    if (cityBounds) cityBounds.extend(b);
+    else cityBounds = L.latLngBounds(b.getSouthWest(), b.getNorthEast());
+  });
+  map.fitBounds(cityBounds && cityBounds.isValid() ? cityBounds
+                                                  : geojsonLayer.getBounds(),
+                { padding:[24,24] });
   buildTopList();
 }
 
@@ -576,10 +585,12 @@ function showWardPanel(p) {
   } else if (inCity) {
     body += row('Absorption Stress', asi)
          +  row('Stress tier', badge(stressBadge, p.stress_tier || 'No data'))
-         +  note('This GADM polygon is a &ldquo;(Part)&rdquo; fragment with no matching '
-              + 'BBS 2022 ward record, so it carries an Absorption Stress score but is '
-              + 'not ranked on the Crisis Index. 77 of 138 city-corporation polygons '
-              + 'are in this position; ranking them would mean imputing their population.');
+         +  note('No matching BBS 2022 ward record for this polygon, so it carries an '
+              + 'Absorption Stress score but is not ranked on the Crisis Index. 77 of '
+              + 'the 138 city-corporation polygons are in this position \u2014 49 are '
+              + '&ldquo;(Part)&rdquo; fragments GADM splits across boundaries, the rest are '
+              + 'union or area names GADM records differently from the census. Ranking '
+              + 'them would mean imputing their population.');
   } else {
     body += row('Absorption Stress', asi)
          +  row('Stress tier', badge(stressBadge, p.stress_tier || 'No data'))
