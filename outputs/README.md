@@ -1,14 +1,26 @@
 # outputs/ — which file is which
 
+## How these were produced
+
+```
+python 15_dissolve_and_rank.py     # the published Phase 3 result (75 wards)
+python 05b_grace_coupled_mobility.py
+python 14_reconcile_grace.py       # checks Layer 1 figures against the data
+```
+
+Scripts 10 and 13 are the earlier 61-ward version and write the same
+filenames; they now refuse to run without `--force`.
+
 ## Current results — cite these
 
 | file | what it is |
 |---|---|
-| `crisis_index_primary.csv` | **The published result.** 61 city-corporation wards with complete BBS 2022 records. 39 low / 15 moderate / 7 high concern. Top ward: Rampura Ward No-22. |
-| `crisis_index_extended.csv` | All 138 city-corporation wards, with an `observed` flag. 77 have no BBS match and imputed population — shown for completeness, not ranked in the headline. |
-| `crisis_index_altallocation.csv` | The same 61 wards with arrivals routed toward *more* stressed wards instead. Robustness check: 10 of 13 top wards unchanged. |
-| `phase3_ward_scores_v3_deduped.csv` | Deduplicated ward table (1,078 unique wards) that scripts 10 and 13 share. |
-| `sensitivity_results.csv` / `sensitivity_summary.txt` | 625 weight combinations, ±10pp on the four ASI indicators. Top ward stable in 90.7%. |
+| `crisis_index_primary.csv` | **The published result.** 75 city-corporation wards with complete BBS 2022 records, after GADM "(Part)" fragments are dissolved into whole wards. 52 low / 18 moderate / 5 high concern. Top ward: Kafrul Ward No-14. |
+| `crisis_index_extended.csv` | All 119 city-corporation wards after dissolving, with an `observed` flag. 44 have no BBS match — shown for completeness, not ranked in the headline. |
+| `crisis_index_altallocation.csv` | The same 75 wards with arrivals routed toward *more* stressed wards instead. Robustness check: 9 of 13 top wards unchanged. |
+| `phase3_ward_scores_v4_dissolved.csv` | Ward table after dissolving fragments (1,059 wards). The input to the published ranking. |
+| `phase3_ward_scores_v3_deduped.csv` | Deduplicated table before dissolving (1,078 wards). Input to script 15. |
+| `sensitivity_results.csv` / `sensitivity_summary.txt` | 625 weight combinations, ±10pp on the four ASI indicators. Top ward stable in 99.7%. |
 | `phase2_coupled_scenarios.csv` / `phase2_coupled_summary.txt` | GRACE deficit coupled to the mobility rate through an explicit elasticity. |
 | `phase3_gap_map.png` | Crisis Index map, corrected. |
 | `grace_fo_extended_trend.png` | GRACE + GRACE-FO trend, MASCON_CRI. |

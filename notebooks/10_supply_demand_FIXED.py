@@ -52,6 +52,21 @@ from matplotlib.patches import Patch
 import warnings, os
 warnings.filterwarnings('ignore')
 
+# ─────────────────────────────────────────────────────────────
+#  SUPERSEDED BY 15_dissolve_and_rank.py
+#  This script ranks 61 wards by joining BBS to GADM on ward NAME, which
+#  fails for every "(Part)" fragment. Script 15 dissolves those fragments
+#  and joins on (city_corp, ward_no) — the key BBS actually uses — giving
+#  75 ranked wards, and it writes the SAME output filenames.
+#  Running this afterwards would overwrite the published result with the
+#  older one. Run 15 instead, or run this then 15.
+# ─────────────────────────────────────────────────────────────
+import sys
+if '--force' not in sys.argv:
+    sys.exit('Superseded by 15_dissolve_and_rank.py. Re-run with --force '
+             'only if you mean to regenerate the 61-ward version.')
+
+
 BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
 OCHA_SHP = BASE + "data/raw/ocha/bgd_admin3.shp"
 GADM_SHP = BASE + "data/raw/shapefiles/gadm41_BGD_4.shp"
