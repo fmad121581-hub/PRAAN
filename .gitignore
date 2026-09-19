@@ -1,2 +1,7 @@
-data/raw/
-outputs/PRAAN_BEFORE_FIX.html.bak
+# Raw geodata — too large for GitHub (GADM level-4 alone is 124 MB, over the
+# 100 MB per-file limit). See data/raw/README.md for where to download it.
+data/raw/ocha/
+data/raw/shapefiles/
+
+# Working backups of the site, kept locally only
+outputs/*.bak
