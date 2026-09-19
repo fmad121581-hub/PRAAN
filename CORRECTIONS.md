@@ -60,7 +60,9 @@ every ranked ward with BBS data uses the **4-indicator** `ASI_updated`
 that produces none of the published results.
 
 **Corrected run** — 625 combinations, ±10pp on the four real weights,
-renormalised, on the deduplicated observed set:
+renormalised, on the deduplicated observed set. *(These are the 61-ward
+figures from this round; §7 supersedes them with the 75-ward result, where
+top-1 stability rises to 99.7%.)*
 
 | metric | result |
 |---|---|
