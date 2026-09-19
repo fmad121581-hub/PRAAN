@@ -64,7 +64,7 @@ DHAKA_DIV_SHARE, DHAKA_CITY_SHARE = 0.660, 0.450
 EPSILON = {'conservative': 0.05, 'central': 0.15, 'high': 0.35}
 
 # ── 1. GRACE TREND ───────────────────────────────────────────
-g = pd.read_csv(DATA + 'grace_tws_raw.csv').groupby('year').tws_anomaly.mean()
+g = pd.read_csv(DATA + 'grace_mascon_tws_raw.csv').groupby('year').tws_anomaly.mean().dropna()
 slope, icpt, r, p, se = stats.linregress(g.index, g.values)
 print(f'GRACE trend: slope={slope:.4f}/yr  r={r:.3f}  p={p:.2e}  n={len(g)}')
 
@@ -129,7 +129,7 @@ with open(OUT + 'phase2_coupled_summary.txt', 'w') as f:
     f.write(f"""PRAAN Phase 2 — GRACE-coupled mobility scenarios
 {'=' * 60}
 
-GRACE trend (committed grace_tws_raw.csv, 2002-2017, n={len(g)}):
+GRACE trend (committed grace_mascon_tws_raw.csv, n={len(g)}):
   slope = {slope:.4f} per year, r = {r:.3f}, p = {p:.2e}
   NOTE: units follow the raw GEE export; the coupling uses ratios only
   and is therefore unaffected by the cm/m labelling question.

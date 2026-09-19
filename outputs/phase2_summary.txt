@@ -1,11 +1,17 @@
 PRAAN Phase 2 — Mobility Pressure Summary
 =======================================================
 
-ENVIRONMENTAL STRESS (Phase 1 validated):
-  GRACE TWS trend: -0.0104 cm/year
-  r = -0.921, p < 0.001
-  Projected TWS 2026: -0.357 cm
-  Stress multiplier vs 2002: 3.49x
+ENVIRONMENTAL STRESS (Phase 1):
+  Product: NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI (JPL RL06.3Mv04)
+  Source:  data/processed/grace_mascon_tws_raw.csv (committed)
+  GRACE TWS trend 2002-2017: -0.8976 cm/year, r = -0.678, p = 0.0039
+  GRACE+GRACE-FO 2002-2024:  -0.4308 cm/year, r = -0.491, p = 0.0203
+  Projected TWS 2026: -27.55 cm
+  Stress multiplier vs 2002: 1.60x
+  NOTE: an earlier version of this file reported -0.0104 cm/year, r=-0.921.
+  Those came from MASS_GRIDS_V04/LAND, whose band is in METRES, so the
+  figure was mislabelled as cm. The MASCON_CRI values above are the ones
+  the website publishes and they reproduce from the committed CSV.
 
 EXPOSED POPULATION:
   Rajshahi Division (2026 est.): 22,139,483

@@ -27,14 +27,20 @@ CHIRPS rainfall shows no statistically significant linear correlation with
 the TWS anomaly (r = −0.266, p = 0.142), so the depletion is not explained by
 rainfall variability.
 
-> **Reproducibility note.** Two GRACE extractions exist in this project. The
-> committed `data/processed/grace_tws_raw.csv` (`MASS_GRIDS_V04/LAND`, band
-> `lwe_thickness_csr`, 2002–2017, 4 districts) gives slope **−0.0104/yr,
-> r = −0.921, p < 0.001**. The MASCON_CRI extraction in script 11 reports
-> **−0.898 cm/yr, r = −0.678, p = 0.004** but its output CSV is not yet
-> committed. Publish only figures the committed data reproduces, and check
-> the band units — the raw values (−0.10 to −0.26) are inconsistent with a
-> −0.898 cm/yr slope unless they are metres rather than centimetres.
+> **Reproducibility note.** Layer 1 figures come from
+> `NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI` (JPL RL06.3Mv04), extracted by
+> `11_grace_fo_extension.py` into the committed
+> `data/processed/grace_mascon_tws_raw.csv`. Regressing that file over the
+> GRACE era reproduces the published figures exactly: slope
+> **-0.898 cm/yr, r = -0.678, p = 0.0039** (2002-2017, n = 16); over the
+> full GRACE + GRACE-FO record, **-0.431 cm/yr, r = -0.491, p = 0.0203**
+> (2002-2024, n = 22, 2018 absent). The MASCON band is in centimetres.
+>
+> Script 01 separately extracts `MASS_GRIDS_V04/LAND` (band
+> `lwe_thickness_csr`) into `grace_tws_raw.csv`. That band is in **metres**,
+> so its slope of -0.0104/yr is -1.04 cm/yr, not -0.0104 cm/yr. Earlier
+> versions of `phase2_summary.txt` reported it with the wrong unit label.
+> Run `14_reconcile_grace.py` to check both products agree before publishing.
 
 **Layer 2 — The Pressure (Literature-informed)**
 

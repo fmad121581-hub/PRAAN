@@ -1,4 +1,4 @@
 scenario,epsilon,mobility_rate_coupled,mobility_total_coupled,dhaka_city_arrivals_coupled,saturated,mobility_rate_uncoupled,mobility_total_uncoupled,dhaka_city_arrivals_uncoupled
-conservative,0.05,0.3754,2691261,799304,False,0.2,1433763,425827
-central,0.15,0.4082,2926628,869208,False,0.36,2580774,766489
-high,0.35,0.4828,3460916,1027892,False,0.5,3584408,1064569
+conservative,0.05,0.3666,2628146,780559,False,0.2,1433763,425827
+central,0.15,0.3802,2725516,809478,False,0.36,2580774,766489
+high,0.35,0.4089,2931213,870570,False,0.5,3584408,1064569
