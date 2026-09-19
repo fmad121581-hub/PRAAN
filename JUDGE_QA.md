@@ -53,7 +53,7 @@ Have `phase2_coupled_summary.txt` open in a tab.
 > more arrivals to wards with more spare capacity. That's an assumption, and
 > arguably the wrong direction, because Dhaka's low-income in-migrants have
 > historically clustered in dense, high-stress areas like Korail and
-> Bhashantek. So we ran it both ways. Ten of the thirteen highest-concern
+> Bhashantek. So we ran it both ways. Nine of the thirteen highest-concern
 > wards are the same either way, so the headline doesn't rest on that
 > choice."
 
@@ -64,26 +64,41 @@ most credibility-building move you have.
 
 > "The top of the ranking is stable, the bottom isn't. Across 625 weight
 > combinations at plus or minus 10 points per indicator, the top-ranked ward
-> is unchanged 90.7% of the time and the top five overlap by 4.2 of 5. The
-> exact top-13 set only reproduces 21.9% of the time. So we present the top
+> is unchanged 99.7% of the time and the top five overlap by 4.2 of 5. The
+> exact top-13 set only reproduces 6.6% of the time. So we present the top
 > wards as robust and the boundary of the list as indicative."
 
 Do **not** say "the top 9–12 wards are consistent." That was the old,
 wrong claim.
 
+### 6. "Why only 75 of the wards?"
+
+> "Because we won't rank a ward on a population we made up. GADM 4.1 predates
+> the ward expansion, so 55 census wards have no polygon at all, and 23
+> polygons carry union names with no ward number. We tested substituting
+> satellite population and rejected it — WorldPop is a density, and it
+> correlates negatively with census counts; density times ward area gives rank
+> agreement of only 0.20 with 47% median error. Those wards are on the map,
+> scored for absorption stress, and explicitly not ranked."
+
 ---
 
 ## Questions you should hope for
 
-- **"What surprised you?"** → The duplicate-ward bug. DNCC and DSCC both
-  number wards from 1, so a name-based merge silently produced a ward
-  appearing twice with two different stress scores. It inflated our
-  high-concern count from 7 to 13. We caught it, fixed it, and the
-  corrected number is smaller and real.
+- **"What surprised you?"** → How much damage one join key did. DNCC and
+  DSCC both number wards from 1, so a name-based merge produced wards
+  appearing twice with two different stress scores. Worse, GADM splits some
+  wards across thana boundaries into "(Part)" polygons that match no census
+  record by name at all — that alone hid 14 real wards, including Kafrul
+  Ward No-14, which has the largest population in our city set and now ranks
+  first. BBS is indexed by (corporation, ward number), not by name. Keying on
+  that took us from 61 rankable wards to 75 and corrected a corporation
+  mislabelling: DNCC only has wards 1–54, so Ward No-55 can only be DSCC.
 - **"What would you do with more time?"** → Ground-truth the ASI against
   observed settlement growth; replace the assumed elasticity with one
-  estimated from historical district-level migration series; get BBS records
-  for the 77 unmatched ward fragments.
+  estimated from historical district-level migration series; and get ward
+  boundaries that match the current census, since GADM 4.1 predates the ward
+  expansion and 55 BBS wards have no polygon at all.
 - **"Who is this for?"** → Named users are already on the site: RAJUK and
   the city corporations for pre-positioning, disaster managers for the
   Jan–May drawdown signal, aid agencies for triage.
@@ -110,8 +125,8 @@ wrong claim.
 > them go to Dhaka. PRAAN asks the question nobody has costed: which Dhaka
 > wards can actually absorb them? We score every city-corporation ward on
 > density, built-up land, flood risk and household crowding, cross it with
-> projected arrivals, and get seven wards that are already stressed and are
-> about to receive disproportionate pressure. Rampura Ward 22 is first.
+> projected arrivals, and get five wards that are already stressed and are
+> about to receive disproportionate pressure. Kafrul Ward 14 is first.
 > That's a list a planner can act on before the arrivals, not after.
 
 Say the problem, then the number, then the name of one ward. Concrete

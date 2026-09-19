@@ -155,18 +155,15 @@ I could not fix these from the committed data:
 
 | | published | corrected |
 |---|---|---|
-| ranked wards | 184 rows / 138 unique | **61 fully observed** (138 extended) |
+| ranked wards | 184 rows / 138 unique | **75** after dissolving fragments |
 | distinct wards in top 13 | **10** | 13 |
-| high-concern wards | 13 | **7** (primary) / 6 (extended) |
-| tier split | 110 / 61 / 13 | **39 / 15 / 7** |
-| top ward | Chak Bazar Ward No-65 | **Rampura Ward No-22** |
-| sensitivity claim | "top 9–12 consistent" | top ward stable in 90.7%, top-5 4.2/5 |
+| high-concern wards | 13 | **5** |
+| tier split | 110 / 61 / 13 | **52 / 18 / 5** |
+| top ward | Chak Bazar Ward No-65 | **Kafrul Ward No-14** |
+| sensitivity claim | "top 9–12 consistent" | top ward stable in 99.7%, top-5 4.2/5 |
 
-**Corrected high-concern wards (7):** Rampura 22 (DNCC), Chak Bazar 65
-(DSCC), Lalbagh 60 (DSCC), Ramna 55 (DNCC), Lalbagh 62 (DSCC), Mirpur 12
-(DNCC), Pallabi 06 (DNCC).
-
-7 of the 13 previously published wards survive into the corrected top 13.
+**Corrected high-concern wards (5):** Kafrul 14 (DNCC), Rampura 22 (DNCC),
+Chak Bazar 65 (DSCC), Lalbagh 60 (DSCC), Ramna 55 (DSCC).
 
 ---
 
@@ -181,3 +178,46 @@ python 05b_grace_coupled_mobility.py    # Layer 1 -> Layer 2 coupling
 Scripts 10 and 13 share `phase3_ward_scores_v3_deduped.csv` so their ASI
 normalisation bases cannot drift apart. Both carry asserts that fail loudly
 if a duplicate ever reappears.
+
+
+---
+
+## 7. Ward fragments dissolved — 61 to 75 ranked wards
+
+After the fixes above the ranking still covered only 61 wards, because 77
+city-corporation polygons carried no BBS record. The cause was the join key,
+not missing data: **BBS 2022 is indexed by `(city_corp, ward_no)`, not by
+name**, and GADM 4.1 splits some wards across thana boundaries into
+"(Part)" polygons that match no census record by name.
+
+`15_dissolve_and_rank.py` parses the ward number, dissolves the fragments
+into whole wards (area-weighting the density and fraction indicators), and
+joins on the real key.
+
+| | before | after |
+|---|---|---|
+| ranked wards | 61 | **75** |
+| tier split | 39 / 15 / 7 | **52 / 18 / 5** |
+| top ward | Rampura Ward No-22 | **Kafrul Ward No-14** |
+| top-1 sensitivity stability | 90.7% | **99.7%** |
+| allocation-rule overlap | 10 / 13 | 9 / 13 |
+
+It also corrected a mislabelling: **DNCC has wards 1–54 only**, so Ward
+No-55 can only be DSCC. The name-based join had labelled Ramna Ward No-55
+as DNCC while using DSCC's population.
+
+Kafrul Ward No-14 tops the corrected ranking. It holds the largest
+population in the city set (196,759) and had been invisible purely because
+GADM split it in two.
+
+**Two alternatives for the remaining 44 were tested and rejected**, rather
+than imputing population:
+
+- WorldPop density alone correlates **negatively** with census population
+  (r = −0.31) — it is a density, not a count
+- density × ward area gives rank agreement of only rho = 0.20, with 47%
+  median error after calibration
+
+23 of the 44 carry union names with no ward number, and GADM 4.1 predates
+the ward expansion, so 55 census wards have no polygon at all. They are
+mapped and scored for absorption stress, but not ranked.
