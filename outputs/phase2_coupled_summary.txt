@@ -1,0 +1,26 @@
+PRAAN Phase 2 — GRACE-coupled mobility scenarios
+============================================================
+
+GRACE trend (committed grace_tws_raw.csv, 2002-2017, n=16):
+  slope = -0.0104 per year, r = -0.921, p = 4.05e-07
+  NOTE: units follow the raw GEE export; the coupling uses ratios only
+  and is therefore unaffected by the cm/m labelling question.
+
+Deficit ratio 2026 vs 2006/07: 2.313
+
+Coupling: rate = clip(0.36 * (D_t/D_ref)^EPSILON, 0.2, 0.5)
+EPSILON is a scenario parameter, not an estimate.
+
+    scenario  epsilon  mobility_rate_uncoupled  mobility_rate_coupled  dhaka_city_arrivals_uncoupled  dhaka_city_arrivals_coupled
+conservative     0.05                     0.20                 0.3754                         425827                       799304
+     central     0.15                     0.36                 0.4082                         766489                       869208
+        high     0.35                     0.50                 0.4828                        1064569                      1027892
+
+HEADLINE IN USE: uncoupled (original 0.36 anchor)
+  central arrivals = 766,489
+
+WHY EPSILON IS SMALL
+  D_2026/D_ref = 2.31. A proportional response (EPSILON=1) implies a
+  0.83 mobility rate, which is not credible, and any
+  EPSILON >= 0.4 saturates the 0.5 cap. Mobility is damped relative to
+  water stress by irrigation investment, remittances and adaptation.
