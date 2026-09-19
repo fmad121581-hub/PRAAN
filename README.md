@@ -9,27 +9,28 @@ https://praan-voyagers.netlify.app
 
 ## What is PRAAN?
 
-PRAAN bridges satellite hydro-meteorology and urban planning by translating NASA GRACE/GRACE-FO groundwater depletion signals into actionable ward-level absorption stress indices for climate-induced migration planning in Dhaka.
+PRAAN bridges satellite hydro-meteorology and urban planning by translating NASA GRACE/GRACE-FO water-storage anomaly signals into actionable ward-level absorption stress indices for climate-induced migration planning in Dhaka.
 
-The analytical chain: GRACE TWS anomaly → groundwater depletion → agricultural stress → mobility pressure → Dhaka ward absorption stress
+The analytical chain: GRACE TWS anomaly → water-storage depletion consistent with groundwater stress → agricultural pressure → mobility scenarios → Dhaka ward absorption stress
 
 ## Three-Layer Framework
 
 **Layer 1 — The Signal (Validated)**
-NASA GRACE/GRACE-FO MASCON_CRI detects terrestrial water storage anomalies in Rajshahi Division (2002–2024). Regression on 2002–2017 GRACE record: slope = −0.898 cm/yr, r = −0.678, p = 0.004. CHIRPS rainfall tested and rejected as predictor (r = −0.266, p = 0.142). GRACE-FO (2019–2024) confirms aquifer remains 11–16 cm below 2002 baseline — structurally depleted, not recovering.
+NASA GRACE/GRACE-FO MASCON_CRI reveals persistent water-storage depletion consistent with groundwater stress in Rajshahi Division (2002–2024). Regression on 2002–2017 GRACE record: slope = −0.898 cm/yr, r = −0.678, p = 0.004. CHIRPS rainfall tested and rejected as predictor (r = −0.266, p = 0.142). GRACE-FO (2019–2024) confirms TWS remains 11–16 cm below 2002 baseline — structurally depleted, not recovering.
 
 **Layer 2 — The Pressure (Literature-informed)**
-Exposed population: 7.17M (Barind, rural, agricultural). Mobility rate anchor: Khalily et al. 2006/07 monga survey (36%). Three scenarios: Low 1.43M / Central 2.58M / High 3.58M. Destination: 66% to Dhaka Division (BBS Population Monograph Vol.06, Table 3.8). Central Dhaka City estimate: 766,489 arrivals.
+Exposed population: 7.17M (Barind, rural, agricultural). Mobility rate anchor: Khalily et al. 2006/07 monga survey (36%) — used as scenario parameter, not prediction. Three scenarios: Low 1.43M / Central 2.58M / High 3.58M. Destination: 66% to Dhaka Division (BBS Population Monograph Vol.06, Table 3.8). Central Dhaka City estimate: 766,489 arrivals.
 
 **Layer 3 — The City (Scenario framework)**
 1,078 Dhaka Division wards scored on Absorption Stress Index: WorldPop 2020 (0.40) + JRC GHSL 2020 (0.35) + JRC flood risk (0.25). Crisis Index = rank(ASI) × rank(arrivals), normalized 0–1. Results: 110 low / 61 moderate / 13 high concern wards. Top ward: Chak Bazar Ward No-65 (Crisis Index 1.000). Sensitivity analysis: top 9–12 wards consistent across ±10pp weight variations.
 
 ## Key Limitations — Transparently Stated
 
-- GRACE TWS signal is consistent with groundwater depletion, supported by BWDB tube-well records — not a direct aquifer measurement
-- Regression limited to 2002–2017 (GRACE era only) — 6 GRACE-FO points insufficient for trend analysis
+- GRACE measures total terrestrial water storage — attribution to groundwater is an analytical inference supported by BWDB tube-well records showing water-table decline of 0.5–1 m/yr in Rajshahi, not a direct aquifer measurement
+- The Barind Tract shows ~14 cm of persistent TWS-equivalent depletion relative to its 2002 baseline — the groundwater interpretation is supported but not directly proven by GRACE alone
+- Regression limited to 2002–2017 (GRACE era only) — 6 GRACE-FO points are insufficient for trend analysis; extended period shows persistence, not trend continuation
 - 36% mobility rate is a scenario parameter from 2006/07 — not a 2026 prediction
-- BBS destination split reflects general migration patterns — climate migrants may cluster differently
+- BBS destination split reflects general internal migration patterns — climate migrants may cluster differently
 
 ## Repository Structure
 
