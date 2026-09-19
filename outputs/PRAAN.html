@@ -151,7 +151,7 @@ footer strong{color:var(--text);}
     <a href="#layer2">Pressure</a>
     <a href="#layer3">City</a>
     <a href="#method">Method</a>
-    <a href="#references">References</a>
+    <a href="#limitations">Limitations</a> <a href="#references">References</a>
   </div>
 </nav>
 
@@ -314,6 +314,37 @@ footer strong{color:var(--text);}
       <div class="mc-num">Layer 3 · Scenario framework</div>
       <h4>Absorption Stress Index</h4>
       <p>Wards with complete BBS 2022 records are scored on four indicators: WorldPop 2020 population density (0.35), JRC GHSL 2020 built-up surface (0.25), JRC flood risk (0.20) and BBS 2022 mean household size (0.20). Wards without a BBS match use the three-indicator form (0.40 / 0.35 / 0.25) and are mapped but not ranked. Weights are expert-defined, not fitted. Crisis Index = normalised rank(ASI) × rank(arrivals) · OCHA COD-AB ward boundaries. <strong>How arrivals reach individual wards:</strong> the city-level estimate is distributed in proportion to population × (1 − ASI) — more arrivals routed to wards with lower absorption stress, on the assumption that lower stress indicates spare capacity. This is an assumption, not an observation: Dhaka’s low-income in-migrants have historically clustered in dense, high-stress settlements, which would imply the opposite allocation. We tested both directions and 10 of the 13 highest-concern wards are the same either way. A sensitivity analysis across 625 weight combinations (±10pp per indicator, renormalised) shows the top-ranked ward is unchanged in 90.7% of combinations and the top five overlap by 4.2 of 5 on average. Membership at the boundary of the top 13 is weighting-dependent — the exact set reproduces in 21.9% of combinations, mean overlap 11.1 of 13 — and should be read as indicative rather than fixed.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="limitations">
+<div class="section-inner">
+  <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>Limitations</div>
+  <h2>What this tool does not claim</h2>
+  <p class="section-sub">Every layer carries a different epistemic status. These are the constraints a reviewer should hold us to.</p>
+
+  <div class="grace-layout" style="margin-bottom:2rem;">
+    <div class="finding-card">
+      <div class="fc-label">Satellite resolution</div>
+      <div class="fc-val">GRACE resolves ~300 km; the Barind Tract is smaller</div>
+      <div class="fc-desc">Mascon solutions resolve roughly 3&deg;, which exceeds our study area. In our extraction the four study districts differ from one another by at most 0.013 in any year, against a 0.16 range over time &mdash; they are effectively sampling a single mascon cell. Read the signal as a northwest-Bangladesh water-balance trend consistent with localised groundwater depletion, not as a Barind-specific aquifer measurement.</div>
+    </div>
+    <div class="finding-card">
+      <div class="fc-label">Attribution</div>
+      <div class="fc-val">Total water storage, not groundwater directly</div>
+      <div class="fc-desc">GRACE measures total terrestrial water storage. Attribution to groundwater is an analytical inference, supported by BWDB tube-well records showing water-table decline of 0.5&ndash;1 m/yr in Rajshahi, not a direct aquifer measurement.</div>
+    </div>
+    <div class="finding-card">
+      <div class="fc-label">Mobility model</div>
+      <div class="fc-val">Behavioural anchor from a different kind of shock</div>
+      <div class="fc-desc">The 36% rate comes from a <em>monga</em> survey &mdash; a fast-onset seasonal income shock &mdash; applied here to a slow-onset groundwater trend. The elasticity coupling the satellite signal to the mobility rate is an assumed scenario parameter, not an estimated one. These are mobility pressure scenarios, not predictions.</div>
+    </div>
+    <div class="finding-card">
+      <div class="fc-label">Ward coverage</div>
+      <div class="fc-val">61 of 138 wards carry complete records</div>
+      <div class="fc-desc">77 GADM ward polygons inside the city corporations have no matching BBS 2022 record, largely because GADM splits wards into &ldquo;(Part)&rdquo; fragments. They are mapped but excluded from the ranking rather than imputed, so no ward is ranked on invented population.</div>
     </div>
   </div>
 </div>
