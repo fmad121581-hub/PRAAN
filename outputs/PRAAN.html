@@ -443,20 +443,36 @@ function initMap() {
   // Fit to the city corporations, not the whole division: the Crisis Index
   // is a Dhaka city result and the outer division wards are context that
   // should bleed off the edges rather than shrink the subject.
-  // NB: L.latLngBounds() does not accept a LatLngBounds, so seed from the
-  // corners and extend, otherwise the bounds come out invalid and the map
-  // zooms all the way out.
-  let cityBounds = null;
-  geojsonLayer.eachLayer(l => {
-    if (!l.feature.properties.in_city) return;
-    const b = l.getBounds();
-    if (!b.isValid()) return;
-    if (cityBounds) cityBounds.extend(b);
-    else cityBounds = L.latLngBounds(b.getSouthWest(), b.getNorthEast());
-  });
-  map.fitBounds(cityBounds && cityBounds.isValid() ? cityBounds
-                                                  : geojsonLayer.getBounds(),
-                { padding:[24,24] });
+  // Frame on the city corporations. Computed straight from the GeoJSON
+  // coordinates rather than from Leaflet layer bounds, so the result does
+  // not depend on layer iteration or container size at init time.
+  const cityBB = (() => {
+    let s = 90, w = 180, n = -90, e = -180, found = false;
+    const walk = c => {
+      if (typeof c[0] === 'number') {
+        if (c[1] < s) s = c[1];
+        if (c[1] > n) n = c[1];
+        if (c[0] < w) w = c[0];
+        if (c[0] > e) e = c[0];
+      } else c.forEach(walk);
+    };
+    WARD_GEO.features.forEach(f => {
+      if (!f.properties.in_city || !f.geometry) return;
+      found = true; walk(f.geometry.coordinates);
+    });
+    return found ? L.latLngBounds([s, w], [n, e]) : null;
+  })();
+
+  const fitCity = () => {
+    map.invalidateSize();
+    map.fitBounds(cityBB || geojsonLayer.getBounds(), { padding: [18, 18] });
+  };
+  fitCity();
+  // Re-fit once layout settles and whenever the container resizes, so the
+  // city always fills the frame instead of sitting as a dot in the district.
+  setTimeout(fitCity, 250);
+  if (window.ResizeObserver) new ResizeObserver(fitCity).observe(document.getElementById('map'));
+
   buildTopList();
 }
 
