@@ -29,23 +29,20 @@ OUTPUT
 import pandas as pd, numpy as np, itertools, os
 
 # ─────────────────────────────────────────────────────────────
-#  SUPERSEDED BY 15_dissolve_and_rank.py
+#  SUPERSEDED FOR RANKING BY 15_dissolve_and_rank.py
 #  This script ranks 61 wards by joining BBS to GADM on ward NAME, which
 #  fails for every "(Part)" fragment. Script 15 dissolves those fragments
 #  and joins on (city_corp, ward_no) — the key BBS actually uses — giving
 #  75 ranked wards, and it writes the SAME output filenames.
-#  Running this afterwards would overwrite the published result with the
-#  older one. Run 15 instead, or run this then 15.
+#  This script is STILL REQUIRED: it writes phase3_ward_scores_v3_deduped.csv,
+#  which script 15 reads. Its own ranking outputs are written with a _v1
+#  suffix so they cannot overwrite the published result.
 # ─────────────────────────────────────────────────────────────
-import sys
-if '--force' not in sys.argv:
-    sys.exit('Superseded by 15_dissolve_and_rank.py. Re-run with --force '
-             'only if you mean to regenerate the 61-ward version.')
 
 
 BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
 OUT = BASE + "outputs/"
-PRIMARY = OUT + "crisis_index_primary.csv"   # from 10_supply_demand.py (fixed)
+PRIMARY = OUT + "crisis_index_primary_v1.csv"   # from 10_supply_demand.py (fixed)
 SCORES = OUT + "phase3_ward_scores_v3_deduped.csv"   # written by script 10
 
 MOB_CENTRAL = 2_580_774
@@ -97,7 +94,7 @@ for d_ in itertools.product([-.10, -.05, 0, .05, .10], repeat=4):
 
 s = pd.DataFrame(rows); n = len(s)
 os.makedirs(OUT, exist_ok=True)
-s.to_csv(OUT + 'sensitivity_results.csv', index=False)
+s.to_csv(OUT + 'sensitivity_results_v1.csv', index=False)
 
 txt = f"""PRAAN — ASI Weight Sensitivity Analysis
 {'=' * 64}
@@ -132,5 +129,5 @@ HOW TO STATE THIS
   rank stability, and the previous summary file said the opposite of the
   previous website text.
 """
-open(OUT + 'sensitivity_summary.txt', 'w').write(txt)
+open(OUT + 'sensitivity_summary_v1.txt', 'w').write(txt)
 print(txt)

@@ -53,18 +53,15 @@ import warnings, os
 warnings.filterwarnings('ignore')
 
 # ─────────────────────────────────────────────────────────────
-#  SUPERSEDED BY 15_dissolve_and_rank.py
+#  SUPERSEDED FOR RANKING BY 15_dissolve_and_rank.py
 #  This script ranks 61 wards by joining BBS to GADM on ward NAME, which
 #  fails for every "(Part)" fragment. Script 15 dissolves those fragments
 #  and joins on (city_corp, ward_no) — the key BBS actually uses — giving
 #  75 ranked wards, and it writes the SAME output filenames.
-#  Running this afterwards would overwrite the published result with the
-#  older one. Run 15 instead, or run this then 15.
+#  This script is STILL REQUIRED: it writes phase3_ward_scores_v3_deduped.csv,
+#  which script 15 reads. Its own ranking outputs are written with a _v1
+#  suffix so they cannot overwrite the published result.
 # ─────────────────────────────────────────────────────────────
-import sys
-if '--force' not in sys.argv:
-    sys.exit('Superseded by 15_dissolve_and_rank.py. Re-run with --force '
-             'only if you mean to regenerate the 61-ward version.')
 
 
 BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
@@ -170,9 +167,9 @@ ov = len(set(primary.head(13).GID_4) & set(altalloc.head(13).GID_4))
 print(f'\nTop-13 overlap, inverse vs direct allocation: {ov}/13')
 
 os.makedirs(OUT, exist_ok=True)
-primary[COLS].to_csv(OUT + 'crisis_index_primary.csv', index=False)
-extended[COLS].to_csv(OUT + 'crisis_index_extended.csv', index=False)
-altalloc[COLS].to_csv(OUT + 'crisis_index_altallocation.csv', index=False)
+primary[COLS].to_csv(OUT + 'crisis_index_primary_v1.csv', index=False)
+extended[COLS].to_csv(OUT + 'crisis_index_extended_v1.csv', index=False)
+altalloc[COLS].to_csv(OUT + 'crisis_index_altallocation_v1.csv', index=False)
 print(f'\nWrote corrected CSVs to {OUT}')
 
 # ── 4. MAP (primary) ─────────────────────────────────────────
@@ -201,6 +198,6 @@ ax.text(.5, -.03, f'Crisis Index = normalised rank(ASI) x rank(arrivals) · '
                   f'{(~c.observed).sum()} wards without a BBS match are excluded',
         transform=ax.transAxes, ha='center', fontsize=8, color='#666', style='italic')
 ax.set_axis_off(); plt.tight_layout()
-plt.savefig(OUT + 'phase3_gap_map.png', dpi=150, bbox_inches='tight', facecolor='white')
+plt.savefig(OUT + 'phase3_gap_map_v1.png', dpi=150, bbox_inches='tight', facecolor='white')
 plt.close()
 print('Map saved -> phase3_gap_map.png')
