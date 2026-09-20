@@ -1,6 +1,6 @@
 # PRAAN — Early Warning System
 
-**Team Voyagers · BUET Department of Urban & Regional Planning · NASA Space Apps Challenge 2026**
+**Team Nebula · BUET Department of Urban & Regional Planning · NASA Space Apps Challenge 2026**
 
 > "Detecting the invisible crisis beneath Bangladesh"
 
