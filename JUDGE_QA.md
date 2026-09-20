@@ -168,8 +168,12 @@ beats comprehensive.
 - [ ] Run `14_reconcile_grace.py`, commit the MASCON CSV
 - [ ] Have `predictive_validation.txt` open too — the failed ASI test is
       your strongest answer, not your weakest, and you want the file
-- [ ] Put team member names and roles on the site — judges reward knowing
-      who did what, and right now the page says only "Team Voyagers"
+- [x] Team member names and roles are on the site. Each person owns a named
+      part of the project and can be questioned on it:
+      Fahim Ahmed (technical lead), Arshil Azim (validation and domain
+      research), Nawar Noor Nusaiba (video), Mahin Haider (pitch and demo),
+      Md. Fardeen Al Mahin (design and submission)
+- [ ] Each member rehearses the one question their role owns, out loud
 - [ ] Check the live map on a phone; most judges will look on one
 - [ ] Have `sensitivity_summary.txt` and `phase2_coupled_summary.txt` open
       in tabs — being able to show the file when challenged is worth more
