@@ -17,12 +17,25 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 nav{position:sticky;top:0;z-index:1000;background:rgba(13,17,23,0.96);backdrop-filter:blur(8px);
   border-bottom:1px solid var(--border);padding:0 2rem;
-  display:flex;align-items:center;justify-content:space-between;height:56px;}
+  display:flex;align-items:center;justify-content:space-between;min-height:56px;gap:.75rem;}
 .nav-brand{font-weight:700;font-size:1.1rem;color:var(--blue);letter-spacing:.05em;}
 .nav-brand span{color:var(--muted);font-weight:400;font-size:.85rem;margin-left:.5rem;}
 .nav-links{display:flex;gap:1.5rem;}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:.875rem;transition:color .2s;}
 .nav-links a:hover{color:var(--text);}
+/* the nav is sticky, so anchor jumps must clear it - two rows tall on a phone */
+html{scroll-behavior:smooth;scroll-padding-top:72px;}
+@media(max-width:820px){html{scroll-padding-top:104px;}}
+@media(max-width:820px){
+  nav{flex-wrap:wrap;padding:.5rem 1rem;row-gap:.4rem;}
+  .nav-brand{font-size:1rem;}
+  .nav-brand span{display:none;}
+  .nav-links{gap:1rem;flex-wrap:wrap;}
+  .nav-links a{font-size:.8rem;}
+}
+@media(max-width:480px){
+  .nav-links{width:100%;gap:.85rem;overflow-x:auto;white-space:nowrap;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;padding-bottom:.15rem;}
+}
 
 .hero{padding:5rem 2rem 4rem;max-width:860px;margin:0 auto;text-align:center;}
 .hero-tag{display:inline-block;background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.3);
@@ -122,7 +135,8 @@ h2{font-size:1.6rem;font-weight:700;margin-bottom:.5rem;}
 
 /* METHOD */
 .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
-@media(max-width:700px){.method-grid{grid-template-columns:1fr;}}
+.method-grid.two,.grace-layout.two{grid-template-columns:repeat(2,1fr);}
+@media(max-width:700px){.method-grid,.method-grid.two,.grace-layout.two{grid-template-columns:1fr;}}
 .method-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.2rem;}
 .method-card .mc-num{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:.5rem;}
 .method-card h4{font-size:.95rem;margin-bottom:.5rem;}
@@ -151,7 +165,7 @@ footer strong{color:var(--text);}
     <a href="#layer2">Pressure</a>
     <a href="#layer3">City</a>
     <a href="#method">Method</a>
-    <a href="#limitations">Limitations</a> <a href="#references">References</a>
+    <a href="#limitations">Limitations</a> <a href="#team">Team</a> <a href="#references">References</a>
   </div>
 </nav>
 
@@ -436,7 +450,7 @@ footer strong{color:var(--text);}
   <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>References &amp; Data Sources</div>
   <h2>Citations &amp; Open Data</h2>
   <p class="section-sub">All datasets are open-access. Full processing scripts available in project repository.</p>
-  <div class="method-grid" style="grid-template-columns:repeat(2,1fr);">
+  <div class="method-grid two">
     <div class="method-card">
       <div class="mc-num">Satellite Data</div>
       <h4>NASA GRACE / GRACE-FO</h4>
@@ -481,8 +495,44 @@ footer strong{color:var(--text);}
 </div>
 </section>
 
+<section id="team">
+<div class="section-inner">
+  <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>Team Voyagers</div>
+  <h2>Who built this, and who answers for what</h2>
+  <p class="section-sub">Five students from the Department of Urban &amp; Regional Planning, BUET. Each role below names the part of PRAAN that person owns and can be questioned on.</p>
+  <div class="method-grid two">
+    <div class="method-card">
+      <div class="mc-num">Technical Lead &middot; Geospatial Data Science</div>
+      <h4>Fahim Ahmed</h4>
+      <p>GRACE/GRACE-FO extraction and trend statistics &middot; the Absorption Stress Index and ward-level ranking &middot; the predictive validation that overturned the arrival-allocation rule &middot; the reproducible Earth Engine and Python pipeline &middot; this application.</p>
+    </div>
+    <div class="method-card">
+      <div class="mc-num">Validation &amp; Domain Research</div>
+      <h4>Arshil Azim</h4>
+      <p>Ground-truthing the eleven high-concern wards against local conditions &middot; BWDB tube-well records behind the groundwater attribution &middot; BBS, RAJUK and migration-literature sourcing &middot; the reference base every published figure rests on.</p>
+    </div>
+    <div class="method-card">
+      <div class="mc-num">Video &amp; Narrative</div>
+      <h4>Nawar Noor Nusaiba</h4>
+      <p>The 240-second project film: script, narration and edit &middot; translating a four-layer analytical pipeline into four minutes a non-specialist can follow &middot; the story that carries the science.</p>
+    </div>
+    <div class="method-card">
+      <div class="mc-num">Pitch &amp; Live Demonstration</div>
+      <h4>Mahin Haider</h4>
+      <p>The live presentation and demonstration &middot; walking judges through the map and the three-satellite mechanism &middot; fielding the hard questions, starting with what GRACE&rsquo;s 300&nbsp;km resolution can and cannot resolve over a country 400&nbsp;km across.</p>
+    </div>
+    <div class="method-card">
+      <div class="mc-num">Design &amp; Submission</div>
+      <h4>Md. Fardeen Al Mahin</h4>
+      <p>Readability and mobile behaviour of this site &middot; map legend and interface clarity &middot; the Space Apps project submission, data-source declarations and event logistics &middot; making sure the work is findable and usable by the people named above it.</p>
+    </div>
+  </div>
+</div>
+</section>
+
 <footer>
   <strong>PRAAN</strong> · Team Voyagers · BUET Department of Urban &amp; Regional Planning · NASA Space Apps Challenge 2026<br>
+  Fahim Ahmed · Arshil Azim · Nawar Noor Nusaiba · Mahin Haider · Md. Fardeen Al Mahin<br>
   Data sources: NASA GRACE/GRACE-FO · WorldPop · JRC GHSL · BBS Census 2022 · OCHA COD-AB · GADM 4.1
 </footer>
 
