@@ -198,6 +198,48 @@ footer strong{color:var(--text);}
   <div class="grace-note">
     <strong>Why GRACE sees what rainfall gauges miss:</strong> Groundwater extraction from the Boro (dry-season) rice crop draws down the aquifer each January–May. Surface rainfall in June–November partially recharges it — but never fully. Each year the baseline drops slightly lower. GRACE measures this total column water storage from orbit; no ground sensor network in Bangladesh captures this at regional scale.
   </div>
+
+  <h3 style="margin:2.6rem 0 .5rem;font-size:1.25rem">Is it only the Barind Tract?</h3>
+  <p class="section-sub" style="margin-bottom:1.2rem">
+    A trend in one place means little without somewhere to compare it to. We ran the
+    identical extraction &mdash; same product, same Jan&ndash;May window, same regression &mdash;
+    over three regions of Bangladesh.
+  </p>
+
+  <div class="grace-layout" style="margin-bottom:1.4rem;">
+    <div class="finding-card">
+      <div class="fc-label">Barind Tract &middot; northwest</div>
+      <div class="fc-val">&minus;0.90 cm/yr &nbsp;&middot;&nbsp; p = 0.004</div>
+      <div class="fc-desc">Significant decline. The steepest loss in the country and the region this
+        project is built around.</div>
+    </div>
+    <div class="finding-card blue">
+      <div class="fc-label">Coastal south &middot; Khulna, Satkhira, Bagerhat</div>
+      <div class="fc-val">&minus;0.57 cm/yr &nbsp;&middot;&nbsp; p = 0.002</div>
+      <div class="fc-desc">Also a significant decline, shallower than the Barind. Depletion is not
+        confined to one corner of the country.</div>
+    </div>
+    <div class="finding-card green">
+      <div class="fc-label">Haor basin &middot; northeast</div>
+      <div class="fc-val">&minus;0.31 cm/yr &nbsp;&middot;&nbsp; p = 0.404</div>
+      <div class="fc-desc">No significant trend. The wettest part of Bangladesh stores water at the
+        surface and shows no measurable loss over the same period.</div>
+    </div>
+  </div>
+
+  <img src="regional_trend_comparison.png" alt="GRACE terrestrial water storage trends for three regions of Bangladesh, 2002-2024"
+       style="width:100%;border-radius:10px;border:1px solid #30363d;display:block;margin:0 0 1rem">
+
+  <div class="grace-note">
+    <strong>What GRACE can and cannot resolve.</strong> A mascon cell spans roughly 300&nbsp;km and
+    Bangladesh is only about 400&nbsp;km across, so the country supports about three independent
+    samples, not an arbitrary number. We tested this rather than assuming it: a fourth region
+    centred on Dhaka returned a series differing from the haor basin by
+    <strong>0.05&nbsp;cm with a correlation of 1.000</strong> &mdash; one mascon cell, not two &mdash;
+    so it is not reported as a separate result. Over the full 2002&ndash;2024 record the haor slope
+    turns positive (+0.36&nbsp;cm/yr) but at p&nbsp;=&nbsp;0.12 that is not a significant increase,
+    and we do not claim one.
+  </div>
 </div>
 </section>
 
