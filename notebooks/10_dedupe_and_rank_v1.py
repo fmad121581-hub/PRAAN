@@ -62,9 +62,9 @@ warnings.filterwarnings('ignore')
 #  which script 15 reads. Its own ranking outputs are written with a _v1
 #  suffix so they cannot overwrite the published result.
 # ─────────────────────────────────────────────────────────────
-
-
-BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
+# Project root resolved from this file's location, so the script runs
+# unchanged on any machine.
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 OCHA_SHP = BASE + "data/raw/ocha/bgd_admin3.shp"
 GADM_SHP = BASE + "data/raw/shapefiles/gadm41_BGD_4.shp"
 ASI_CSV = BASE + "outputs/phase3_ward_scores_v2.csv"

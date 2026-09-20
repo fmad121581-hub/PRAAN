@@ -12,10 +12,10 @@ from matplotlib.patches import Patch
 import warnings
 warnings.filterwarnings('ignore')
 
-SHP_PATH   = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/raw/shapefiles/gadm41_BGD_4.shp"
-ASI_CSV    = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/phase3_ward_scores.csv"
-BBS_CSV    = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/bbs_2022_ward_final.csv"
-OUTPUT_DIR = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/"
+SHP_PATH   = _R + "data/raw/shapefiles/gadm41_BGD_4.shp"
+ASI_CSV    = _R + "outputs/phase3_ward_scores.csv"
+BBS_CSV    = _R + "data/processed/bbs_2022_ward_final.csv"
+OUTPUT_DIR = _R + "outputs/"
 
 # ─────────────────────────────────────────────────────────────
 # 1. LOAD DATA
@@ -221,6 +221,11 @@ plt.close()
 print("Map saved → phase3_asi_map_v2.png")
 print("\n✓ Phase 3 update complete.")
 import os
-OUTPUT_DIR = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/"
+
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
+OUTPUT_DIR = _R + "outputs/"
 for f in os.listdir(OUTPUT_DIR):
     print(f)

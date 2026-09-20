@@ -14,15 +14,29 @@ This is the sharpest question available and the most likely to be asked.
 Answer it before they do — it is now in your Limitations section.
 
 > "It isn't a Barind-specific measurement, and we don't claim it is. Mascon
-> solutions resolve roughly 3 degrees, which is larger than our study area —
-> in fact our four districts return values within 0.013 of each other while
-> the temporal range is 0.16, so they're effectively sampling one cell. What
-> GRACE gives us is a northwest-Bangladesh water-balance trend. The
-> groundwater interpretation comes from pairing that with BWDB tube-well
-> records showing 0.5–1 m/yr water-table decline in Rajshahi. Satellite for
-> the regional trend, ground data for the attribution."
+> solutions resolve roughly 3 degrees, which is larger than our study area,
+> so what GRACE gives us is a northwest-Bangladesh water-balance trend. We
+> measured how bad that is rather than guessing: we ran the same variable,
+> same season, same method over four regions of the country. Three are
+> genuinely separate signals — every pair differs by 5 to 6 cm — but the
+> northeast haor basin and the central floodplain come back 0.05 cm apart
+> with a correlation of 1.000. Sylhet and Dhaka are inside one mascon cell.
+> Bangladesh is about 400 km across and a mascon resolves about 300, so the
+> country supports roughly three independent samples, not four, and we
+> report three. The groundwater interpretation then comes from pairing the
+> regional trend with BWDB tube-well records showing 0.5–1 m/yr water-table
+> decline in Rajshahi. Satellite for the trend, ground data for the cause."
 
 Never say "GRACE proves groundwater depletion in the Barind Tract."
+
+**If they press on significance**, you are on stronger ground than OLS:
+
+> "The series has lag-1 autocorrelation of +0.72, so ordinary least squares
+> overstates the certainty — its p of 0.0039 assumes each year is
+> independent of the last, and water storage isn't. We publish the
+> Mann-Kendall result with the Hamed-Rao variance correction instead:
+> p = 0.0103, Sen's slope −0.905 cm/yr. The trend survives the stricter
+> test, which is why we're willing to lead with it."
 
 ### 2. "Your mobility rate comes from a famine survey. Why does that transfer to slow groundwater decline?"
 
@@ -37,8 +51,7 @@ Never say "GRACE proves groundwater depletion in the Barind Tract."
 
 ### 3. "Does the satellite data actually change your output, or is it decoration?"
 
-Until today the honest answer was "it's decoration." Now it isn't — make
-sure you can show this:
+Make sure you can show this:
 
 > "It drives it. The mobility rate scales with the GRACE deficit relative to
 > the 2006/07 baseline. Half the observed slope gives 835,000 arrivals, the
@@ -49,24 +62,39 @@ Have `phase2_coupled_summary.txt` open in a tab.
 
 ### 4. "How do you decide which ward a migrant goes to?"
 
-> "Arrivals are distributed as population times one minus the stress index —
-> more arrivals to wards with more spare capacity. That's an assumption, and
-> arguably the wrong direction, because Dhaka's low-income in-migrants have
-> historically clustered in dense, high-stress areas like Korail and
-> Bhashantek. So we ran it both ways. Nine of the thirteen highest-concern
-> wards are the same either way, so the headline doesn't rest on that
-> choice."
+> "On population alone — and that's the result of a test we failed, which
+> is the more interesting answer. We used to distribute arrivals as
+> population times one minus the stress index, more arrivals to wards with
+> spare capacity. That was an assumption nobody had checked, so we checked
+> it against what actually happened: WorldPop and GHSL growth per ward,
+> 2000 to 2020.
+>
+> The naive test says we had it backwards — stress correlates with growth at
+> rho = +0.267, p = 0.020. We don't use that number, because it's circular.
+> The index's biggest component is present-day density, and a ward is dense
+> today partly *because* it grew; the outcome is sitting inside the
+> predictor. So we rebuilt the index from year-2000 inputs only, where
+> nothing in the predictor can have been caused by the outcome. It predicts
+> nothing: rho = −0.154, p = 0.19 over the full period, and null in both
+> sub-periods, with no single component significant.
+>
+> So the honest conclusion is that our index measures stress, not
+> attraction. We allocate on population alone and we say that on the site.
+> And the ranking barely cares: Kafrul Ward 14 is first under all three
+> rules, and ten of the top thirteen are shared."
 
-Volunteering the weakness and then showing you tested it is the single
-most credibility-building move you have.
+Volunteering the weakness, showing you tested it, and reporting a **null
+against your own index** is the single most credibility-building move you
+have. Very few teams will have failed a test in public. Do not soften it.
 
 ### 5. "How sensitive is this ranking to weights you chose yourself?"
 
 > "The top of the ranking is stable, the bottom isn't. Across 625 weight
 > combinations at plus or minus 10 points per indicator, the top-ranked ward
-> is unchanged 99.7% of the time and the top five overlap by 4.2 of 5. The
-> exact top-13 set only reproduces 6.6% of the time. So we present the top
-> wards as robust and the boundary of the list as indicative."
+> is unchanged 77% of the time and the top five overlap by 4.0 of 5. The
+> exact top-13 set only reproduces 11% of the time, though mean overlap is
+> 11.6 of 13. So we present the top wards as robust and the exact boundary
+> of the list as indicative."
 
 Do **not** say "the top 9–12 wards are consistent." That was the old,
 wrong claim.
@@ -94,11 +122,12 @@ wrong claim.
   first. BBS is indexed by (corporation, ward number), not by name. Keying on
   that took us from 61 rankable wards to 75 and corrected a corporation
   mislabelling: DNCC only has wards 1–54, so Ward No-55 can only be DSCC.
-- **"What would you do with more time?"** → Ground-truth the ASI against
-  observed settlement growth; replace the assumed elasticity with one
-  estimated from historical district-level migration series; and get ward
-  boundaries that match the current census, since GADM 4.1 predates the ward
-  expansion and 55 BBS wards have no polygon at all.
+- **"What would you do with more time?"** → Find a stress index that
+  actually predicts arrivals — ours doesn't, and we now know that rather
+  than assuming it; replace the assumed elasticity with one estimated from
+  historical district-level migration series; and get ward boundaries that
+  match the current census, since GADM 4.1 predates the ward expansion and
+  55 BBS wards have no polygon at all.
 - **"Who is this for?"** → Named users are already on the site: RAJUK and
   the city corporations for pre-positioning, disaster managers for the
   Jan–May drawdown signal, aid agencies for triage.
@@ -125,7 +154,7 @@ wrong claim.
 > them go to Dhaka. PRAAN asks the question nobody has costed: which Dhaka
 > wards can actually absorb them? We score every city-corporation ward on
 > density, built-up land, flood risk and household crowding, cross it with
-> projected arrivals, and get five wards that are already stressed and are
+> projected arrivals, and get eleven wards that are already stressed and are
 > about to receive disproportionate pressure. Kafrul Ward 14 is first.
 > That's a list a planner can act on before the arrivals, not after.
 
@@ -137,6 +166,8 @@ beats comprehensive.
 ## Before the event
 
 - [ ] Run `14_reconcile_grace.py`, commit the MASCON CSV
+- [ ] Have `predictive_validation.txt` open too — the failed ASI test is
+      your strongest answer, not your weakest, and you want the file
 - [ ] Put team member names and roles on the site — judges reward knowing
       who did what, and right now the page says only "Team Voyagers"
 - [ ] Check the live map on a phone; most judges will look on one

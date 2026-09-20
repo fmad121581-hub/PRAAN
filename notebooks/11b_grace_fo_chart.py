@@ -17,6 +17,11 @@ import matplotlib.pyplot as plt
 from scipy import stats
 import os
 
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
+
 # ─────────────────────────────────────────────
 # 1. LOAD DATA
 # ─────────────────────────────────────────────
@@ -181,7 +186,7 @@ ax.legend(loc='lower left', fontsize=9,
 
 plt.tight_layout()
 
-out_path = 'C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/grace_fo_extended_trend.png'
+out_path = _R + 'outputs/grace_fo_extended_trend.png'
 plt.savefig(out_path, dpi=150, bbox_inches='tight',
             facecolor='#0d1117')
 plt.close()

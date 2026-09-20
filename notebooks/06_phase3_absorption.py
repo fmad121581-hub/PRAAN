@@ -11,11 +11,16 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 import warnings
+
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
 warnings.filterwarnings('ignore')
 
-SHP_PATH   = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/raw/shapefiles/gadm41_BGD_4.shp"
-OUTPUT_DIR = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/"
-DATA_DIR   = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/"
+SHP_PATH   = _R + "data/raw/shapefiles/gadm41_BGD_4.shp"
+OUTPUT_DIR = _R + "outputs/"
+DATA_DIR   = _R + "data/processed/"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ─────────────────────────────────────────────────────────────

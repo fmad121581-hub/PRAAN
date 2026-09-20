@@ -118,7 +118,7 @@ published 766,489 stands and the coupling is shown alongside. Flipping it to
 `True` moves the headline to **869,208** and cascades through the site. Your
 call — I did not make it for you.
 
-## 5. Allocation rule — DISCLOSED AND TESTED
+## 5. Allocation rule — DISCLOSED AND TESTED *(superseded by §8)*
 
 Arrivals are distributed as `pop × (1 − ASI)` — *more* arrivals to *less*
 stressed wards. This was never stated on the website, and it is arguably
@@ -129,9 +129,13 @@ Tested both ways on the clean 61-ward set: **10 of 13 top wards are shared**.
 So the headline survives the assumption — good news, and worth saying out
 loud rather than leaving the rule invisible.
 
-## 6. Still open — needs your Earth Engine session
+> **Superseded.** §8 replaces this. The rule was later tested against
+> observed growth rather than only against itself, and the published
+> allocation is now population alone.
 
-I could not fix these from the committed data:
+## 6. Still open — needs your Earth Engine session *(all now closed; see §8)*
+
+At the time of writing, these could not be fixed from the committed data:
 
 - **GRACE stats mismatch.** Website says slope −0.898 cm/yr, r = −0.678,
   p = 0.004. Your `phase2_summary.txt` and the committed `grace_tws_raw.csv`
@@ -155,6 +159,9 @@ I could not fix these from the committed data:
 
 ## Headline numbers: before → after
 
+*(The state at the time of the first audit. For what the site publishes
+now, see §8.)*
+
 | | published | corrected |
 |---|---|---|
 | ranked wards | 184 rows / 138 unique | **75** after dissolving fragments |
@@ -163,9 +170,6 @@ I could not fix these from the committed data:
 | tier split | 110 / 61 / 13 | **52 / 18 / 5** |
 | top ward | Chak Bazar Ward No-65 | **Kafrul Ward No-14** |
 | sensitivity claim | "top 9–12 consistent" | top ward stable in 99.7%, top-5 4.2/5 |
-
-**Corrected high-concern wards (5):** Kafrul 14 (DNCC), Rampura 22 (DNCC),
-Chak Bazar 65 (DSCC), Lalbagh 60 (DSCC), Ramna 55 (DSCC).
 
 ---
 
@@ -223,3 +227,99 @@ than imputing population:
 23 of the 44 carry union names with no ward number, and GADM 4.1 predates
 the ward expansion, so 55 census wards have no polygon at all. They are
 mapped and scored for absorption stress, but not ranked.
+
+---
+
+## 8. The claims were tested against something other than themselves
+
+Everything above fixed the *data handling*. This section is about the
+*claims*, and it is the part a judge will care about most, because two of
+them did not survive.
+
+### 8a. The trend was tested with the wrong statistic
+
+Every trend in the project used ordinary least squares, which assumes each
+year is independent of the last. Water storage is not: the Barind series has
+a lag-1 autocorrelation of **+0.724**, so the OLS p-value of 0.0039 is
+optimistic.
+
+`18_robust_trends.py` re-runs every published series through Mann-Kendall
+with Sen's slope and the Hamed-Rao variance correction for serial
+correlation. The headline trend survives: **p = 0.0103, Sen's slope
+−0.905 cm/yr**. The site now publishes the stricter number.
+
+### 8b. Only one region was ever examined
+
+The challenge asks for regional contrast; the project showed one region
+declining. `16_` and `17_` run the same variable, season and method over
+four regions. Three separate cleanly — Barind Tract −0.90 cm/yr (p = 0.004),
+coastal southwest −0.57 cm/yr (p = 0.002), northeast haor basin no
+significant trend (p = 0.40).
+
+The fourth does not. Haor Basin and Central Floodplain return series
+**0.052 cm apart with a correlation of 1.000**: Sylhet and Dhaka sit in one
+mascon cell. Bangladesh is ~400 km across, a mascon resolves ~300 km, so the
+country supports about three independent samples. Three regions are
+reported, and the collapsed pair is published as a measured statement about
+instrument resolution rather than quietly dropped.
+
+### 8c. The ASI failed its own validation — and that is now the headline
+
+The Absorption Stress Index had never been checked against anything that
+happened. `19_validate_asi.py` extracts observed WorldPop population and
+GHSL built-up growth per ward, 2000–2020, over the same boundaries.
+
+The first result looked like a finding: ASI correlates with observed
+population growth at **rho = +0.267 (p = 0.020)**, suggesting the old
+`pop × (1 − ASI)` rule was backwards and stress attracts arrivals.
+
+It is not usable, and briefly publishing it was itself an error. The ASI's
+largest component is present-day density, and a ward is dense today partly
+*because* it grew — the outcome is inside the predictor.
+`20_predictive_validation.py` rebuilds the index from year-2000 inputs only
+(WorldPop 2000, GHSL 2000, plus the two time-invariant components), so
+nothing in the predictor can have been caused by the outcome:
+
+| predictor | 2000–2020 | 2000–2010 | 2010–2020 |
+|---|---|---|---|
+| ASI built from 2000 only | −0.154 (p 0.19) | −0.199 (p 0.09) | −0.119 (p 0.31) |
+| population 2000 | −0.132 (p 0.26) | −0.160 (p 0.17) | −0.174 (p 0.14) |
+| built-up 2000 | −0.073 (p 0.54) | −0.076 (p 0.52) | −0.124 (p 0.29) |
+| flood exposure | −0.206 (p 0.08) | −0.215 (p 0.06) | −0.120 (p 0.31) |
+| household size | +0.148 (p 0.20) | +0.128 (p 0.28) | +0.153 (p 0.19) |
+| *ASI as published (endogenous)* | *+0.267 (p 0.02)* | *+0.194 (p 0.10)* | *+0.352 (p 0.00)* |
+
+Nothing predicts. Median growth across baseline-stress quartiles is flat
+(+105%, +115%, +106%, +106%).
+
+**Conclusion, reported rather than buried:** the ASI describes absorption
+stress but carries no demonstrated information about where arrivals land.
+Allocation is now `population` alone — the only assumption the data
+supports. The ranking is robust to the choice: Kafrul Ward No-14 is first
+under population-only, stress-weighted and inverse allocation alike, and 10
+of the top 13 are shared.
+
+### 8d. What the published numbers are now
+
+| | previous | current |
+|---|---|---|
+| allocation rule | `pop × ASI` | **`pop` alone** |
+| tier split | 50 / 15 / 10 | **46 / 18 / 11** |
+| high-concern wards | 10 | **11** |
+| top ward | Kafrul Ward No-14 | Kafrul Ward No-14 *(unchanged)* |
+| headline significance | OLS p = 0.0039 | **Mann-Kendall p = 0.0103** |
+| tier boundaries | fixed thirds | **Jenks natural breaks** |
+| top-1 sensitivity stability | 99.7% | **77.1%** |
+| top-13 mean overlap | 10.8 / 13 | **11.6 / 13** |
+
+The sensitivity figures move because they are now computed against the
+population-allocated ranking, not because the method changed.
+
+### 8e. Two reproducibility defects fixed at the same time
+
+- Scripts hard-coded `C:/Users/user/OneDrive/...`, so nobody else could run
+  them. Project paths now resolve from each script's own location.
+- The map data embedded in `outputs/PRAAN.html` was regenerated by hand
+  every time the ranking changed, which is how a page ends up disagreeing
+  with its own CSVs. `21_build_site_geojson.py` now rebuilds it from the
+  committed outputs and mirrors the page to `deploy/index.html`.

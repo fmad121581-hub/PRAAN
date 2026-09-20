@@ -35,7 +35,9 @@ from scipy import stats
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
+# Project root resolved from this file's location, so the script runs
+# unchanged on any machine.
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 DATA, OUT = BASE + "data/processed/", BASE + "outputs/"
 COLLAPSE_CM = 0.5          # below this two regions are the same signal
 KEEP_ON_COLLAPSE = 'Haor Basin (NE)'   # the hydrologically distinct one

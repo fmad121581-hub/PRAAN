@@ -21,6 +21,11 @@ import json
 import os
 import time
 
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
+
 # ─────────────────────────────────────────────
 # 0. INITIALISE EARTH ENGINE
 # ─────────────────────────────────────────────
@@ -342,7 +347,7 @@ for year in range(GRACE_START, END_YEAR + 1):
 
 grace_df = pd.DataFrame(all_grace_records)
 grace_df.to_csv(
-    'C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/grace_tws_raw.csv',
+    _R + 'data/processed/grace_tws_raw.csv',
     index=False
 )
 print(f"GRACE extraction complete. {len(grace_df)} records saved.")

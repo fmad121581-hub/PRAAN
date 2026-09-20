@@ -29,6 +29,11 @@ from statsmodels.nonparametric.smoothers_lowess import lowess
 import warnings
 import os
 
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
+
 warnings.filterwarnings('ignore')
 os.makedirs('../data/processed', exist_ok=True)
 os.makedirs('../outputs', exist_ok=True)
@@ -38,7 +43,7 @@ os.makedirs('../outputs', exist_ok=True)
 # ─────────────────────────────────────────────
 
 df = pd.read_excel(
-    'C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/raw/bbs/PRAAN_BBS_Aman_FIXED_v2.xlsx',
+    _R + 'data/raw/bbs/PRAAN_BBS_Aman_FIXED_v2.xlsx',
     sheet_name='division_aggregate'
 )
 
@@ -180,7 +185,7 @@ for i, district in enumerate(sorted(districts)):
                    if z_scores[j] < -1.0]
     print(f"{district}: deficit years = {deficit_yrs}")
 
-plt.savefig('C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/detrending_comparison.png',
+plt.savefig(_R + 'outputs/detrending_comparison.png',
             dpi=150, bbox_inches='tight')
 plt.close()
 print("\nPlot saved → outputs/detrending_comparison.png")
@@ -195,7 +200,7 @@ results_df = results_df.sort_values(
 ).reset_index(drop=True)
 
 results_df.to_csv(
-    'C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/bbs_yield_anomaly.csv',
+    _R + 'data/processed/bbs_yield_anomaly.csv',
     index=False
 )
 

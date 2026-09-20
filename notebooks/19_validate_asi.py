@@ -30,11 +30,14 @@ WHAT IT EXTRACTS
     Engine, so this needs no new data source - only a new question.
 
 HOW TO READ THE RESULT
-    Spearman rho between ASI and observed growth:
-      rho < -0.3  low-stress wards grew faster  -> current inverse rule supported
-      rho > +0.3  high-stress wards grew faster -> rule is backwards, invert it
-      |rho| < 0.3 no relationship -> the ASI does not predict growth, and the
-                  allocation should be population-weighted only. Say so.
+    This script measures the association between the present-day ASI and
+    observed growth. It does NOT settle the allocation rule, because the
+    ASI's largest component is present-day density and a ward is dense today
+    partly because it grew: the outcome is inside the predictor.
+
+    Run 20_predictive_validation.py for the question that can be answered -
+    does an index built from year-2000 inputs alone predict what followed?
+    It does not, in any window, so arrivals are allocated on population only.
 
     A null result is a real finding and must be reported, not buried.
 
@@ -43,53 +46,70 @@ OUTPUT
     outputs/asi_validation.txt
     outputs/asi_validation.png
 """
-import ee, pandas as pd, numpy as np, json, time, os
+import pandas as pd, numpy as np, json, time, os, sys
 from scipy import stats
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-ee.Initialize(project='project-attempt-dhaka-heat')
-
-BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
+# Earth Engine is only needed to (re)extract the observed growth. Once
+# ward_observed_growth.csv is committed, the analysis re-runs offline, so a
+# reviewer can reproduce the numbers without a Google account. Pass
+# --refresh to pull from Earth Engine again.
+REFRESH = '--refresh' in sys.argv
+# Project root resolved from this file's location, so the script runs
+# unchanged on any machine.
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 DATA, OUT = BASE + "data/processed/", BASE + "outputs/"
 GEOJSON = DATA + 'dhaka_wards_dissolved.geojson'
 POP_YEARS = [2000, 2005, 2010, 2015, 2020]
 BUILT_EPOCHS = [2000, 2010, 2020]
 
 prim = pd.read_csv(OUT + 'crisis_index_primary.csv')
-gj = json.load(open(GEOJSON))
-wanted = set(prim.GID_4)
-feats = [f for f in gj['features'] if f['properties'].get('GID_4') in wanted]
-print(f'Validating {len(feats)} ranked wards against observed growth')
+CACHE = DATA + 'ward_observed_growth.csv'
 
-rows = []
-for i, f in enumerate(feats, 1):
-    gid = f['properties']['GID_4']
-    geom = ee.Geometry(f['geometry'])
-    rec = {'GID_4': gid}
-    try:
-        for y in POP_YEARS:
-            img = (ee.ImageCollection('WorldPop/GP/100m/pop')
-                   .filter(ee.Filter.eq('year', y))
-                   .filter(ee.Filter.eq('country', 'BGD')).mosaic())
-            rec[f'pop_{y}'] = img.reduceRegion(
-                reducer=ee.Reducer.sum(), geometry=geom, scale=100,
-                maxPixels=1e9, bestEffort=True).getInfo().get('population')
-        for y in BUILT_EPOCHS:
-            img = ee.Image(f'JRC/GHSL/P2023A/GHS_BUILT_S/{y}').select('built_surface')
-            rec[f'built_{y}'] = img.reduceRegion(
-                reducer=ee.Reducer.sum(), geometry=geom, scale=100,
-                maxPixels=1e9, bestEffort=True).getInfo().get('built_surface')
-        rows.append(rec)
-        if i % 10 == 0:
-            print(f'  {i}/{len(feats)}')
-        time.sleep(0.1)
-    except Exception as e:
-        print(f'  {gid} failed: {e}')
+if not REFRESH and os.path.exists(CACHE):
+    g = pd.read_csv(CACHE)
+    print(f'Using committed {CACHE} ({len(g)} wards). Pass --refresh to re-extract.')
+else:
+    import ee
+    ee.Initialize(project='project-attempt-dhaka-heat')
+    gj = json.load(open(GEOJSON))
+    wanted = set(prim.GID_4)
+    feats = [f for f in gj['features'] if f['properties'].get('GID_4') in wanted]
+    print(f'Validating {len(feats)} ranked wards against observed growth')
 
-g = pd.DataFrame(rows)
-os.makedirs(DATA, exist_ok=True)
-g.to_csv(DATA + 'ward_observed_growth.csv', index=False)
+    rows = []
+    for i, f in enumerate(feats, 1):
+        gid = f['properties']['GID_4']
+        geom = ee.Geometry(f['geometry'])
+        rec = {'GID_4': gid}
+        try:
+            for y in POP_YEARS:
+                img = (ee.ImageCollection('WorldPop/GP/100m/pop')
+                       .filter(ee.Filter.eq('year', y))
+                       .filter(ee.Filter.eq('country', 'BGD')).mosaic())
+                rec[f'pop_{y}'] = img.reduceRegion(
+                    reducer=ee.Reducer.sum(), geometry=geom, scale=100,
+                    maxPixels=1e9, bestEffort=True).getInfo().get('population')
+            for y in BUILT_EPOCHS:
+                img = ee.Image(f'JRC/GHSL/P2023A/GHS_BUILT_S/{y}').select('built_surface')
+                rec[f'built_{y}'] = img.reduceRegion(
+                    reducer=ee.Reducer.sum(), geometry=geom, scale=100,
+                    maxPixels=1e9, bestEffort=True).getInfo().get('built_surface')
+            rows.append(rec)
+            if i % 10 == 0:
+                print(f'  {i}/{len(feats)}')
+            time.sleep(0.1)
+        except Exception as e:
+            print(f'  {gid} failed: {e}')
+
+    g = pd.DataFrame(rows)
+    os.makedirs(DATA, exist_ok=True)
+    g.to_csv(DATA + 'ward_observed_growth.csv', index=False)
+
+    g = pd.DataFrame(rows)
+    os.makedirs(DATA, exist_ok=True)
+    g.to_csv(CACHE, index=False)
 
 d = prim.merge(g, on='GID_4', how='inner')
 d = d[(d.pop_2000 > 0) & (d.built_2000 > 0)].copy()
@@ -102,11 +122,18 @@ def test(xcol, ycol, xlabel, ylabel):
     s = d[[xcol, ycol]].dropna()
     rho, p = stats.spearmanr(s[xcol], s[ycol])
     r, pp = stats.pearsonr(s[xcol], s[ycol])
-    verdict = ('low-stress wards grew faster - the inverse allocation rule is SUPPORTED'
-               if rho < -0.3 and p < 0.05 else
-               'high-stress wards grew faster - the allocation rule is BACKWARDS'
-               if rho > 0.3 and p < 0.05 else
-               'no clear relationship - ASI does not predict growth')
+    # Report significance, not a hand-picked effect-size threshold. An
+    # earlier version called anything with |rho| < 0.3 "no relationship",
+    # which labelled a significant result (rho = +0.267, p = 0.02) a null.
+    # No allocation verdict is issued here: the present-day ASI contains the
+    # outcome (a ward is dense today partly BECAUSE it grew), so this
+    # correlation cannot settle the rule. 20_predictive_validation.py does
+    # that, using an index built from year-2000 inputs only.
+    verdict = (f'{"higher" if rho > 0 else "lower"}-stress wards grew faster; '
+               f'{"significant" if p < 0.05 else "not significant"} at p < 0.05. '
+               'Endogenous - see 20_predictive_validation.py'
+               if p < 0.05 else
+               'no significant association')
     txt = (f'{xlabel} vs {ylabel}\n'
            f'  n = {len(s)}   Spearman rho = {rho:+.3f} (p = {p:.4f})   '
            f'Pearson r = {r:+.3f}\n  -> {verdict}\n')
@@ -148,12 +175,15 @@ with open(OUT + 'asi_validation.txt', 'w', encoding='utf-8') as f:
             'surface, extracted per ward over the same boundaries used for the\n'
             'ranking.\n\n')
     f.writelines(lines)
-    f.write('\nWHY THIS MATTERS FOR THE ALLOCATION RULE\n' + '-' * 78 + '\n')
-    f.write('PRAAN distributes arrivals as population x (1 - ASI), sending more\n'
-            'arrivals to lower-stress wards. That was an assumption. A negative\n'
-            'rho supports it; a positive rho means it is backwards and should be\n'
-            'inverted; a rho near zero means the ASI carries no information about\n'
-            'growth and arrivals should be allocated on population alone.\n\n'
-            'Whichever it is, report it. An index that fails its own validation,\n'
-            'reported honestly, is worth more than one that was never tested.\n')
+    f.write('\nWHY THIS DOES NOT SETTLE THE ALLOCATION RULE\n' + '-' * 78 + '\n')
+    f.write('These correlations use the PRESENT-DAY ASI, whose largest component\n'
+            'is present-day population density. A ward is dense today partly\n'
+            'BECAUSE it grew over this very period, so the outcome sits inside\n'
+            'the predictor and a positive rho here is not evidence that stress\n'
+            'attracts arrivals.\n\n'
+            'The allocation rule is decided by 20_predictive_validation.py, which\n'
+            'rebuilds the index from year-2000 inputs only. It finds no predictive\n'
+            'relationship in any window, so arrivals are allocated on population\n'
+            'alone. An index that fails its own validation, reported honestly, is\n'
+            'worth more than one that was never tested.\n')
 print(f'Wrote {OUT}asi_validation.txt and asi_validation.png')

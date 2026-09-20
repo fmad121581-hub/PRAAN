@@ -40,7 +40,9 @@ import pandas as pd, numpy as np, itertools, os
 # ─────────────────────────────────────────────────────────────
 
 
-BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
+# Project root resolved from this file's location, so the script runs
+# unchanged on any machine.
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 OUT = BASE + "outputs/"
 PRIMARY = OUT + "crisis_index_primary_v1.csv"   # from 10_supply_demand.py (fixed)
 SCORES = OUT + "phase3_ward_scores_v3_deduped.csv"   # written by script 10

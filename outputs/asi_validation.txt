@@ -10,21 +10,24 @@ ranking.
 
 ASI vs observed population growth 2000-2020
   n = 75   Spearman rho = +0.267 (p = 0.0203)   Pearson r = +0.309
-  -> no clear relationship - ASI does not predict growth
+  -> higher-stress wards grew faster; significant at p < 0.05. Endogenous - see 20_predictive_validation.py
 ASI vs observed built-up growth 2000-2020
   n = 75   Spearman rho = -0.487 (p = 0.0000)   Pearson r = -0.230
-  -> low-stress wards grew faster - the inverse allocation rule is SUPPORTED
+  -> lower-stress wards grew faster; significant at p < 0.05. Endogenous - see 20_predictive_validation.py
 Crisis Index vs observed population growth
-  n = 75   Spearman rho = +0.207 (p = 0.0744)   Pearson r = +0.207
-  -> no clear relationship - ASI does not predict growth
+  n = 75   Spearman rho = +0.258 (p = 0.0252)   Pearson r = +0.287
+  -> higher-stress wards grew faster; significant at p < 0.05. Endogenous - see 20_predictive_validation.py
 
-WHY THIS MATTERS FOR THE ALLOCATION RULE
+WHY THIS DOES NOT SETTLE THE ALLOCATION RULE
 ------------------------------------------------------------------------------
-PRAAN distributes arrivals as population x (1 - ASI), sending more
-arrivals to lower-stress wards. That was an assumption. A negative
-rho supports it; a positive rho means it is backwards and should be
-inverted; a rho near zero means the ASI carries no information about
-growth and arrivals should be allocated on population alone.
+These correlations use the PRESENT-DAY ASI, whose largest component
+is present-day population density. A ward is dense today partly
+BECAUSE it grew over this very period, so the outcome sits inside
+the predictor and a positive rho here is not evidence that stress
+attracts arrivals.
 
-Whichever it is, report it. An index that fails its own validation,
-reported honestly, is worth more than one that was never tested.
+The allocation rule is decided by 20_predictive_validation.py, which
+rebuilds the index from year-2000 inputs only. It finds no predictive
+relationship in any window, so arrivals are allocated on population
+alone. An index that fails its own validation, reported honestly, is
+worth more than one that was never tested.

@@ -74,11 +74,26 @@ risk (0.20), BBS 2022 mean household size (0.20). Wards without a BBS match
 use the three-indicator form (0.40 / 0.35 / 0.25) and are mapped but not
 ranked. Weights are expert-defined, not fitted.
 
-City-level arrivals are distributed across wards in proportion to
-`population × (1 − ASI)` — more arrivals to lower-stress wards, on the
-assumption that lower stress indicates spare capacity. This is an
-assumption, not an observation; the opposite allocation was also tested (see
-below).
+City-level arrivals are distributed across wards **in proportion to
+population alone**. They used to be distributed as `population × (1 − ASI)`,
+on the assumption that lower stress indicated spare capacity. That
+assumption was tested rather than defended, and it does not survive
+(`20_predictive_validation.py`).
+
+Correlating the ASI with observed 2000–2020 ward population growth gives
+Spearman rho = +0.267 (p = 0.020) and looks like evidence that stress
+attracts arrivals. It is not usable: the ASI's largest component is
+present-day density, and a ward is dense today partly *because* it grew, so
+the outcome sits inside the predictor. Rebuilt from year-2000 inputs only —
+WorldPop 2000, GHSL 2000, plus the two time-invariant components — the index
+predicts nothing in any window: rho = −0.154 (p = 0.19) for 2000–2020,
+−0.199 (p = 0.09) for 2000–2010, −0.119 (p = 0.31) for 2010–2020. No single
+component reaches significance, and median growth across baseline-stress
+quartiles is flat (+105%, +115%, +106%, +106%).
+
+So the ASI describes absorption stress but carries no demonstrated
+information about where arrivals land, and allocation falls back to
+population — the only assumption the data supports.
 
 Crisis Index = normalised `rank(ASI) × rank(arrivals)`. The rank-product form
 means a ward must score highly on **both** local absorption stress and
@@ -86,7 +101,8 @@ projected arrival pressure to reach the highest category — a ward that is
 merely crowded, or merely receives many arrivals, does not qualify alone.
 
 **Results (75 city-corporation wards with complete BBS 2022 records):**
-52 low / 18 moderate / **5 high concern**.
+46 low / 18 moderate / **11 high concern**. Tier boundaries come from Jenks
+natural breaks on the Crisis Index, not from round numbers chosen by hand.
 
 GADM 4.1 splits some wards across thana boundaries, so one ward appears as
 several "(Part)" polygons that match no census record by name. Dissolving
@@ -97,18 +113,19 @@ mislabelling (DNCC has wards 1–54 only, so Ward No-55 is DSCC).
 | rank | ward | corporation | Crisis Index |
 |---|---|---|---|
 | 1 | Kafrul Ward No-14 | DNCC | 1.000 |
-| 2 | Rampura Ward No-22 | DNCC | 0.859 |
-| 3 | Chak Bazar Ward No-65 | DSCC | 0.732 |
-| 4 | Lalbagh Ward No-60 | DSCC | 0.693 |
-| 5 | Ramna Ward No-55 | DSCC | 0.691 |
+| 2 | Chak Bazar Ward No-65 | DSCC | 0.900 |
+| 3 | Rampura Ward No-22 | DNCC | 0.876 |
+| 4 | Lalbagh Ward No-60 | DSCC | 0.844 |
+| 5 | Lalbagh Ward No-61 | DSCC | 0.747 |
 
 **Robustness.** Across 625 weight combinations (±10pp on each of the four
-indicators, renormalised), the top-ranked ward is unchanged in **99.7%** of
-combinations and the top five overlap by **4.2 of 5** on average. Membership
+indicators, renormalised), the top-ranked ward is unchanged in **77.1%** of
+combinations and the top five overlap by **4.0 of 5** on average. Membership
 at the boundary of the top 13 is weighting-dependent — the exact set
-reproduces in 6.6% of combinations, mean overlap 10.8 of 13 — and should be
-read as indicative. Reversing the arrival-allocation rule so that arrivals
-are routed toward *more* stressed wards preserves 9 of the 13 top wards.
+reproduces in 11.2% of combinations, mean overlap 11.6 of 13 — and should be
+read as indicative. The allocation rule matters less than it looks: Kafrul
+Ward No-14 is the top ward under population-only, stress-weighted and
+inverse allocation alike, and 10 of the top 13 are shared.
 
 ## Key Limitations — Transparently Stated
 

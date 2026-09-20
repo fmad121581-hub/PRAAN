@@ -1,14 +1,15 @@
+import os
 import pandas as pd
 import numpy as np
 from scipy import stats
 
 # Load data
 panel = pd.read_csv(
-    'C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/merged_panel.csv'
+    _R + 'data/processed/merged_panel.csv'
 )
 
 grace_df = pd.read_csv(
-    'C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/grace_tws_raw.csv'
+    _R + 'data/processed/grace_tws_raw.csv'
 )
 
 # Average GRACE across districts to division level
@@ -59,6 +60,11 @@ print(f"r = {r:.3f}, p = {p:.3f}")
 print(f"Total decline: {slope * 15:.3f} cm over 15 years")
 import matplotlib.pyplot as plt
 
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
+
 fig, ax = plt.subplots(figsize=(10, 5))
 ax.plot(grace_trend['year'], grace_trend['tws_anomaly'],
         'b-o', linewidth=2, markersize=8, label='GRACE TWS')
@@ -80,7 +86,7 @@ ax.grid(alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(
-    'C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/grace_trend.png',
+    _R + 'outputs/grace_trend.png',
     dpi=150, bbox_inches='tight'
 )
 print("Chart saved.")

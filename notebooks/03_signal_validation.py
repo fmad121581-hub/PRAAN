@@ -46,6 +46,11 @@ from sklearn.model_selection import LeaveOneOut, cross_val_score
 import warnings
 import os
 
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
+
 warnings.filterwarnings('ignore')
 os.makedirs('../outputs', exist_ok=True)
 
@@ -53,9 +58,9 @@ os.makedirs('../outputs', exist_ok=True)
 # 1. LOAD ALL THREE DATASETS
 # ─────────────────────────────────────────────
 
-yield_df  = pd.read_csv('C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/bbs_yield_anomaly.csv')
-chirps_df = pd.read_csv('C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/chirps_aman_season_raw.csv')
-ndvi_df   = pd.read_csv('C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/modis_ndvi_aman_raw.csv')
+yield_df  = pd.read_csv(_R + 'data/processed/bbs_yield_anomaly.csv')
+chirps_df = pd.read_csv(_R + 'data/processed/chirps_aman_season_raw.csv')
+ndvi_df   = pd.read_csv(_R + 'data/processed/modis_ndvi_aman_raw.csv')
 
 print("Loaded datasets:")
 print(f"  Yield:  {yield_df.shape}  | years {yield_df['year'].min()}–{yield_df['year'].max()}")
@@ -150,7 +155,7 @@ panel = (
 print(f"\nMerged panel: {panel.shape}")
 print(f"Missing values:\n{panel.isnull().sum()}")
 
-panel.to_csv('C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/merged_panel.csv', index=False)
+panel.to_csv(_R + 'data/processed/merged_panel.csv', index=False)
 
 # ─────────────────────────────────────────────
 # 4. CONTEMPORANEOUS CORRELATIONS
@@ -409,7 +414,7 @@ print("\nModel comparison plot saved → outputs/model_comparison.png")
 # 8. SAVE VALIDATION RESULTS
 # ─────────────────────────────────────────────
 
-with open('C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/validation_results.txt', 'w', encoding='utf-8') as f:
+with open(_R + 'outputs/validation_results.txt', 'w', encoding='utf-8') as f:
     f.write("PRAAN Phase 1 — Signal Validation Results\n")
     f.write("=" * 50 + "\n\n")
 

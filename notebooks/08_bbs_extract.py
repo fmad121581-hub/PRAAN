@@ -3,8 +3,13 @@ import pandas as pd
 import re
 import os
 
-URBAN_PDF  = r"C:/Users/user/OneDrive/Nasa_2026/Urban Area Report.pdf"
-OUTPUT_DIR = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/"
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
+
+URBAN_PDF  = _R2 + "Urban Area Report.pdf"
+OUTPUT_DIR = _R + "data/processed/"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 all_data = []
@@ -134,7 +139,7 @@ print(df_final[['city_corp','ward_no','NAME_4',
 df_final.to_csv(OUTPUT_DIR + 'bbs_2022_ward_final.csv', index=False)
 print("\nSaved → bbs_2022_ward_final.csv")
 print("✓ BBS extraction complete.")
-with open(r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/notebooks/08_bbs_extract.py") as f:
+with open(_R + "notebooks/08_bbs_extract.py") as f:
     for i, line in enumerate(f, 1):
         if 50 <= i <= 100:
             print(f"{i:3}: {line}", end='')

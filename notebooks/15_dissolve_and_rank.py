@@ -30,7 +30,9 @@ OUTPUT
 """
 import pandas as pd, numpy as np, geopandas as gpd, itertools, re, os
 
-BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
+# Project root resolved from this file's location, so the script runs
+# unchanged on any machine.
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 OUT, DATA = BASE + "outputs/", BASE + "data/processed/"
 GADM = BASE + "data/raw/shapefiles/gadm41_BGD_4.shp"
 
@@ -40,16 +42,25 @@ W4 = {'pop_norm': .35, 'builtup_norm': .25, 'flood_norm': .20, 'hh_size_norm': .
 
 # Arrival allocation. This used to be 'inverse' - more arrivals to LESS
 # stressed wards, on the assumption that low stress meant spare capacity.
-# 19_validate_asi.py tested that against what actually happened. A density
-# index built from year-2000 data alone predicts 2000-2020 population growth
-# with Spearman rho = +0.324 (p = 0.005): wards already dense in 2000 grew
-# FASTER, not slower. Median growth rises monotonically across baseline
-# density quartiles (+94%, +106%, +111%, +113%). Density attracts arrivals.
-# The assumption was backwards, so the published rule is now 'direct'.
-# The effect is real but modest, and the ranking barely moves: Kafrul Ward
-# No-14 is top under inverse, direct and population-only weighting, and the
-# top 13 shares 9-10 wards across all three.
-ALLOCATION = 'direct'
+# That was never tested. 20_predictive_validation.py tests it properly, and
+# the answer is that neither direction is supported.
+#
+# The obvious test - correlate the ASI with observed 2000-2020 growth - gives
+# rho = +0.267 (p = 0.020) and appears to say density attracts arrivals. It
+# does not. The ASI's largest component is present-day density, and a ward is
+# dense today partly BECAUSE it grew. The outcome is inside the predictor.
+#
+# Rebuilt from year-2000 inputs only, so nothing in the predictor can have
+# been caused by the outcome, the index does not predict subsequent growth in
+# any window: rho = -0.154 (p = 0.19) for 2000-2020, -0.199 (p = 0.09) for
+# 2000-2010, -0.119 (p = 0.31) for 2010-2020. No single component reaches
+# significance either, and median growth across baseline-stress quartiles is
+# flat (+105%, +115%, +106%, +106%).
+#
+# So the ASI measures stress, not attraction, and arrivals are allocated on
+# population alone - the only assumption the data supports. The ranking is
+# robust to this: Kafrul Ward No-14 is top under all three rules.
+ALLOCATION = 'population'
 W3 = {'pop_norm': .40, 'builtup_norm': .35, 'flood_norm': .25}
 mm = lambda s: (s - s.min()) / (s.max() - s.min())
 wno = lambda s: (lambda m: int(m.group(1)) if m else None)(
@@ -162,7 +173,9 @@ def build(df, w4=W4, alloc=ALLOCATION):
     if b.any(): a.loc[b] = sum(d.loc[b, k] * v for k, v in w4.items())
     d['ASI'] = a
     pop = d.pop_total.fillna(d.pop_total.median())
-    wt = pop * (1 - d.ASI) if alloc == 'inverse' else pop * d.ASI
+    wt = (pop * (1 - d.ASI) if alloc == 'inverse'
+          else pop * d.ASI if alloc == 'direct'
+          else pop.astype(float))
     d['pop_share'] = wt / wt.sum()
     for k, v in ARR.items(): d[f'arrivals_{k}'] = (d.pop_share * v).astype(int)
     d['load_ratio_central'] = d.arrivals_central / pop
@@ -177,11 +190,12 @@ def build(df, w4=W4, alloc=ALLOCATION):
     return d.sort_values('crisis_index', ascending=False)
 
 COLS = ['GID_4','NAME_3','NAME_4','city_corp','ward_no','n_fragments','observed',
-        'pop_total','ASI','arrivals_central','load_ratio_central','asi_rank',
+        'pop_total','ASI','arrivals_low','arrivals_central','arrivals_high',
+        'load_ratio_central','asi_rank',
         'arrival_rank','crisis_index','crisis_tier']
 primary  = build(cc[cc.observed])
 extended = build(cc)
-alt      = build(cc[cc.observed], alloc='direct')
+alt      = build(cc[cc.observed], alloc='inverse')
 for n, d in [('PRIMARY', primary), ('EXTENDED', extended), ('ALT ALLOC (old inverse rule)', alt)]:
     print('\n' + '='*70); print(n); print('='*70)
     print(d.head(13)[['NAME_3','NAME_4','city_corp','ASI','arrivals_central',

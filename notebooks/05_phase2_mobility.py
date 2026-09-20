@@ -46,10 +46,15 @@ import matplotlib.gridspec as gridspec
 from scipy import stats
 import os
 import warnings
+
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
 warnings.filterwarnings('ignore')
 
-OUTPUT_DIR = 'C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/'
-DATA_DIR   = 'C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/'
+OUTPUT_DIR = _R + 'outputs/'
+DATA_DIR   = _R + 'data/processed/'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # ─────────────────────────────────────────────────────────────

@@ -13,9 +13,9 @@ from matplotlib.patches import Patch
 import warnings
 warnings.filterwarnings('ignore')
 
-SHP_PATH   = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/raw/shapefiles/gadm41_BGD_4.shp"
-CSV_PATH   = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/data/processed/praan_phase3_indicators.csv"
-OUTPUT_DIR = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/outputs/"
+SHP_PATH   = _R + "data/raw/shapefiles/gadm41_BGD_4.shp"
+CSV_PATH   = _R + "data/processed/praan_phase3_indicators.csv"
+OUTPUT_DIR = _R + "outputs/"
 
 # ─────────────────────────────────────────────────────────────
 # 1. LOAD DATA
@@ -99,6 +99,11 @@ print(top10.to_string(index=False))
 # ─────────────────────────────────────────────────────────────
 print("\nGenerating map...")
 from matplotlib.patches import Patch
+
+# Paths resolve from this file's own location, so the scripts run unchanged
+# on any machine. _R is the project root; _R2 its parent.
+_R = os.path.dirname(os.path.dirname(os.path.abspath(__file__))).replace('\\', '/') + '/'
+_R2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))).replace('\\', '/') + '/'
 
 fig, ax = plt.subplots(1, 1, figsize=(16, 16))
 fig.patch.set_facecolor('white')
@@ -201,7 +206,7 @@ plt.savefig(OUTPUT_DIR + 'phase3_asi_map.png',
             dpi=150, bbox_inches='tight', facecolor='white')
 plt.close()
 print("Map saved → outputs/phase3_asi_map.png")
-with open(r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/notebooks/07_phase3_part2.py") as f:
+with open(_R + "notebooks/07_phase3_part2.py") as f:
     for i, line in enumerate(f, 1):
         if i >= 100:
             print(f"{i:3}: {line}", end='')

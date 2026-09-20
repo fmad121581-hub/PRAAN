@@ -28,7 +28,9 @@ OUTPUT
 import pandas as pd, numpy as np, os
 from scipy import stats
 
-BASE = r"C:/Users/user/OneDrive/Nasa_2026/PRAAN/"
+# Project root resolved from this file's location, so the script runs
+# unchanged on any machine.
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + os.sep
 DATA, OUT = BASE + "data/processed/", BASE + "outputs/"
 
 
