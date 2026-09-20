@@ -37,6 +37,19 @@ GADM = BASE + "data/raw/shapefiles/gadm41_BGD_4.shp"
 MOB = {'low': 1_433_763, 'central': 2_580_774, 'high': 3_584_408}
 ARR = {k: int(v * 0.660 * 0.450) for k, v in MOB.items()}
 W4 = {'pop_norm': .35, 'builtup_norm': .25, 'flood_norm': .20, 'hh_size_norm': .20}
+
+# Arrival allocation. This used to be 'inverse' - more arrivals to LESS
+# stressed wards, on the assumption that low stress meant spare capacity.
+# 19_validate_asi.py tested that against what actually happened. A density
+# index built from year-2000 data alone predicts 2000-2020 population growth
+# with Spearman rho = +0.324 (p = 0.005): wards already dense in 2000 grew
+# FASTER, not slower. Median growth rises monotonically across baseline
+# density quartiles (+94%, +106%, +111%, +113%). Density attracts arrivals.
+# The assumption was backwards, so the published rule is now 'direct'.
+# The effect is real but modest, and the ranking barely moves: Kafrul Ward
+# No-14 is top under inverse, direct and population-only weighting, and the
+# top 13 shares 9-10 wards across all three.
+ALLOCATION = 'direct'
 W3 = {'pop_norm': .40, 'builtup_norm': .35, 'flood_norm': .25}
 mm = lambda s: (s - s.min()) / (s.max() - s.min())
 wno = lambda s: (lambda m: int(m.group(1)) if m else None)(
@@ -117,7 +130,32 @@ cc = allw[allw.corp_spatial.isin(['DNCC','DSCC'])].copy()
 cc['observed'] = cc.pop_total.notna() & cc.hh_size.notna()
 print(f'city wards {len(cc)} | observed {cc.observed.sum()} | unranked {(~cc.observed).sum()}')
 
-def build(df, w4=W4, alloc='inverse'):
+def jenks_breaks(v, k):
+    """Jenks natural breaks. The old 0.33/0.66 cut-points were arbitrary;
+    these minimise within-class variance, which is the standard basis for a
+    choropleth classification and can be defended as derived, not chosen."""
+    v = np.sort(np.asarray(v, float)); n = len(v)
+    m1 = np.zeros((n+1, k+1)); m2 = np.full((n+1, k+1), np.inf)
+    m1[1:,1] = 1; m2[1:,1] = 0; m2[0,:] = 0
+    for l in range(2, n+1):
+        s1 = s2 = w = 0.0
+        for m in range(1, l+1):
+            i3 = l-m+1; val = v[i3-1]
+            s2 += val*val; s1 += val; w += 1
+            var = s2 - (s1*s1)/w
+            i4 = i3-1
+            if i4 != 0:
+                for j in range(2, k+1):
+                    if m2[l,j] >= var + m2[i4,j-1]:
+                        m1[l,j] = i3; m2[l,j] = var + m2[i4,j-1]
+        m1[l,1] = 1; m2[l,1] = var
+    kk = n; brk = [v[-1]]*(k+1); brk[0] = v[0]; cnt = k
+    while cnt > 1:
+        brk[cnt-1] = v[int(m1[kk,cnt])-2]; kk = int(m1[kk,cnt])-1; cnt -= 1
+    return brk
+
+
+def build(df, w4=W4, alloc=ALLOCATION):
     d = df.copy()
     a = sum(d[k] * v for k, v in W3.items())
     b = d.hh_size_norm.notna()
@@ -132,8 +170,10 @@ def build(df, w4=W4, alloc='inverse'):
     d['arrival_rank'] = d.arrivals_central.rank(pct=True)
     rp = d.asi_rank * d.arrival_rank
     d['crisis_index'] = (rp - rp.min()) / (rp.max() - rp.min())
-    d['crisis_tier'] = pd.cut(d.crisis_index, [-.001,.33,.66,1.001],
+    b = jenks_breaks(d.crisis_index.values, 3)
+    d['crisis_tier'] = pd.cut(d.crisis_index, [-.001, b[1], b[2], 1.001],
                               labels=['Low concern','Moderate concern','High concern'])
+    d.attrs['breaks'] = b
     return d.sort_values('crisis_index', ascending=False)
 
 COLS = ['GID_4','NAME_3','NAME_4','city_corp','ward_no','n_fragments','observed',
@@ -142,7 +182,7 @@ COLS = ['GID_4','NAME_3','NAME_4','city_corp','ward_no','n_fragments','observed'
 primary  = build(cc[cc.observed])
 extended = build(cc)
 alt      = build(cc[cc.observed], alloc='direct')
-for n, d in [('PRIMARY', primary), ('EXTENDED', extended), ('ALT ALLOC', alt)]:
+for n, d in [('PRIMARY', primary), ('EXTENDED', extended), ('ALT ALLOC (old inverse rule)', alt)]:
     print('\n' + '='*70); print(n); print('='*70)
     print(d.head(13)[['NAME_3','NAME_4','city_corp','ASI','arrivals_central',
                       'crisis_index','crisis_tier']].to_string(index=False))

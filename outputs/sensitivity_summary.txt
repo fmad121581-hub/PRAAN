@@ -10,8 +10,8 @@ SETUP
   Combinations : 625
 
 RESULTS
-  Highest-ranked ward unchanged   : 623/625 (99.7%)
-  Mean top-5 overlap              : 4.2/5
-  Mean top-13 overlap             : 10.8/13 (min 8)
+  Highest-ranked ward unchanged   : 275/625 (44.0%)
+  Mean top-5 overlap              : 4.6/5
+  Mean top-13 overlap             : 11.4/13 (min 9)
   Exact top-13 set reproduced     : 41/625 (6.6%)
-  Median worst-case rank shift    : 12 places
+  Median worst-case rank shift    : 9 places

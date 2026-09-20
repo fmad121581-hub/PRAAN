@@ -1,0 +1,28 @@
+PRAAN — robust trend statistics
+==============================================================================
+
+OLS assumes independent years. Water storage is serially correlated,
+so OLS p-values are optimistic. Mann-Kendall is non-parametric and
+Sen's slope is outlier-robust; the Hamed-Rao variant corrects the
+variance for that serial correlation.
+
+                      series  n  lag1_autocorr  ols_slope  ols_p  sens_slope   mk_p  mk_p_autocorr_corrected  survives_strict_test
+ Barind Tract (NW) 2002-2017 16         0.7238    -0.8976 0.0039     -0.9048 0.0103                   0.0103                  True
+ Barind Tract (NW) 2002-2024 22         0.4965    -0.4308 0.0203     -0.5663 0.0179                   0.0016                  True
+   Haor Basin (NE) 2002-2017 16         0.1302    -0.3091 0.4040     -0.5985 0.2241                   0.2241                 False
+   Haor Basin (NE) 2002-2024 22         0.4013     0.3590 0.1213      0.3426 0.1759                   0.1543                 False
+Coastal South (SW) 2002-2017 16         0.5493    -0.5718 0.0016     -0.5613 0.0079                   0.0015                  True
+Coastal South (SW) 2002-2024 22         0.2820    -0.2638 0.0261     -0.3156 0.0208                   0.0095                  True
+Central Floodplain 2002-2017 16         0.1332    -0.3150 0.3964     -0.6097 0.2241                   0.2241                 False
+Central Floodplain 2002-2024 22         0.4044     0.3610 0.1214      0.3489 0.1759                   0.1150                 False
+     Barind MASCON 2002-2017 16         0.7238    -0.8976 0.0039     -0.9048 0.0103                   0.0103                  True
+     Barind MASCON 2002-2024 22         0.4965    -0.4308 0.0203     -0.5663 0.0179                   0.0016                  True
+CHIRPS Aman rainfall, Barind 39        -0.0694    -4.9438 0.1382     -6.4887 0.0625                   0.0630                 False
+     MODIS NDVI Aman, Barind 23         0.8150     0.0059 0.0000      0.0058 0.0000                   0.0000                  True
+
+READING THIS TABLE
+------------------------------------------------------------------------------
+survives_strict_test = True means the trend is still significant at
+p < 0.05 after the autocorrelation correction. Those are the claims
+that can be made without qualification. Anything False should be
+reported as suggestive, not established.

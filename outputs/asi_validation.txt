@@ -1,0 +1,30 @@
+PRAAN - ASI validation against observed growth
+==============================================================================
+
+Question: does the Absorption Stress Index correspond to how Dhaka
+wards actually grew between 2000 and 2020?
+
+Observed data: WorldPop annual population and JRC GHSL built-up
+surface, extracted per ward over the same boundaries used for the
+ranking.
+
+ASI vs observed population growth 2000-2020
+  n = 75   Spearman rho = +0.267 (p = 0.0203)   Pearson r = +0.309
+  -> no clear relationship - ASI does not predict growth
+ASI vs observed built-up growth 2000-2020
+  n = 75   Spearman rho = -0.487 (p = 0.0000)   Pearson r = -0.230
+  -> low-stress wards grew faster - the inverse allocation rule is SUPPORTED
+Crisis Index vs observed population growth
+  n = 75   Spearman rho = +0.207 (p = 0.0744)   Pearson r = +0.207
+  -> no clear relationship - ASI does not predict growth
+
+WHY THIS MATTERS FOR THE ALLOCATION RULE
+------------------------------------------------------------------------------
+PRAAN distributes arrivals as population x (1 - ASI), sending more
+arrivals to lower-stress wards. That was an assumption. A negative
+rho supports it; a positive rho means it is backwards and should be
+inverted; a rho near zero means the ASI carries no information about
+growth and arrivals should be allocated on population alone.
+
+Whichever it is, report it. An index that fails its own validation,
+reported honestly, is worth more than one that was never tested.
