@@ -1,0 +1,47 @@
+PRAAN — regional trend comparison
+======================================================================
+
+Variable : GRACE/GRACE-FO MASCON_CRI, lwe_thickness (cm)
+Season   : pre-Aman, January-May
+Question : does the same variable trend differently by region?
+
+PAIRWISE SEPARATION
+----------------------------------------------------------------------
+                                    pair  mean_abs_diff_cm  correlation
+ Barind Tract (NW) vs Central Floodplain             6.025        0.477
+ Barind Tract (NW) vs Coastal South (SW)             5.446        0.931
+    Barind Tract (NW) vs Haor Basin (NE)             6.018        0.475
+Central Floodplain vs Coastal South (SW)             5.999        0.454
+   Central Floodplain vs Haor Basin (NE)             0.052        1.000
+   Coastal South (SW) vs Haor Basin (NE)             5.974        0.452
+
+"Central Floodplain" and "Haor Basin (NE)" differ by 0.052 cm (correlation 1.000). They fall inside the same
+GRACE mascon cell and are one signal, not two. Only Haor Basin (NE) is reported.
+
+TRENDS
+----------------------------------------------------------------------
+            region    period  n  slope_cm_yr       r      p              verdict
+ Barind Tract (NW) 2002-2017 16      -0.8976 -0.6776 0.0039  significant decline
+ Barind Tract (NW) 2002-2024 22      -0.4308 -0.4912 0.0203  significant decline
+Coastal South (SW) 2002-2017 16      -0.5718 -0.7217 0.0016  significant decline
+Coastal South (SW) 2002-2024 22      -0.2638 -0.4734 0.0261  significant decline
+   Haor Basin (NE) 2002-2017 16      -0.3091 -0.2242 0.4040 no significant trend
+   Haor Basin (NE) 2002-2024 22       0.3590  0.3402 0.1213 no significant trend
+
+HOW TO STATE THIS
+----------------------------------------------------------------------
+Over the GRACE era (2002-2017) the Barind Tract loses water storage at
+-0.90 cm/yr (p = 0.004) and the coastal southwest at -0.57 cm/yr
+(p = 0.002), while the northeastern haor basin shows no significant
+trend (p = 0.40). Same satellite, same season, same method - the
+direction and significance depend on the region, which is what the
+challenge asks us to detect.
+
+Do NOT say water is increasing in the northeast. Over 2002-2024 that
+slope turns positive (+0.36 cm/yr) but p = 0.12, so the honest
+statement is "no significant trend", not "rising".
+
+The collapsed pair is a result, not a failure: Bangladesh is roughly
+400 km across and a GRACE mascon resolves about 300 km, so the country
+supports about three independent samples, not four. Saying so shows we
+know what the instrument can and cannot do.
