@@ -200,6 +200,8 @@ name**, and GADM 4.1 splits some wards across thana boundaries into
 into whole wards (area-weighting the density and fraction indicators), and
 joins on the real key.
 
+*(Figures as they stood after §7; §8d has the current ones.)*
+
 | | before | after |
 |---|---|---|
 | ranked wards | 61 | **75** |
