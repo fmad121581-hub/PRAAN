@@ -136,9 +136,10 @@ inverse allocation alike, and 10 of the top 13 are shared.
   signal as a northwest-Bangladesh water-balance trend consistent with
   localised groundwater depletion, not a Barind-specific aquifer measurement.
 - GRACE measures total terrestrial water storage. Attribution to groundwater
-  is an analytical inference supported by BWDB tube-well records showing
-  water-table decline of 0.5–1 m/yr in Rajshahi, not a direct aquifer
-  measurement.
+  is an analytical inference supported by BWDB/BMDA tube-well records
+  showing water-table decline averaging 0.2-0.4 m/yr across Rajshahi
+  district (2000-2013), and over 0.6 m/yr in the fastest-depleting
+  upazilas (Aziz et al. 2015), not a direct aquifer measurement.
 - Regression is limited to the GRACE era in the committed data (2002–2017).
   The GRACE-FO extension shows persistence, not trend continuation; 6 points
   are insufficient for an independent trend.

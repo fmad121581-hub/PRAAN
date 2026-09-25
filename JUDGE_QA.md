@@ -24,8 +24,10 @@ Answer it before they do — it is now in your Limitations section.
 > Bangladesh is about 400 km across and a mascon resolves about 300, so the
 > country supports roughly three independent samples, not four, and we
 > report three. The groundwater interpretation then comes from pairing the
-> regional trend with BWDB tube-well records showing 0.5–1 m/yr water-table
-> decline in Rajshahi. Satellite for the trend, ground data for the cause."
+> regional trend with BWDB/BMDA tube-well records showing water-table
+> decline averaging 0.2-0.4 m/yr across Rajshahi district (2000-2013), and
+> over 0.6 m/yr in the fastest-depleting upazilas such as Tanore (Aziz et
+> al. 2015). Satellite for the trend, ground data for the cause."
 
 Never say "GRACE proves groundwater depletion in the Barind Tract."
 

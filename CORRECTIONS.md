@@ -325,3 +325,44 @@ population-allocated ranking, not because the method changed.
   every time the ranking changed, which is how a page ends up disagreeing
   with its own CSVs. `21_build_site_geojson.py` now rebuilds it from the
   committed outputs and mirrors the page to `deploy/index.html`.
+
+---
+
+## 9. One external citation did not check out — FIXED
+
+Every number in sections 1–8 was recomputed from the project's own
+committed data. The one claim that was NOT self-computed — the BWDB
+tube-well groundwater decline rate used to ground-truth the GRACE
+attribution — had never been checked against the paper it names.
+
+**Claim as published:** "BWDB tube-well records showing water-table
+decline of 0.5–1 m/yr in Rajshahi."
+
+**What the literature actually says.** Aziz et al. (2015), *Groundwater
+Depletion with Expansion of Irrigation in Barind Tract: A Case Study of
+Rajshahi District of Bangladesh* (International Journal of Geology,
+Agriculture and Environmental Sciences, 3(1)), using BWDB/BMDA
+monitoring-well data for 2000–2013, reports a district-average decline of
+**0.23 m/yr (dry season) to 0.38 m/yr (wet season)** — roughly half the
+published figure. The fastest-depleting upazila in that same study, Tanore,
+reaches about 0.62 m/yr. No source was found supporting 0.5–1 m/yr as a
+district-wide rate; a judge searching for it would not find it.
+
+**Fix.** Every occurrence (`outputs/PRAAN.html` ×2, `deploy/index.html` ×2,
+`JUDGE_QA.md`, `README.md`) now reads "averaging 0.2–0.4 m/yr across
+Rajshahi district (2000–2013), and over 0.6 m/yr in the fastest-depleting
+upazilas," cited to Aziz et al. (2015), with a matching entry added to the
+site's References section. The direction of the claim (BWDB records show a
+declining water table, consistent with the GRACE signal) was correct; only
+the number was unsupported.
+
+**Lesson for the rest of the citation list.** This was the only claim in the
+site that names an external record without a number computed from the
+project's own pipeline. Every other cited source (Khalily et al. 2006/07;
+GRACE/GRACE-FO, CHIRPS, WorldPop, GHSL, JRC Global Surface Water, BBS
+Census 2022, GADM/OCHA) is either a standard, correctly named dataset
+citation carrying no invented statistic, or a number reproduced directly
+from a committed CSV in this repo (spot-checked here: the "4 of 5 worst
+yield years had above-normal rainfall" claim and the "2022 recharge was
+transient, back to depleted levels by 2023–24" claim both reproduce exactly
+from `data/processed/merged_panel.csv` and `data/processed/grace_regional_tws.csv`).
