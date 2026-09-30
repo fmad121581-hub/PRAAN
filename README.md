@@ -5,7 +5,7 @@
 > "Detecting the invisible crisis beneath Bangladesh"
 
 ## Live Demo
-https://praan-voyagers.netlify.app
+https://praan-urban-alchemists.netlify.app
 
 ## What is PRAAN?
 
