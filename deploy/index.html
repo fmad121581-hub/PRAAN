@@ -236,6 +236,93 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 .method-grid{margin-bottom:.4rem;}
 .wp-why{font-size:.76rem;color:var(--muted);line-height:1.5;margin-top:.7rem;padding-top:.6rem;border-top:1px dashed var(--border);}
 .wp-tip{font-size:.72rem;color:var(--blue);margin-top:.55rem;}
+
+/* ---- visual refresh: river palette, Archivo, water-level hero ---- */
+@font-face{font-family:'Archivo';src:url('fonts/archivo-var.woff2') format('woff2-variations'),url('fonts/archivo-var.woff2') format('woff2');
+  font-weight:100 900;font-stretch:62% 125%;font-style:normal;font-display:swap;}
+:root{--bg:#0e2730;--surface:#133440;--surface2:#1a4250;--border:#2a5664;--text:#eaf3f2;--muted:#9db7bb;
+  --blue:#62d0dd;--gold:#e2c26f;}
+body{font-family:'Archivo',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-stretch:100%;background:var(--bg);font-size:16.5px;}
+h1,h2,h3,h4,.nav-brand,.fc-val,.sc-val,.det-a,.trend-title,.st-num{font-family:'Archivo',-apple-system,"Segoe UI",sans-serif;}
+h2{font-size:clamp(1.75rem,3.2vw,2.5rem);font-weight:760;font-stretch:82%;letter-spacing:-.012em;line-height:1.12;margin-bottom:.7rem;}
+h3{font-stretch:85%;font-weight:720;}
+.section-sub{font-size:1.02rem;max-width:62ch;}
+::selection{background:rgba(226,194,111,.35);}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+nav{background:rgba(14,39,48,.94);}
+.nav-brand{font-stretch:72%;font-weight:820;font-size:1.3rem;letter-spacing:.03em;color:var(--text);}
+.nav-brand span{font-stretch:100%;letter-spacing:0;}
+.nav-links a:hover{color:var(--gold);}
+
+/* hero: the record itself */
+.hero2{padding:4.5rem 2rem 3rem;}
+.hero2-inner,.hero2-fig,.hero2-facts{max-width:1100px;margin-left:auto;margin-right:auto;}
+.hero2-kicker{color:var(--muted);font-size:.95rem;margin-bottom:1.1rem;}
+.hero2-kicker b{color:var(--gold);font-weight:600;}
+.hero2 h1{font-stretch:70%;font-weight:830;font-size:clamp(2.7rem,7.2vw,5.8rem);line-height:.96;letter-spacing:-.022em;max-width:19ch;}
+.hero2-lede{margin-top:1.4rem;font-size:1.16rem;line-height:1.6;color:var(--muted);max-width:58ch;}
+.hero2-fig{margin-top:2.4rem;}
+#hero-water svg{display:block;width:100%;overflow:visible;}
+#hero-water text{font-family:'Archivo',-apple-system,"Segoe UI",sans-serif;}
+.hero2-fig figcaption{font-size:.8rem;color:var(--muted);margin-top:.55rem;max-width:72ch;}
+.hero2-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;margin-top:2.2rem;border-top:1px solid var(--border);padding-top:1.4rem;}
+.hero2-facts b{display:block;font-stretch:72%;font-weight:820;font-size:2.6rem;line-height:1;font-variant-numeric:tabular-nums;}
+.hero2-facts span{display:block;color:var(--muted);font-size:.92rem;margin-top:.4rem;max-width:27ch;}
+.hw-line{stroke-dasharray:1;stroke-dashoffset:1;animation:hwDraw 1.9s cubic-bezier(.35,.1,.25,1) forwards;}
+.hw-line.fo{animation-duration:.7s;animation-delay:1.75s;}
+.hw-area{opacity:0;animation:hwFade 1.2s ease-out .8s forwards;}
+.hw-late{opacity:0;animation:hwFade .6s ease-out 2.35s forwards;}
+.hw-static .hw-line,.hw-static .hw-area,.hw-static .hw-late{animation:none;opacity:1;stroke-dashoffset:0;}
+@keyframes hwDraw{to{stroke-dashoffset:0}}
+@keyframes hwFade{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .hw-line,.hw-area,.hw-late{animation:none!important;opacity:1!important;stroke-dashoffset:0!important;}
+  html{scroll-behavior:auto;}
+}
+@media(max-width:700px){
+  .hero2{padding:3rem 1.1rem 2.2rem;}
+  .hero2-facts{grid-template-columns:1fr;gap:1rem;}
+  .hero2-facts b{font-size:2.1rem;}
+}
+
+/* section markers: the three layers are a real sequence, so they get numerals */
+.section-tag{background:none;border:0;padding:0;border-radius:0;text-transform:none;letter-spacing:0;
+  font-size:.98rem;color:var(--muted);gap:.7rem;margin-bottom:.5rem;align-items:baseline;}
+.section-tag .dot{display:none;}
+.st-num{font-stretch:66%;font-weight:830;font-size:3.1rem;line-height:.9;}
+.st-name{color:var(--text);font-weight:600;font-size:1.05rem;}
+
+/* fewer boxes: findings and method notes become ruled columns */
+.grace-layout,.method-grid{gap:1.8rem 2.6rem;}
+.det-grid{gap:1.8rem 2rem;}
+.finding-card,.method-card,.det-card{background:transparent;border:0;border-top:2px solid var(--border);border-radius:0;padding:1rem .1rem .1rem;}
+.finding-card.red{border-color:transparent;border-top-color:var(--red);}
+.finding-card.blue{border-color:transparent;border-top-color:var(--blue);}
+.finding-card.yellow{border-color:transparent;border-top-color:var(--yellow);}
+.finding-card.green{border-color:transparent;border-top-color:var(--green);}
+.det-card{border-top-color:var(--gold);}
+.method-card{border-top-color:var(--blue);}
+.finding-card .fc-label,.det-card .det-q,.method-card .mc-num,.scenario-card .sc-label,.top-wards h4,.trend-stats th{
+  text-transform:none;letter-spacing:0;font-size:.85rem;}
+.det-card .det-q{color:var(--gold);}
+.finding-card .fc-val{font-size:1.32rem;font-stretch:85%;font-weight:720;font-variant-numeric:tabular-nums;}
+.finding-card .fc-desc,.det-card p,.method-card p{font-size:.9rem;line-height:1.6;}
+.det-card .det-a{font-stretch:85%;font-size:1.15rem;}
+.grace-note,.mobility-note{background:rgba(98,208,221,.06);border:0;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;font-size:.92rem;}
+.mobility-note{background:rgba(255,166,87,.06);border-left-color:var(--orange);}
+
+/* instruments keep their frames */
+.trend-card,#ward-panel,.scenario-card,details.deep{background:var(--surface);border-color:var(--border);border-radius:10px;}
+#map{background:var(--bg);border-color:var(--border);border-radius:10px;}
+.leaflet-container{background:var(--bg)!important;}
+.scenario-card.active{background:rgba(98,208,221,.10);}
+.scenario-card .sc-val{font-stretch:75%;font-weight:820;font-size:2rem;}
+.chip[aria-pressed="true"]{background:var(--surface2);border-color:#3e7584;}
+#trend-tip{background:var(--bg);}
+.map-toggle.active{background:rgba(98,208,221,.14);}
+a.inline{color:var(--blue);border-bottom-color:rgba(98,208,221,.4);}
+footer{font-size:.85rem;}
 </style>
 </head>
 <body>
@@ -252,23 +339,28 @@ details.deep .deep-body p+p{margin-top:.8rem;}
   </div>
 </nav>
 
-<div class="hero">
-  <div class="hero-tag">NASA Space Apps Challenge 2026</div>
-  <h1>Detecting the <em>invisible</em> crisis<br>beneath Bangladesh</h1>
-  <p>NASA GRACE satellites reveal silent groundwater collapse in the Barind Tract — translating space-based signals into actionable ward-level absorption stress indices for climate-induced migration planning in Dhaka.</p>
-  <div class="hero-stats">
-    <div class="hero-stat"><div class="val">14 cm</div><div class="lbl">Structural depletion</div></div>
-    <div class="hero-stat"><div class="val">766K</div><div class="lbl">Central scenario</div></div>
-    <div class="hero-stat"><div class="val">11</div><div class="lbl">High-concern wards</div></div>
-    <div class="hero-stat"><div class="val">2002–2024</div><div class="lbl">Satellite record</div></div>
+<header class="hero2">
+  <div class="hero2-inner">
+    <p class="hero2-kicker"><b>Urban Alchemists</b>, for the NASA Space Apps Challenge 2026</p>
+    <h1>Detecting the invisible crisis beneath Bangladesh</h1>
+    <p class="hero2-lede">NASA&rsquo;s GRACE satellites weigh the water held under the land. Over the Barind Tract in the northwest it has been falling for two decades. PRAAN follows that signal to the people it pushes off the land, and to the Dhaka wards least able to take them in.</p>
   </div>
-</div>
+  <figure class="hero2-fig">
+    <div id="hero-water" role="img" aria-label="Barind Tract dry-season water storage from 2002 to 2024. It falls from about minus 11 centimetres in 2002 to 2004 to about minus 26 by 2011 to 2017, recovers briefly in 2022, and is back near minus 27 by 2023 and 2024."></div>
+    <figcaption>Barind Tract, dry-season (January&ndash;May) water storage from NASA GRACE and GRACE-FO, 2002&ndash;2024, in cm of water. No data in 2018, between the two missions.</figcaption>
+  </figure>
+  <div class="hero2-facts">
+    <div><b style="color:var(--red)">14 cm</b><span>drop in dry-season water storage, 2002&ndash;04 to 2011&ndash;17</span></div>
+    <div><b>766K</b><span>people who could move to Dhaka in the central scenario</span></div>
+    <div><b>11</b><span>high-concern wards, out of 75 ranked in Dhaka</span></div>
+  </div>
+</header>
 
 
 <!-- TREND DETECTIVE -->
 <section id="detective">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--blue)"></span>The challenge · Be An Earth System Trend Detective</div>
+  <div class="section-tag"><span class="st-name">The challenge: Be An Earth System Trend Detective!</span></div>
   <h2>Four questions, answered from NASA data</h2>
   <p class="section-sub">The challenge asks what is changing, where, how much, and whether the change is what scientists call significant. Here is the short answer. The evidence follows below.</p>
   <div class="det-grid">
@@ -300,7 +392,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 <!-- LAYER 1 -->
 <section id="layer1">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--blue)"></span>Layer 1 — The Signal</div>
+  <div class="section-tag"><span class="st-num" style="color:var(--blue)">1</span><span class="st-name">The signal</span></div>
   <h2>The aquifer is locked in a depleted state</h2>
   <p class="section-sub">NASA GRACE and GRACE-FO satellites (2002–2024) detect terrestrial water storage anomalies invisible to ground sensors. We thought it was drought. Then we looked underground. In the Barind Tract, surface water storage is minimal and monsoon soil moisture is seasonal — the residual persistent negative TWS anomaly is therefore consistent with groundwater depletion, supported by BWDB/BMDA tube-well records showing water-table decline averaging 0.2–0.4 m/year across Rajshahi district (2000–2013), and over 0.6 m/year in the fastest-depleting upazilas (Aziz et al. 2015).</p>
   <div class="grace-layout">
@@ -398,7 +490,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
   <div class="grace-layout" style="margin-bottom:1.4rem;">
     <div class="finding-card">
       <div class="fc-label">GRACE &middot; water storage</div>
-      <div class="fc-val">Falling &mdash; &minus;0.90 cm/yr</div>
+      <div class="fc-val">Falling: &minus;0.90 cm/yr</div>
       <div class="fc-desc">Mann-Kendall p = 0.010. Significant even after correcting for serial correlation.</div>
     </div>
     <div class="finding-card yellow">
@@ -408,7 +500,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
     </div>
     <div class="finding-card green">
       <div class="fc-label">MODIS &middot; vegetation</div>
-      <div class="fc-val">Rising &mdash; +0.006 NDVI/yr</div>
+      <div class="fc-val">Rising: +0.006 NDVI/yr</div>
       <div class="fc-desc">p &lt; 0.0001. Crops are getting greener, not failing.</div>
     </div>
   </div>
@@ -426,7 +518,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 <!-- LAYER 2 -->
 <section id="layer2">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--orange)"></span>Layer 2 — The Pressure</div>
+  <div class="section-tag"><span class="st-num" style="color:var(--orange)">2</span><span class="st-name">The pressure</span></div>
   <h2>7.17 million people exposed in the Barind Tract</h2>
   <p class="section-sub">Anchored to Khalily et al. (2006/07) monga survey: 36% of poor NW Bangladesh households migrate under agricultural stress. This rate is used as a scenario parameter, not a prediction — it represents an observed behavioral response to agricultural income stress in NW Bangladesh, applied here to explore potential mobility pressure under sustained groundwater depletion. Select a scenario to update the city map.</p>
   <div class="scenario-grid">
@@ -455,7 +547,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 <!-- LAYER 3 -->
 <section id="layer3">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--red)"></span>Layer 3 — The City</div>
+  <div class="section-tag"><span class="st-num" style="color:var(--red)">3</span><span class="st-name">The city</span></div>
   <h2>Which wards can absorb the pressure?</h2>
   <p class="section-sub">The 75 Dhaka city-corporation wards with complete BBS 2022 records, scored on the Absorption Stress Index (WorldPop · GHSL · JRC flood risk · household size) crossed with incoming migration pressure: 46 low, 18 moderate, 11 high concern. GADM splits some wards across thana boundaries, so fragments of the same ward are dissolved back together before matching the census. A further 44 polygons still have no BBS match and are mapped but not ranked. Click any ward to explore its data.</p>
 
@@ -495,7 +587,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 <!-- METHOD -->
 <section id="method">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>Methodology</div>
+  <div class="section-tag"><span class="st-name">Methodology</span></div>
   <h2>Three-layer analytical framework</h2>
   <p class="section-sub">Each layer carries its own epistemic status — validated, literature-informed, or scenario-based. Together they form a complete early warning pipeline: from satellite signal to actionable planning output.</p>
   <div class="method-grid">
@@ -552,7 +644,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 
 <section id="limitations">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>Limitations</div>
+  <div class="section-tag"><span class="st-name">Limitations</span></div>
   <h2>What this tool does not claim</h2>
   <p class="section-sub">Every layer carries a different epistemic status. These are the constraints a reviewer should hold us to.</p>
 
@@ -588,7 +680,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 
 <section id="references">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>References &amp; Data Sources</div>
+  <div class="section-tag"><span class="st-name">References and data sources</span></div>
   <h2>Citations &amp; Open Data</h2>
   <p class="section-sub">All datasets are open-access. Every processing script is in the <a class="inline" href="https://github.com/fmad121581-hub/PRAAN" target="_blank" rel="noopener">project repository</a>. Results as CSV: <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/crisis_index_primary.csv" target="_blank" rel="noopener">ward Crisis Index</a> &middot; <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/data/processed/grace_regional_tws.csv" target="_blank" rel="noopener">GRACE regional series</a> &middot; <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/robust_trend_stats.csv" target="_blank" rel="noopener">trend statistics</a>.</p>
   <div class="method-grid two">
@@ -643,7 +735,7 @@ details.deep .deep-body p+p{margin-top:.8rem;}
 
 <section id="team">
 <div class="section-inner">
-  <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>Urban Alchemists</div>
+  <div class="section-tag"><span class="st-name">Urban Alchemists</span></div>
   <h2>Who built this, and who answers for what</h2>
   <p class="section-sub">Five students from the Department of Urban &amp; Regional Planning, BUET. Each role below names the part of PRAAN that person owns and can be questioned on.</p>
   <div class="method-grid two">
@@ -694,14 +786,14 @@ let map, geojsonLayer;
 
 // ── COLORS
 function getCrisisColor(p) {
-  if (!p || p.crisis_index == null) return '#21262d';
+  if (!p || p.crisis_index == null) return '#1f4a57';
   if (p.crisis_tier === 'High concern')     return '#f85149';
   if (p.crisis_tier === 'Moderate concern') return '#ffa657';
   if (p.crisis_tier === 'Low concern')      return '#3fb950';
-  return '#21262d';
+  return '#1f4a57';
 }
 function getASIColor(p) {
-  if (!p || p.stress_tier == null) return '#21262d';
+  if (!p || p.stress_tier == null) return '#1f4a57';
   if (p.stress_tier === 'High stress')     return '#f85149';
   if (p.stress_tier === 'Moderate stress') return '#ffa657';
   return '#3fb950';
@@ -788,17 +880,17 @@ function styleFeature(feat) {
     // the city corporations.
     fillColor = getASIColor(p); fillOpacity = 0.40;
   } else {
-    fillColor = '#232931'; fillOpacity = 0.28;
+    fillColor = '#173c48'; fillOpacity = 0.28;
   }
   if (currentWard && p.GID_4 === currentWard.GID_4)
-    return { fillColor, fillOpacity: Math.min(0.95, fillOpacity + 0.1), color: '#e6edf3', weight: 2.4, opacity: 1 };
-  return { fillColor, fillOpacity, color: '#0d1117', weight: 0.8, opacity: 1 };
+    return { fillColor, fillOpacity: Math.min(0.95, fillOpacity + 0.1), color: '#eaf3f2', weight: 2.4, opacity: 1 };
+  return { fillColor, fillOpacity, color: '#0e2730', weight: 0.8, opacity: 1 };
 }
 
 function onEachFeature(feat, layer) {
   layer.on({
     mouseover(e) {
-      e.target.setStyle({ weight:2, color:'#e6edf3', fillOpacity:Math.min(0.95, styleFeature(feat).fillOpacity + 0.18) });
+      e.target.setStyle({ weight:2, color:'#eaf3f2', fillOpacity:Math.min(0.95, styleFeature(feat).fillOpacity + 0.18) });
       e.target.bringToFront();
     },
     mouseout(e) { geojsonLayer.resetStyle(e.target); },
@@ -998,20 +1090,20 @@ const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2
 
     // grid + y axis
     for (let v = -35; v <= y1; v += 5) {
-      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: '#21262d' }));
-      svg.appendChild(el('text', { x: m.l - 6, y: Y(v) + 3.5, 'text-anchor': 'end', fill: '#8b949e', 'font-size': fs }, v === 0 ? '0' : '−' + Math.abs(v)));
+      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: '#1f4a57' }));
+      svg.appendChild(el('text', { x: m.l - 6, y: Y(v) + 3.5, 'text-anchor': 'end', fill: '#9db7bb', 'font-size': fs }, v === 0 ? '0' : '−' + Math.abs(v)));
     }
-    if (!small) svg.appendChild(el('text', { x: 12, y: Y(-18), transform: `rotate(-90 12 ${Y(-18)})`, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': 11 }, 'cm of water'));
+    if (!small) svg.appendChild(el('text', { x: 12, y: Y(-18), transform: `rotate(-90 12 ${Y(-18)})`, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': 11 }, 'cm of water'));
     // x axis
     const step = small ? 4 : 2;
     for (let yr = 2002; yr <= 2024; yr += step) {
-      svg.appendChild(el('text', { x: X(yr), y: H - m.b + 16, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': fs }, String(yr)));
+      svg.appendChild(el('text', { x: X(yr), y: H - m.b + 16, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': fs }, String(yr)));
     }
     // mission gap and labels
-    svg.appendChild(el('rect', { x: X(2017.5), y: m.t, width: X(2018.5) - X(2017.5), height: H - m.t - m.b, fill: 'rgba(139,148,158,0.10)' }));
-    svg.appendChild(el('text', { x: X(2009.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': fs }, 'GRACE'));
-    svg.appendChild(el('text', { x: X(2021.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': fs }, 'GRACE-FO'));
-    svg.appendChild(el('text', { x: X(2018), y: m.t - 9, 'text-anchor': 'middle', fill: '#6e7681', 'font-size': fs - 1 }, 'gap'));
+    svg.appendChild(el('rect', { x: X(2017.5), y: m.t, width: X(2018.5) - X(2017.5), height: H - m.t - m.b, fill: 'rgba(157,183,187,0.10)' }));
+    svg.appendChild(el('text', { x: X(2009.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': fs }, 'GRACE'));
+    svg.appendChild(el('text', { x: X(2021.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': fs }, 'GRACE-FO'));
+    svg.appendChild(el('text', { x: X(2018), y: m.t - 9, 'text-anchor': 'middle', fill: '#7f9ea3', 'font-size': fs - 1 }, 'gap'));
 
     // Barind baseline and depleted plateau
     if (vis.barind) {
@@ -1020,7 +1112,7 @@ const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2
       svg.appendChild(el('line', { x1: X(2011), x2: X(2017), y1: Y(bp), y2: Y(bp), stroke: '#f85149', 'stroke-width': 1.2, 'stroke-dasharray': '2 3', opacity: 0.8 }));
       const bx = X(2001.85);
       svg.appendChild(el('path', { d: `M${bx + 4} ${Y(bb)} H${bx} V${Y(bp)} H${bx + 4}`, fill: 'none', stroke: '#f85149', 'stroke-width': 1.2, opacity: 0.85 }));
-      if (!small) svg.appendChild(el('text', { x: X(2002.15), y: Y((bb + bp) / 2) + 4, fill: '#f85149', 'font-size': 11, 'font-weight': 600, stroke: '#161b22', 'stroke-width': 4, 'paint-order': 'stroke' }, '≈' + Math.round(bb - bp) + ' cm'));
+      if (!small) svg.appendChild(el('text', { x: X(2002.15), y: Y((bb + bp) / 2) + 4, fill: '#f85149', 'font-size': 11, 'font-weight': 600, stroke: '#133440', 'stroke-width': 4, 'paint-order': 'stroke' }, '≈' + Math.round(bb - bp) + ' cm'));
     }
 
     // series
@@ -1050,7 +1142,7 @@ const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2
     });
 
     // hover layer
-    const guide = el('line', { y1: m.t, y2: H - m.b, stroke: '#e6edf3', 'stroke-width': 1, opacity: 0, 'pointer-events': 'none' });
+    const guide = el('line', { y1: m.t, y2: H - m.b, stroke: '#eaf3f2', 'stroke-width': 1, opacity: 0, 'pointer-events': 'none' });
     svg.appendChild(guide);
     const hit = el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' });
     svg.appendChild(hit);
@@ -1110,6 +1202,65 @@ const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2
   }));
   let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 120); });
   render();
+})();
+</script>
+
+<script>
+// ── HERO: Barind dry-season water storage drawn as a falling water level
+(function () {
+  const box = document.getElementById('hero-water');
+  if (!box || typeof TREND === 'undefined') return;
+  const NS = 'http://www.w3.org/2000/svg';
+  const s = TREND.series.barind.tws, yrs = TREND.years;
+  const bb = TREND.barind_baseline, bp = TREND.barind_plateau;
+  const el = (t, a, txt) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; return e; };
+  let animate = true;
+  function draw() {
+    const W = Math.max(300, box.clientWidth), small = W < 620;
+    const H = small ? 210 : 290, m = { l: 2, r: 2, t: 22, b: 26 };
+    const X = v => m.l + (v - 2001.6) / (2024.4 - 2001.6) * (W - m.l - m.r);
+    const Y = v => m.t + (-6 - v) / 26 * (H - m.t - m.b);
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: animate ? '' : 'hw-static' });
+    const defs = el('defs');
+    const g = el('linearGradient', { id: 'hwGrad', x1: 0, y1: 0, x2: 0, y2: 1 });
+    g.appendChild(el('stop', { offset: '0', 'stop-color': '#62d0dd', 'stop-opacity': '0.42' }));
+    g.appendChild(el('stop', { offset: '1', 'stop-color': '#62d0dd', 'stop-opacity': '0.02' }));
+    defs.appendChild(g); svg.appendChild(defs);
+    const bottom = H - m.b;
+    // mission gap
+    svg.appendChild(el('rect', { x: X(2017.5), y: m.t, width: X(2018.5) - X(2017.5), height: bottom - m.t, fill: 'rgba(157,183,187,0.08)' }));
+    const segs = [[2002, 2017, ''], [2019, 2024, 'fo']];
+    segs.forEach(([a, b]) => {
+      let d = `M${X(a)} ${bottom}`;
+      for (let yr = a; yr <= b; yr++) d += ` L${X(yr).toFixed(1)} ${Y(s[yr - 2002]).toFixed(1)}`;
+      svg.appendChild(el('path', { d: d + ` L${X(b)} ${bottom} Z`, fill: 'url(#hwGrad)', class: 'hw-area' }));
+    });
+    // 2002-04 level
+    svg.appendChild(el('line', { x1: X(2001.6), x2: X(2024.4), y1: Y(bb), y2: Y(bb), stroke: '#eaf3f2', 'stroke-opacity': 0.45, 'stroke-dasharray': '4 5', class: 'hw-late' }));
+    svg.appendChild(el('text', { x: X(2024.4) - 2, y: Y(bb) - 7, 'text-anchor': 'end', fill: '#9db7bb', 'font-size': small ? 11 : 12.5, class: 'hw-late' }, '2002–04 level'));
+    // 2011-17 average and the drop
+    svg.appendChild(el('line', { x1: X(2011), x2: X(2017), y1: Y(bp), y2: Y(bp), stroke: '#f85149', 'stroke-width': 1.5, 'stroke-dasharray': '2 4', class: 'hw-late' }));
+    const bx = X(2013.5);
+    svg.appendChild(el('path', { d: `M${bx - 5} ${Y(bb)} H${bx + 5} M${bx} ${Y(bb)} V${Y(bp)} M${bx - 5} ${Y(bp)} H${bx + 5}`, stroke: '#f85149', 'stroke-width': 1.6, fill: 'none', class: 'hw-late' }));
+    const lab = el('text', { x: bx - 10, 'text-anchor': 'end', y: Y((bb + bp) / 2) - (small ? 2 : 4), fill: '#ff8a7a', 'font-size': small ? 14 : 19, 'font-weight': 750, class: 'hw-late' }, '−14 cm');
+    svg.appendChild(lab);
+    if (!small) svg.appendChild(el('text', { x: bx - 10, 'text-anchor': 'end', y: Y((bb + bp) / 2) + 17, fill: '#9db7bb', 'font-size': 12.5, class: 'hw-late' }, '2011–17 average vs 2002–04'));
+    // the record
+    segs.forEach(([a, b, cls]) => {
+      let d = '';
+      for (let yr = a; yr <= b; yr++) d += (yr === a ? 'M' : ' L') + X(yr).toFixed(1) + ' ' + Y(s[yr - 2002]).toFixed(1);
+      svg.appendChild(el('path', { d, fill: 'none', stroke: '#62d0dd', 'stroke-width': small ? 2.4 : 3, 'stroke-linejoin': 'round', 'stroke-linecap': 'round', pathLength: 1, class: 'hw-line ' + cls }));
+    });
+    // axis words
+    const fs = small ? 10.5 : 12;
+    [2002, 2006, 2010, 2014, 2018, 2022].forEach(yr => svg.appendChild(el('text', { x: X(yr), y: H - 6, 'text-anchor': 'middle', fill: '#7f9ea3', 'font-size': fs }, String(yr))));
+    svg.appendChild(el('text', { x: X(2009.5), y: 12, 'text-anchor': 'middle', fill: '#7f9ea3', 'font-size': fs }, 'GRACE'));
+    svg.appendChild(el('text', { x: X(2021.5), y: 12, 'text-anchor': 'middle', fill: '#7f9ea3', 'font-size': fs }, 'GRACE-FO'));
+    box.replaceChildren(svg);
+  }
+  draw();
+  animate = false;
+  let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 150); });
 })();
 </script>
 </body>
