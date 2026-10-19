@@ -35,6 +35,10 @@ rainfall variability.
 > **-0.898 cm/yr, r = -0.678, p = 0.0039** (2002-2017, n = 16); over the
 > full GRACE + GRACE-FO record, **-0.431 cm/yr, r = -0.491, p = 0.0203**
 > (2002-2024, n = 22, 2018 absent). The MASCON band is in centimetres.
+> Those are the OLS figures. The website reports the autocorrelation-safe
+> versions from script 18 (`outputs/robust_trend_stats.csv`): Sen's slope
+> **-0.90 cm/yr**, Mann-Kendall with Hamed-Rao correction **p = 0.010**
+> (2002-2017), and **-0.57 cm/yr, p = 0.0016** over 2002-2024.
 >
 > Script 01 separately extracts `MASS_GRIDS_V04/LAND` (band
 > `lwe_thickness_csr`) into `grace_tws_raw.csv`. That band is in **metres**,
@@ -157,6 +161,24 @@ inverse allocation alike, and 10 of the top 13 are shared.
   *negatively* with census counts (it is a density, not a count) and density
   × ward area gives rank agreement of only rho = 0.20 with 47% median error.
   Unmatched wards are mapped but not ranked, never imputed.
+
+## Reproduce the analysis
+
+```bash
+git clone https://github.com/fmad121581-hub/PRAAN.git
+cd PRAAN
+pip install -r requirements.txt
+cd notebooks
+python 18_robust_trends.py   # Layer 1 trend statistics, offline from committed CSVs
+```
+
+Script 18 reproduces `outputs/robust_trend_stats.csv` exactly from the
+committed data. The ward ranking (scripts 10, then 15) also needs the GADM
+level-4 boundaries, which are too large for GitHub; `data/raw/README.md`
+says where to download them. Scripts that pull satellite data (01, 06, 11,
+16, 19) need a Google Earth Engine account. `notebooks/PIPELINE.md` gives
+the full run order. The site is the single file `deploy/index.html`: open
+it in a browser, there is no build step.
 
 ## Repository Structure
 

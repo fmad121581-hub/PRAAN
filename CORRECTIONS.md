@@ -366,3 +366,53 @@ from a committed CSV in this repo (spot-checked here: the "4 of 5 worst
 yield years had above-normal rainfall" claim and the "2022 recharge was
 transient, back to depleted levels by 2023–24" claim both reproduce exactly
 from `data/processed/merged_panel.csv` and `data/processed/grace_regional_tws.csv`).
+
+## 10. Final-submission pass — statistics made consistent, three claims fixed
+
+**Regional trend figures mixed two tests.** The site says Layer 1 is
+reported on Mann-Kendall with a Hamed-Rao correction, not OLS. The Barind
+card did that (p = 0.010), but the coastal and haor cards, the
+"what GRACE can resolve" note and the legend of the static regional chart
+carried OLS values from script 17. All now use script 18
+(`outputs/robust_trend_stats.csv`):
+
+| | was (OLS) | now (Sen's slope, corrected Mann-Kendall p) |
+|---|---|---|
+| Coastal south 2002-2017 | -0.57 cm/yr, p = 0.002 | -0.56 cm/yr, p = 0.0015 |
+| Haor basin 2002-2017 | -0.31 cm/yr, p = 0.404 | -0.60 cm/yr, p = 0.22 |
+| Haor basin 2002-2024 | +0.36 cm/yr, p = 0.12 | +0.34 cm/yr, p = 0.15 |
+
+No verdict changes: the Barind and coastal declines are significant in both
+windows, the haor basin is not significant in either. The static PNG chart
+is replaced by an interactive chart drawn from
+`data/processed/grace_regional_tws.csv` with the script-18 statistics
+The old PNG (`deploy/regional_trend_comparison.png`) is no longer shown
+and still carries the OLS legend; treat it as superseded.
+
+**"The top 13 wards absorb disproportionate pressure relative to their
+capacity" was false.** It was left over from the old
+population x (1 - ASI) allocation. Under population-only allocation every
+ward receives the same share of its population (load ratio 0.1209
+everywhere), so no ward is loaded disproportionately. The card now says the
+11 high-concern wards take 23.7% of central-scenario arrivals, in
+proportion to their population. The same claim was in the 30-second pitch
+in `JUDGE_QA.md` and is fixed there too. The sensitivity paragraph now says what
+"top 13" means (the robustness test tracks the top 13 ranks: the 11
+high-concern wards and the next two).
+
+**Kafrul Ward No-14 is not the most populous ward.** `JUDGE_QA.md` said it
+was. It is fifth (196,759); Badda Ward No-17 is first (282,695). Kafrul ranks
+first on the Crisis Index because it is high on both inputs: absorption
+stress rank 15 and population rank 5 of 75. The ward panel on the site now
+shows these ranks for every ranked ward.
+
+**Smaller wording fixes.** GRACE alone cannot prove a cause, so "decline
+driven by Boro irrigation extraction" now reads "consistent with", and
+"aquifer sits 14 cm below" reads "dry-season water storage sits 14 cm
+below". "Below 2002 baseline" now reads "below its
+2002-04 baseline", which is how script 11b defines it (2011-2017 mean minus
+2002-04 mean = 13.96 cm). "Two more NASA records" now reads "two more
+satellite records": CHIRPS is produced by the UCSB Climate Hazards Center,
+not NASA. The map legend showed a "No data" swatch in a different colour
+from the map after switching layers; it now matches.
+

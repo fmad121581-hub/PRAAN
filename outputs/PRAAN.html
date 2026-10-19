@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PRAAN — Early Warning System</title>
+<meta name="description" content="NASA GRACE/GRACE-FO shows dry-season water storage in Bangladesh's Barind Tract falling for two decades. PRAAN turns that trend into a ward-level map of where Dhaka will feel the migration pressure.">
+<meta name="theme-color" content="#0d1117">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://praan-urban-alchemists.netlify.app/">
+<meta property="og:title" content="PRAAN — Climate Migration Early Warning System for Dhaka">
+<meta property="og:description" content="From satellite signal to ward-level action. Urban Alchemists · NASA Space Apps Challenge 2026.">
+<meta property="og:image" content="https://praan-urban-alchemists.netlify.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%230d1117%27/%3E%3Cpath d=%27M10 22 L22 30 L34 26 L46 40 L54 44%27 fill=%27none%27 stroke=%27%2358a6ff%27 stroke-width=%276%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3Ccircle cx=%2754%27 cy=%2744%27 r=%275%27 fill=%27%23f85149%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
@@ -154,6 +165,77 @@ footer strong{color:var(--text);}
   color:var(--text)!important;border-radius:8px!important;box-shadow:0 4px 20px rgba(0,0,0,.5)!important;}
 .leaflet-popup-tip{background:var(--surface)!important;}
 .leaflet-popup-content{margin:10px 14px!important;font-size:.83rem!important;}
+
+/* ---- final-submission additions ---- */
+@media(max-width:600px){
+  .hero{padding:3.5rem 1.25rem 3rem;}
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem 1rem;}
+  .hero-stat .val{font-size:1.5rem;}
+  section{padding:3rem 1.1rem;}
+}
+.nav-links a.nav-gh{color:var(--text);border:1px solid var(--border);border-radius:6px;padding:.1rem .55rem;}
+.nav-links a.nav-gh:hover{border-color:var(--blue);}
+a.inline{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(88,166,255,.35);}
+a.inline:hover{border-bottom-color:var(--blue);}
+
+/* trend detective */
+.det-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+@media(max-width:980px){.det-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.det-grid{grid-template-columns:1fr;}}
+.det-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.15rem 1.2rem;position:relative;}
+.det-card .det-q{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:.35rem;font-weight:600;}
+.det-card .det-a{font-size:1.02rem;font-weight:700;margin-bottom:.4rem;line-height:1.35;}
+.det-card p{font-size:.83rem;color:var(--muted);}
+.det-card p b{color:var(--text);font-weight:600;}
+.det-foot{margin-top:1rem;font-size:.82rem;color:var(--muted);}
+
+/* interactive trend chart */
+.trend-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.2rem 1rem;margin:0 0 1rem;}
+.trend-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.6rem;}
+.trend-title{font-weight:700;font-size:1rem;}
+.trend-title span{display:block;font-weight:400;font-size:.8rem;color:var(--muted);}
+.trend-controls{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;}
+.chip{background:var(--surface2);border:1px solid var(--border);color:var(--muted);border-radius:999px;
+  padding:.28rem .75rem;font-size:.78rem;cursor:pointer;display:inline-flex;align-items:center;gap:.4rem;
+  font-family:inherit;transition:border-color .15s,color .15s,background .15s;}
+.chip .sw{width:10px;height:10px;border-radius:50%;}
+.chip[aria-pressed="true"]{color:var(--text);border-color:#58606b;background:#262c35;}
+.chip[aria-pressed="false"] .sw{opacity:.3;}
+.chip:hover{border-color:var(--blue);}
+.chip:focus-visible,.seg button:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.seg button{background:transparent;border:0;color:var(--muted);font-size:.78rem;padding:.3rem .7rem;cursor:pointer;font-family:inherit;}
+.seg button[aria-pressed="true"]{background:rgba(88,166,255,.15);color:var(--blue);}
+#trend-wrap{position:relative;width:100%;touch-action:pan-y;}
+#trend-wrap svg{display:block;width:100%;}
+#trend-wrap text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+#trend-tip{position:absolute;pointer-events:none;background:#0d1117;border:1px solid var(--border);border-radius:8px;
+  padding:.5rem .65rem;font-size:.76rem;line-height:1.45;min-width:150px;box-shadow:0 6px 24px rgba(0,0,0,.5);display:none;z-index:5;}
+#trend-tip b{display:block;margin-bottom:.15rem;}
+#trend-tip .row{display:flex;justify-content:space-between;gap:.8rem;}
+#trend-tip .muted{color:var(--muted);}
+.trend-stats{width:100%;border-collapse:collapse;margin-top:.7rem;font-size:.82rem;}
+.trend-stats th{text-align:left;font-weight:500;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;padding:.35rem .4rem;border-bottom:1px solid var(--border);}
+.trend-stats td{padding:.42rem .4rem;border-bottom:1px solid var(--border);}
+.trend-stats tr:last-child td{border-bottom:0;}
+.trend-stats .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.trend-stats .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:.45rem;}
+.verdict-sig{color:var(--red);font-weight:600;}
+.verdict-ns{color:var(--muted);}
+.trend-note{font-size:.76rem;color:var(--muted);margin-top:.6rem;}
+@media(max-width:560px){.trend-stats .hide-sm{display:none;}}
+
+/* method: collapsible detail */
+details.deep{margin-top:1.2rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.2rem 1.2rem;}
+details.deep summary{cursor:pointer;padding:.85rem 0;font-weight:600;font-size:.92rem;list-style:none;display:flex;justify-content:space-between;gap:1rem;}
+details.deep summary::-webkit-details-marker{display:none;}
+details.deep summary::after{content:"+";color:var(--blue);font-weight:700;}
+details.deep[open] summary::after{content:"\2212";}
+details.deep .deep-body{font-size:.84rem;color:var(--muted);padding-bottom:1rem;}
+details.deep .deep-body p+p{margin-top:.8rem;}
+.method-grid{margin-bottom:.4rem;}
+.wp-why{font-size:.76rem;color:var(--muted);line-height:1.5;margin-top:.7rem;padding-top:.6rem;border-top:1px dashed var(--border);}
+.wp-tip{font-size:.72rem;color:var(--blue);margin-top:.55rem;}
 </style>
 </head>
 <body>
@@ -161,11 +243,12 @@ footer strong{color:var(--text);}
 <nav>
   <div class="nav-brand">PRAAN <span>Early Warning System · Urban Alchemists</span></div>
   <div class="nav-links">
+    <a href="#detective">Trend</a>
     <a href="#layer1">Signal</a>
     <a href="#layer2">Pressure</a>
     <a href="#layer3">City</a>
     <a href="#method">Method</a>
-    <a href="#limitations">Limitations</a> <a href="#team">Team</a> <a href="#references">References</a>
+    <a href="#limitations">Limitations</a> <a href="#team">Team</a> <a href="#references">References</a> <a class="nav-gh" href="https://github.com/fmad121581-hub/PRAAN" target="_blank" rel="noopener">GitHub</a>
   </div>
 </nav>
 
@@ -181,6 +264,39 @@ footer strong{color:var(--text);}
   </div>
 </div>
 
+
+<!-- TREND DETECTIVE -->
+<section id="detective">
+<div class="section-inner">
+  <div class="section-tag"><span class="dot" style="background:var(--blue)"></span>The challenge · Be An Earth System Trend Detective</div>
+  <h2>Four questions, answered from NASA data</h2>
+  <p class="section-sub">The challenge asks what is changing, where, how much, and whether the change is what scientists call significant. Here is the short answer. The evidence follows below.</p>
+  <div class="det-grid">
+    <div class="det-card">
+      <div class="det-q">What is changing?</div>
+      <div class="det-a">Water stored on and under the land</div>
+      <p>Terrestrial water storage from NASA <b>GRACE</b> (2002&ndash;2017) and <b>GRACE-FO</b> (2019&ndash;2024), averaged over January&ndash;May, the dry season before the Aman rice crop.</p>
+    </div>
+    <div class="det-card">
+      <div class="det-q">Where is it changing?</div>
+      <div class="det-a">Northwest and southwest, not northeast</div>
+      <p>Falling in the <b>Barind Tract</b> and the <b>coastal south</b>. No significant trend in the <b>haor basin</b>, where the full-record slope even tilts upward. Same satellite, same season, same test, different answers by region.</p>
+    </div>
+    <div class="det-card">
+      <div class="det-q">How much?</div>
+      <div class="det-a">&minus;0.90 cm/yr in the Barind</div>
+      <p>Sen&rsquo;s slope over 2002&ndash;2017. By 2011&ndash;2017 the dry-season level sat about <b>14&nbsp;cm</b> below its 2002&ndash;04 baseline, and GRACE-FO shows it has not returned there, apart from the brief 2022 La Ni&ntilde;a recharge. Coastal south: &minus;0.56 cm/yr.</p>
+    </div>
+    <div class="det-card">
+      <div class="det-q">Is it significant?</div>
+      <div class="det-a">Yes in two regions, no in one</div>
+      <p>Mann-Kendall with a Hamed-Rao correction for autocorrelation: Barind <b>p&nbsp;=&nbsp;0.010</b>, coastal south <b>p&nbsp;=&nbsp;0.0015</b>, haor basin p&nbsp;=&nbsp;0.22 (not significant). Both declines hold over the full 2002&ndash;2024 record.</p>
+    </div>
+  </div>
+  <p class="det-foot">Explore the series yourself in the <a class="inline" href="#trend-chart">interactive chart</a>, or check every number against the <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/robust_trend_stats.csv" target="_blank" rel="noopener">trend statistics file</a>.</p>
+</div>
+</section>
+
 <!-- LAYER 1 -->
 <section id="layer1">
 <div class="section-inner">
@@ -191,12 +307,12 @@ footer strong{color:var(--text);}
     <div class="finding-card red">
       <div class="fc-label">Structural depletion depth</div>
       <div class="fc-val">~14 cm TWS</div>
-      <div class="fc-desc">Aquifer sits 14 cm below 2002 baseline and has not recovered despite seasonal variability across 22 years of satellite observation</div>
+      <div class="fc-desc">Dry-season water storage sits 14 cm below its 2002&ndash;04 baseline and has not recovered despite seasonal variability across 22 years of satellite observation</div>
     </div>
     <div class="finding-card blue">
       <div class="fc-label">GRACE trend (2002–2017)</div>
       <div class="fc-val">−0.90 cm/yr &nbsp;·&nbsp; Mann-Kendall p = 0.010</div>
-      <div class="fc-desc">Statistically significant decline driven by Boro irrigation extraction. Reported on Mann-Kendall with a Hamed-Rao correction for serial correlation, not ordinary least squares: water storage is autocorrelated (lag-1 = +0.72), which makes OLS p-values optimistic. Sen's slope agrees at −0.905 cm/yr.</div>
+      <div class="fc-desc">Statistically significant decline, consistent with Boro irrigation extraction. Reported on Mann-Kendall with a Hamed-Rao correction for serial correlation, not ordinary least squares: water storage is autocorrelated (lag-1 = +0.72), which makes OLS p-values optimistic. Sen's slope agrees at −0.905 cm/yr.</div>
     </div>
     <div class="finding-card yellow">
       <div class="fc-label">Rainfall was not the cause</div>
@@ -216,7 +332,7 @@ footer strong{color:var(--text);}
   <h3 style="margin:2.6rem 0 .5rem;font-size:1.25rem">Is it only the Barind Tract?</h3>
   <p class="section-sub" style="margin-bottom:1.2rem">
     A trend in one place means little without somewhere to compare it to. We ran the
-    identical extraction &mdash; same product, same Jan&ndash;May window, same regression &mdash;
+    identical extraction &mdash; same product, same Jan&ndash;May window, same trend test &mdash;
     over three regions of Bangladesh.
   </p>
 
@@ -229,20 +345,38 @@ footer strong{color:var(--text);}
     </div>
     <div class="finding-card blue">
       <div class="fc-label">Coastal south &middot; Khulna, Satkhira, Bagerhat</div>
-      <div class="fc-val">&minus;0.57 cm/yr &nbsp;&middot;&nbsp; p = 0.002</div>
+      <div class="fc-val">&minus;0.56 cm/yr &nbsp;&middot;&nbsp; p = 0.0015</div>
       <div class="fc-desc">Also a significant decline, shallower than the Barind. Depletion is not
         confined to one corner of the country.</div>
     </div>
     <div class="finding-card green">
       <div class="fc-label">Haor basin &middot; northeast</div>
-      <div class="fc-val">&minus;0.31 cm/yr &nbsp;&middot;&nbsp; p = 0.404</div>
-      <div class="fc-desc">No significant trend. The wettest part of Bangladesh stores water at the
-        surface and shows no measurable loss over the same period.</div>
+      <div class="fc-val">&minus;0.60 cm/yr &nbsp;&middot;&nbsp; p = 0.22</div>
+      <div class="fc-desc">No significant trend. Year-to-year swings in the wettest part of
+        Bangladesh are large enough that the slope cannot be told apart from noise, and over
+        the full record it tilts upward instead.</div>
     </div>
   </div>
 
-  <img src="regional_trend_comparison.png" alt="GRACE terrestrial water storage trends for three regions of Bangladesh, 2002-2024"
-       style="width:100%;border-radius:10px;border:1px solid #30363d;display:block;margin:0 0 1rem">
+  <div class="trend-card" id="trend-chart">
+    <div class="trend-head">
+      <div class="trend-title">Dry-season water storage, 2002&ndash;2024<span>GRACE / GRACE-FO, January&ndash;May mean, anomaly in cm of water</span></div>
+      <div class="trend-controls">
+        <button class="chip" data-region="barind" aria-pressed="true"><span class="sw" style="background:#f85149"></span>Barind (NW)</button>
+        <button class="chip" data-region="coastal" aria-pressed="true"><span class="sw" style="background:#58a6ff"></span>Coastal south</button>
+        <button class="chip" data-region="haor" aria-pressed="true"><span class="sw" style="background:#3fb950"></span>Haor basin (NE)</button>
+        <span class="seg" role="group" aria-label="Trend window">
+          <button data-win="grace" aria-pressed="true">2002&ndash;2017</button><button data-win="full" aria-pressed="false">2002&ndash;2024</button>
+        </span>
+      </div>
+    </div>
+    <div id="trend-wrap" role="img" aria-label="Line chart of GRACE and GRACE-FO dry-season water storage anomalies for three regions of Bangladesh, 2002 to 2024, with Sen's slope trend lines. The same numbers are in the table below.">
+      <div id="trend-tip"></div>
+      <noscript><p class="trend-note">This chart needs JavaScript. The same series is in the CSV linked below.</p></noscript>
+    </div>
+    <table class="trend-stats" id="trend-table" aria-live="polite"></table>
+    <div class="trend-note">Dashed lines are Sen&rsquo;s slope over the selected window; p-values are Mann-Kendall with a Hamed-Rao correction for autocorrelation. No data in 2018, between the two missions. The central floodplain around Dhaka is not drawn: it sits in the same mascon cell as the haor basin and returns the same series. <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/data/processed/grace_regional_tws.csv" target="_blank" rel="noopener">Download the series (CSV)</a></div>
+  </div>
 
   <div class="grace-note">
     <strong>What GRACE can and cannot resolve.</strong> A mascon cell spans roughly 300&nbsp;km and
@@ -251,14 +385,14 @@ footer strong{color:var(--text);}
     centred on Dhaka returned a series differing from the haor basin by
     <strong>0.05&nbsp;cm with a correlation of 1.000</strong> &mdash; one mascon cell, not two &mdash;
     so it is not reported as a separate result. Over the full 2002&ndash;2024 record the haor slope
-    turns positive (+0.36&nbsp;cm/yr) but at p&nbsp;=&nbsp;0.12 that is not a significant increase,
+    turns positive (+0.34&nbsp;cm/yr) but at p&nbsp;=&nbsp;0.15 that is not a significant increase,
     and we do not claim one.
   </div>
 
   <h3 style="margin:2.6rem 0 .5rem;font-size:1.25rem">Three satellites, one mechanism</h3>
   <p class="section-sub" style="margin-bottom:1.2rem">
-    Water storage falling is a symptom. Two more NASA records over the same
-    districts and the same season say what is causing it.
+    Water storage falling is a symptom. Two more satellite records over the same
+    districts and the same season point to what is causing it.
   </p>
 
   <div class="grace-layout" style="margin-bottom:1.4rem;">
@@ -364,7 +498,32 @@ footer strong{color:var(--text);}
   <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>Methodology</div>
   <h2>Three-layer analytical framework</h2>
   <p class="section-sub">Each layer carries its own epistemic status — validated, literature-informed, or scenario-based. Together they form a complete early warning pipeline: from satellite signal to actionable planning output.</p>
-  <h2>Who uses this, and what do they do?</h2>
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="mc-num">Layer 1 · Validated</div>
+      <h4>NASA Satellite Signal</h4>
+      <p>GRACE/GRACE-FO MASCON_CRI (2002–2024) · CHIRPS rainfall (1984–2022) · Pre-Aman season (Jan–May) TWS extraction · Mann-Kendall with Sen&rsquo;s slope and a Hamed-Rao correction for serial correlation · Google Earth Engine</p>
+    </div>
+    <div class="method-card">
+      <div class="mc-num">Layer 2 · Literature-informed</div>
+      <h4>Mobility Pressure Model</h4>
+      <p>Exposed population: BBS Census 2022 · Migration rate: Khalily et al. 2006/07 monga survey · Destination: BBS Population Monograph Vol.06 · Three scenario bounds (20%–36%–50%)</p>
+    </div>
+    <div class="method-card">
+      <div class="mc-num">Layer 3 · Scenario framework</div>
+      <h4>Absorption Stress Index</h4>
+      <p>Wards with complete BBS 2022 records are scored on four indicators: WorldPop 2020 population density (0.35), JRC GHSL 2020 built-up surface (0.25), JRC flood risk (0.20) and BBS 2022 mean household size (0.20). Wards without a BBS match use the three-indicator form (0.40 / 0.35 / 0.25) and are mapped but not ranked. Weights are expert-defined, not fitted. Crisis Index = normalised rank(ASI) × rank(arrivals) · OCHA COD-AB ward boundaries. Tier boundaries come from Jenks natural breaks on the Crisis Index itself, not from round numbers chosen by hand. <strong>How arrivals reach individual wards:</strong> the city-level estimate is distributed in proportion to <strong>population alone</strong>. It used to be distributed as population &times; (1 &minus; ASI), sending more arrivals to less-stressed wards on the assumption that low stress meant spare capacity. We tested that assumption instead of defending it, and it does not survive.</p>
+    </div>
+  </div>
+  <details class="deep">
+    <summary>How we tested the stress index, and what failed</summary>
+    <div class="deep-body">
+      <p>The obvious test &mdash; correlate the ASI with observed 2000&ndash;2020 ward population growth &mdash; gives Spearman rho = +0.267 (p = 0.020) and appears to say that stress attracts arrivals. It does not, and we do not use it. The ASI’s largest component is present-day density, and a ward is dense today partly <em>because</em> it grew: the outcome sits inside the predictor. Rebuilt from year-2000 inputs only, so that nothing in the predictor can have been caused by the outcome, the index predicts nothing: rho = &minus;0.154 (p = 0.19) over 2000&ndash;2020, &minus;0.199 (p = 0.09) over 2000&ndash;2010, &minus;0.119 (p = 0.31) over 2010&ndash;2020. No individual component reaches significance, and median growth across baseline-stress quartiles is flat (+105%, +115%, +106%, +106%).</p>
+      <p>So the ASI measures stress, not attraction, and we allocate on population alone &mdash; the only assumption the data supports. The ranking is robust to the choice: Kafrul Ward No-14 is the top ward under the old inverse rule, the stress-weighted rule and population-only alike, and ten of the top thirteen are shared between them. A sensitivity analysis across 625 weight combinations (±10pp per indicator, renormalised) shows the top-ranked ward is unchanged in 77.1% of combinations and the top five overlap by 4.0 of 5 on average. Membership at the boundary of the top 13 (the robustness test tracks the top 13 ranks: the 11 high-concern wards and the next two) is weighting-dependent — the exact set reproduces in 11.2% of combinations, mean overlap 11.6 of 13 — and should be read as indicative rather than fixed.</p>
+    </div>
+  </details>
+
+  <h2 style="margin-top:2.6rem">Who uses this, and what do they do?</h2>
   <p class="section-sub">PRAAN is designed for city planners, disaster risk managers, and urban policy teams — not as a prediction engine, but as a scenario-based early warning tool.</p>
   <div class="grace-layout" style="margin-bottom:2rem;">
     <div class="finding-card blue">
@@ -380,30 +539,12 @@ footer strong{color:var(--text);}
     <div class="finding-card green">
       <div class="fc-label">Aid & Service Agencies</div>
       <div class="fc-val">Route resources efficiently</div>
-      <div class="fc-desc">The Crisis Index rank identifies which wards need intervention first. Under the central scenario, the top 13 wards absorb disproportionate pressure relative to their existing capacity.</div>
+      <div class="fc-desc">The Crisis Index rank identifies which wards need intervention first. Under the central scenario the 11 high-concern wards would take about 24% of projected arrivals, in proportion to their population. They are the wards where existing stress and incoming numbers combine most strongly.</div>
     </div>
     <div class="finding-card red">
       <div class="fc-label">Policy Makers</div>
       <div class="fc-val">Evidence-based zoning</div>
       <div class="fc-desc">Ward-level absorption stress data supports decisions on densification limits, affordable housing zones, and climate migration corridors — grounded in satellite observation, not assumption.</div>
-    </div>
-  </div>
-    <div class="method-card">
-      <div class="mc-num">Layer 1 · Validated</div>
-      <h4>NASA Satellite Signal</h4>
-      <p>GRACE/GRACE-FO MASCON_CRI (2002–2024) · CHIRPS rainfall (1984–2022) · Pre-Aman season (Jan–May) TWS extraction · Mann-Kendall with Sen&rsquo;s slope and a Hamed-Rao correction for serial correlation · Google Earth Engine</p>
-    </div>
-    <div class="method-card">
-      <div class="mc-num">Layer 2 · Literature-informed</div>
-      <h4>Mobility Pressure Model</h4>
-      <p>Exposed population: BBS Census 2022 · Migration rate: Khalily et al. 2006/07 monga survey · Destination: BBS Population Monograph Vol.06 · Three scenario bounds (20%–36%–50%)</p>
-    </div>
-    <div class="method-card">
-      <div class="mc-num">Layer 3 · Scenario framework</div>
-      <h4>Absorption Stress Index</h4>
-      <p>Wards with complete BBS 2022 records are scored on four indicators: WorldPop 2020 population density (0.35), JRC GHSL 2020 built-up surface (0.25), JRC flood risk (0.20) and BBS 2022 mean household size (0.20). Wards without a BBS match use the three-indicator form (0.40 / 0.35 / 0.25) and are mapped but not ranked. Weights are expert-defined, not fitted. Crisis Index = normalised rank(ASI) × rank(arrivals) · OCHA COD-AB ward boundaries. Tier boundaries come from Jenks natural breaks on the Crisis Index itself, not from round numbers chosen by hand. <strong>How arrivals reach individual wards:</strong> the city-level estimate is distributed in proportion to <strong>population alone</strong>. It used to be distributed as population &times; (1 &minus; ASI), sending more arrivals to less-stressed wards on the assumption that low stress meant spare capacity. We tested that assumption instead of defending it, and it does not survive.
-<br><br>The obvious test &mdash; correlate the ASI with observed 2000&ndash;2020 ward population growth &mdash; gives Spearman rho = +0.267 (p = 0.020) and appears to say that stress attracts arrivals. It does not, and we do not use it. The ASI’s largest component is present-day density, and a ward is dense today partly <em>because</em> it grew: the outcome sits inside the predictor. Rebuilt from year-2000 inputs only, so that nothing in the predictor can have been caused by the outcome, the index predicts nothing: rho = &minus;0.154 (p = 0.19) over 2000&ndash;2020, &minus;0.199 (p = 0.09) over 2000&ndash;2010, &minus;0.119 (p = 0.31) over 2010&ndash;2020. No individual component reaches significance, and median growth across baseline-stress quartiles is flat (+105%, +115%, +106%, +106%).
-<br><br>So the ASI measures stress, not attraction, and we allocate on population alone &mdash; the only assumption the data supports. The ranking is robust to the choice: Kafrul Ward No-14 is the top ward under the old inverse rule, the stress-weighted rule and population-only alike, and ten of the top thirteen are shared between them. A sensitivity analysis across 625 weight combinations (±10pp per indicator, renormalised) shows the top-ranked ward is unchanged in 77.1% of combinations and the top five overlap by 4.0 of 5 on average. Membership at the boundary of the top 13 is weighting-dependent — the exact set reproduces in 11.2% of combinations, mean overlap 11.6 of 13 — and should be read as indicative rather than fixed.</p>
     </div>
   </div>
 </div>
@@ -449,7 +590,7 @@ footer strong{color:var(--text);}
 <div class="section-inner">
   <div class="section-tag"><span class="dot" style="background:var(--muted)"></span>References &amp; Data Sources</div>
   <h2>Citations &amp; Open Data</h2>
-  <p class="section-sub">All datasets are open-access. Full processing scripts available in project repository.</p>
+  <p class="section-sub">All datasets are open-access. Every processing script is in the <a class="inline" href="https://github.com/fmad121581-hub/PRAAN" target="_blank" rel="noopener">project repository</a>. Results as CSV: <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/crisis_index_primary.csv" target="_blank" rel="noopener">ward Crisis Index</a> &middot; <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/data/processed/grace_regional_tws.csv" target="_blank" rel="noopener">GRACE regional series</a> &middot; <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/robust_trend_stats.csv" target="_blank" rel="noopener">trend statistics</a>.</p>
   <div class="method-grid two">
     <div class="method-card">
       <div class="mc-num">Satellite Data</div>
@@ -538,7 +679,8 @@ footer strong{color:var(--text);}
 <footer>
   <strong>PRAAN</strong> · Urban Alchemists · BUET Department of Urban &amp; Regional Planning · NASA Space Apps Challenge 2026<br>
   Fahim Ahmed · Arshil Azim · Nawar Noor Nusaiba · Mahin Haider · Md. Fardeen Al Mahin<br>
-  Data sources: NASA GRACE/GRACE-FO · WorldPop · JRC GHSL · BBS Census 2022 · OCHA COD-AB · GADM 4.1
+  Data sources: NASA GRACE/GRACE-FO · MODIS · CHIRPS · WorldPop · JRC GHSL · JRC Global Surface Water · BBS Census 2022 · OCHA COD-AB · GADM 4.1<br>
+  <a class="inline" href="https://github.com/fmad121581-hub/PRAAN" target="_blank" rel="noopener">Source code and data on GitHub</a>
 </footer>
 
 <script>
@@ -614,6 +756,11 @@ function initMap() {
   if (window.ResizeObserver) new ResizeObserver(fitCity).observe(document.getElementById('map'));
 
   buildTopList();
+  // open with the top-ranked ward in the panel instead of an empty box
+  const top = WARD_GEO.features.map(f => f.properties)
+    .filter(p => p.crisis_index != null)
+    .sort((a, b) => b.crisis_index - a.crisis_index)[0];
+  if (top) { DEFAULT_WARD = top; currentWard = top; showWardPanel(top); refreshMap(); }
 }
 
 function styleFeature(feat) {
@@ -643,6 +790,8 @@ function styleFeature(feat) {
   } else {
     fillColor = '#232931'; fillOpacity = 0.28;
   }
+  if (currentWard && p.GID_4 === currentWard.GID_4)
+    return { fillColor, fillOpacity: Math.min(0.95, fillOpacity + 0.1), color: '#e6edf3', weight: 2.4, opacity: 1 };
   return { fillColor, fillOpacity, color: '#0d1117', weight: 0.8, opacity: 1 };
 }
 
@@ -656,6 +805,7 @@ function onEachFeature(feat, layer) {
     click(e) {
       currentWard = feat.properties;
       showWardPanel(feat.properties);
+      refreshMap();
       map.fitBounds(e.target.getBounds(), { padding:[60,60], maxZoom:14 });
     }
   });
@@ -684,7 +834,7 @@ function setLayer(l, el) {
       '<span class="legend-item"><span class="legend-dot" style="background:#3fb950"></span>Low concern</span>' +
       '<span class="legend-item"><span class="legend-dot" style="background:#ffa657"></span>Moderate</span>' +
       '<span class="legend-item"><span class="legend-dot" style="background:#f85149"></span>High concern</span>' +
-      '<span class="legend-item"><span class="legend-dot" style="background:#30363d"></span>No data</span>';
+      '<span class="legend-item"><span class="legend-dot" style="background:#556070"></span>Not ranked (no BBS match)</span>';
   } else {
     leg.innerHTML = '<span style="color:var(--muted);font-size:.78rem">Absorption Stress:</span>' +
       '<span class="legend-item"><span class="legend-dot" style="background:#3fb950"></span>Low</span>' +
@@ -731,13 +881,18 @@ function showWardPanel(p) {
     '<div class="wp-sub">' + (p.NAME_4 || '\u2014') + ' &nbsp;\u00b7&nbsp; ' + where + '</div>';
 
   if (ranked) {
-    body += row('Crisis Index', ci)
+    const R = wardRanks();
+    body += row('Crisis rank', R.crisis[p.GID_4] + ' of ' + R.n)
+         +  row('Crisis Index', ci)
          +  row('Crisis tier', badge(crisisBadge, p.crisis_tier))
          +  row('Absorption Stress', asi)
          +  row('Stress tier', badge(stressBadge, p.stress_tier || 'No data'))
          +  row('Population (2022)', pop)
          +  '<div class="wp-row"><span class="wpr-label">Arrivals (' + scenLabel + ')</span>'
-         +  '<span class="wpr-val" style="color:var(--orange)">' + arrivals + '</span></div>';
+         +  '<span class="wpr-val" style="color:var(--orange)">' + arrivals + '</span></div>'
+         +  '<div class="wp-why">Absorption Stress rank ' + R.asi[p.GID_4] + ' and population rank '
+         +  R.pop[p.GID_4] + ' of ' + R.n + '. The Crisis Index multiplies the stress rank by the arrivals '
+         +  'rank, and arrivals follow population, so a very high rank on either one can lift a ward.</div>';
   } else if (inCity) {
     body += row('Absorption Stress', asi)
          +  row('Stress tier', badge(stressBadge, p.stress_tier || 'No data'))
@@ -755,7 +910,21 @@ function showWardPanel(p) {
               + 'not ranked. Savar and Keraniganj in particular absorb substantial '
               + 'peri-urban in-migration and are a natural extension of this work.');
   }
+  if (p === DEFAULT_WARD) body += '<div class="wp-tip">Showing the top-ranked ward. Click any ward on the map.</div>';
   content.innerHTML = body;
+}
+
+let _ranks = null, DEFAULT_WARD = null;
+function wardRanks() {
+  if (_ranks) return _ranks;
+  const rk = WARD_GEO.features.map(f => f.properties).filter(p => p.crisis_index != null);
+  const order = key => {
+    const out = {};
+    rk.slice().sort((a, b) => b[key] - a[key]).forEach((p, i) => { out[p.GID_4] = i + 1; });
+    return out;
+  };
+  _ranks = { n: rk.length, crisis: order('crisis_index'), asi: order('asi'), pop: order('population') };
+  return _ranks;
 }
 
 // ── TOP WARDS LIST
@@ -780,12 +949,168 @@ function zoomToWard(gid) {
     if (layer.feature.properties.GID_4 === gid) {
       currentWard = layer.feature.properties;
       showWardPanel(layer.feature.properties);
+      refreshMap();
       map.fitBounds(layer.getBounds(), { padding:[60,60], maxZoom:14 });
     }
   });
 }
 
 window.addEventListener('DOMContentLoaded', initMap);
+</script>
+
+<script>
+// ── INTERACTIVE TREND CHART (data: data/processed/grace_regional_tws.csv,
+//    statistics: outputs/robust_trend_stats.csv; Sen intercept = median(y - slope*x))
+const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"series":{"barind":{"tws":[-10.7,-11.41,-12.85,-16.63,-24.47,-19.69,-15.57,-24.88,-24.36,-29.33,-26.95,-28.77,-29.67,-21.9,-22.62,-20.08,null,-26.09,-22.36,-25.02,-13.26,-27.3,-26.76],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"coastal":{"tws":[-11.71,-11.59,-10.1,-13.51,-18.34,-14.84,-10.31,-16.92,-18.55,-21.19,-16.67,-19.15,-22.29,-17.56,-18.61,-17.53,null,-20.08,-15.67,-18.47,-9.74,-20.81,-19.58],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"haor":{"tws":[-11.22,-19.57,-18.03,-21.08,-29.64,-23.4,-15.49,-25.61,-18.42,-24.28,-25.3,-21.11,-34.07,-29.18,-22.16,-9.1,null,-18.13,-14.9,-15.75,-2.9,-13.97,-14.16],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]}},"stats":{"barind_grace":{"slope":-0.9048,"intercept":1796.8688,"p":0.0102794784852129,"sig":true,"n":16,"x0":2002,"x1":2017},"barind_full":{"slope":-0.5663,"intercept":1118.9212,"p":0.0015579179080122,"sig":true,"n":22,"x0":2002,"x1":2024},"coastal_grace":{"slope":-0.5613,"intercept":1111.9545,"p":0.0014578066711188,"sig":true,"n":16,"x0":2002,"x1":2017},"coastal_full":{"slope":-0.3156,"intercept":618.4716,"p":0.0094682786103557,"sig":true,"n":22,"x0":2002,"x1":2024},"haor_grace":{"slope":-0.5985,"intercept":1179.2645,"p":0.2241343019601669,"sig":false,"n":16,"x0":2002,"x1":2017},"haor_full":{"slope":0.3426,"intercept":-708.0688,"p":0.1542608484910275,"sig":false,"n":22,"x0":2002,"x1":2024}},"barind_baseline":-11.65,"barind_plateau":-25.62};
+(function () {
+  const wrap = document.getElementById('trend-wrap');
+  if (!wrap) return;
+  const tip = document.getElementById('trend-tip');
+  const table = document.getElementById('trend-table');
+  const COL = { barind: '#f85149', coastal: '#58a6ff', haor: '#3fb950' };
+  const NAME = { barind: 'Barind Tract (NW)', coastal: 'Coastal south (SW)', haor: 'Haor basin (NE)' };
+  const ORDER = ['barind', 'coastal', 'haor'];
+  const vis = { barind: true, coastal: true, haor: true };
+  let win = 'grace';
+  const NS = 'http://www.w3.org/2000/svg';
+  const fmtP = p => p < 0.001 ? '< 0.001' : '= ' + p.toPrecision(2);
+  const fmtS = s => (s > 0 ? '+' : '−') + Math.abs(s).toFixed(2);
+  const el = (tag, attrs, txt) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (txt != null) e.textContent = txt;
+    return e;
+  };
+  let svg = null, geom = null;
+
+  function render() {
+    const W = Math.max(280, wrap.clientWidth);
+    const small = W < 560;
+    const H = small ? 290 : 380;
+    const m = { l: small ? 34 : 46, r: 12, t: 26, b: 30 };
+    const x0 = 2001.5, x1 = 2024.5, y0 = -36, y1 = 0;
+    const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+    const Y = v => m.t + (y1 - v) / (y1 - y0) * (H - m.t - m.b);
+    geom = { X, Y, m, W, H };
+    if (svg) svg.remove();
+    svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
+    const fs = small ? 10 : 11;
+
+    // grid + y axis
+    for (let v = -35; v <= y1; v += 5) {
+      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: '#21262d' }));
+      svg.appendChild(el('text', { x: m.l - 6, y: Y(v) + 3.5, 'text-anchor': 'end', fill: '#8b949e', 'font-size': fs }, v === 0 ? '0' : '−' + Math.abs(v)));
+    }
+    if (!small) svg.appendChild(el('text', { x: 12, y: Y(-18), transform: `rotate(-90 12 ${Y(-18)})`, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': 11 }, 'cm of water'));
+    // x axis
+    const step = small ? 4 : 2;
+    for (let yr = 2002; yr <= 2024; yr += step) {
+      svg.appendChild(el('text', { x: X(yr), y: H - m.b + 16, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': fs }, String(yr)));
+    }
+    // mission gap and labels
+    svg.appendChild(el('rect', { x: X(2017.5), y: m.t, width: X(2018.5) - X(2017.5), height: H - m.t - m.b, fill: 'rgba(139,148,158,0.10)' }));
+    svg.appendChild(el('text', { x: X(2009.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': fs }, 'GRACE'));
+    svg.appendChild(el('text', { x: X(2021.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#8b949e', 'font-size': fs }, 'GRACE-FO'));
+    svg.appendChild(el('text', { x: X(2018), y: m.t - 9, 'text-anchor': 'middle', fill: '#6e7681', 'font-size': fs - 1 }, 'gap'));
+
+    // Barind baseline and depleted plateau
+    if (vis.barind) {
+      const bb = TREND.barind_baseline, bp = TREND.barind_plateau;
+      svg.appendChild(el('line', { x1: X(2002), x2: X(2004), y1: Y(bb), y2: Y(bb), stroke: '#f85149', 'stroke-width': 1.2, 'stroke-dasharray': '2 3', opacity: 0.8 }));
+      svg.appendChild(el('line', { x1: X(2011), x2: X(2017), y1: Y(bp), y2: Y(bp), stroke: '#f85149', 'stroke-width': 1.2, 'stroke-dasharray': '2 3', opacity: 0.8 }));
+      const bx = X(2001.85);
+      svg.appendChild(el('path', { d: `M${bx + 4} ${Y(bb)} H${bx} V${Y(bp)} H${bx + 4}`, fill: 'none', stroke: '#f85149', 'stroke-width': 1.2, opacity: 0.85 }));
+      if (!small) svg.appendChild(el('text', { x: X(2002.15), y: Y((bb + bp) / 2) + 4, fill: '#f85149', 'font-size': 11, 'font-weight': 600, stroke: '#161b22', 'stroke-width': 4, 'paint-order': 'stroke' }, '≈' + Math.round(bb - bp) + ' cm'));
+    }
+
+    // series
+    ORDER.forEach(k => {
+      if (!vis[k]) return;
+      const s = TREND.series[k].tws;
+      let d = '', pen = false;
+      s.forEach((v, i) => {
+        const yr = TREND.years[i];
+        if (v == null) { pen = false; return; }
+        d += (pen ? 'L' : 'M') + X(yr).toFixed(1) + ' ' + Y(v).toFixed(1) + ' ';
+        pen = true;
+      });
+      svg.appendChild(el('path', { d, fill: 'none', stroke: COL[k], 'stroke-width': small ? 1.8 : 2.2, 'stroke-linejoin': 'round', opacity: 0.95 }));
+      s.forEach((v, i) => {
+        if (v == null) return;
+        svg.appendChild(el('circle', { cx: X(TREND.years[i]), cy: Y(v), r: small ? 2.4 : 3, fill: COL[k] }));
+      });
+    });
+    // Sen's slope lines for the selected window
+    ORDER.forEach(k => {
+      if (!vis[k]) return;
+      const st = TREND.stats[k + '_' + win];
+      const ya = st.slope * st.x0 + st.intercept, yb = st.slope * st.x1 + st.intercept;
+      svg.appendChild(el('line', { x1: X(st.x0), y1: Y(ya), x2: X(st.x1), y2: Y(yb), stroke: COL[k],
+        'stroke-width': st.sig ? 2 : 1.4, 'stroke-dasharray': st.sig ? '7 5' : '3 5', opacity: st.sig ? 0.95 : 0.6 }));
+    });
+
+    // hover layer
+    const guide = el('line', { y1: m.t, y2: H - m.b, stroke: '#e6edf3', 'stroke-width': 1, opacity: 0, 'pointer-events': 'none' });
+    svg.appendChild(guide);
+    const hit = el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' });
+    svg.appendChild(hit);
+    const move = ev => {
+      const r = svg.getBoundingClientRect();
+      const px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+      const yr = Math.round(x0 + (px - m.l) / (W - m.l - m.r) * (x1 - x0));
+      if (yr < 2002 || yr > 2024) return hide();
+      const i = yr - 2002;
+      guide.setAttribute('x1', X(yr)); guide.setAttribute('x2', X(yr)); guide.setAttribute('opacity', 0.35);
+      let html = '<b>' + yr + (yr <= 2017 ? ' · GRACE' : yr >= 2019 ? ' · GRACE-FO' : '') + '</b>';
+      if (yr === 2018) html += '<div class="muted">No data: gap between missions</div>';
+      else ORDER.forEach(k => {
+        if (!vis[k]) return;
+        const v = TREND.series[k].tws[i];
+        html += '<div class="row"><span style="color:' + COL[k] + '">' + NAME[k] + '</span><span>' + (v == null ? '—' : (v > 0 ? '+' : '−') + Math.abs(v).toFixed(1) + ' cm') + '</span></div>';
+      });
+      const n = TREND.series.barind.n[i];
+      if (yr !== 2018) html += '<div class="muted">' + n + ' monthly image' + (n === 1 ? '' : 's') + ' in Jan–May</div>';
+      tip.innerHTML = html; tip.style.display = 'block';
+      const tw = tip.offsetWidth;
+      let left = X(yr) + 12; if (left + tw > W - 4) left = X(yr) - tw - 12;
+      tip.style.left = Math.max(4, left) + 'px'; tip.style.top = (m.t + 6) + 'px';
+    };
+    const hide = () => { tip.style.display = 'none'; guide.setAttribute('opacity', 0); };
+    hit.addEventListener('mousemove', move);
+    hit.addEventListener('mouseleave', hide);
+    hit.addEventListener('touchstart', move, { passive: true });
+    hit.addEventListener('touchmove', move, { passive: true });
+    wrap.insertBefore(svg, tip);
+    renderTable();
+  }
+
+  function renderTable() {
+    const w = win === 'grace' ? '2002–2017' : '2002–2024';
+    let t = '<thead><tr><th>Region</th><th class="num">Sen’s slope (' + w + ')</th><th class="num">p</th><th class="hide-sm">Verdict</th></tr></thead><tbody>';
+    ORDER.forEach(k => {
+      if (!vis[k]) return;
+      const st = TREND.stats[k + '_' + win];
+      t += '<tr><td><span class="dot" style="background:' + COL[k] + '"></span>' + NAME[k] + '</td>'
+        + '<td class="num">' + fmtS(st.slope) + ' cm/yr</td><td class="num">' + fmtP(st.p) + '</td>'
+        + '<td class="hide-sm ' + (st.sig ? 'verdict-sig' : 'verdict-ns') + '">'
+        + (st.sig ? (st.slope < 0 ? 'Significant decline' : 'Significant rise') : 'No significant trend') + '</td></tr>';
+    });
+    table.innerHTML = t + '</tbody>';
+  }
+
+  document.querySelectorAll('#trend-chart .chip').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.region;
+    if (vis[k] && Object.values(vis).filter(Boolean).length === 1) return; // keep one visible
+    vis[k] = !vis[k]; b.setAttribute('aria-pressed', vis[k]); render();
+  }));
+  document.querySelectorAll('#trend-chart .seg button').forEach(b => b.addEventListener('click', () => {
+    win = b.dataset.win;
+    document.querySelectorAll('#trend-chart .seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    render();
+  }));
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 120); });
+  render();
+})();
 </script>
 </body>
 </html>

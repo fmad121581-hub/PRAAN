@@ -1,0 +1,13 @@
+# Python packages used by notebooks/*.py
+# Scripts 01, 06, 11, 16 and 19 also need an authenticated Google Earth Engine account
+# (run `earthengine authenticate` once).
+numpy
+pandas
+scipy
+matplotlib
+seaborn
+geopandas
+scikit-learn
+statsmodels
+pdfplumber
+earthengine-api

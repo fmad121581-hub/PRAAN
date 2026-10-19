@@ -120,8 +120,9 @@ wrong claim.
   appearing twice with two different stress scores. Worse, GADM splits some
   wards across thana boundaries into "(Part)" polygons that match no census
   record by name at all — that alone hid 14 real wards, including Kafrul
-  Ward No-14, which has the largest population in our city set and now ranks
-  first. BBS is indexed by (corporation, ward number), not by name. Keying on
+  Ward No-14, which now ranks first: it is the fifth most populous of the 75
+  ranked wards and 15th on absorption stress, and no other ward ranks that
+  high on both. BBS is indexed by (corporation, ward number), not by name. Keying on
   that took us from 61 rankable wards to 75 and corrected a corporation
   mislabelling: DNCC only has wards 1–54, so Ward No-55 can only be DSCC.
 - **"What would you do with more time?"** → Find a stress index that
@@ -156,8 +157,8 @@ wrong claim.
 > them go to Dhaka. PRAAN asks the question nobody has costed: which Dhaka
 > wards can actually absorb them? We score every city-corporation ward on
 > density, built-up land, flood risk and household crowding, cross it with
-> projected arrivals, and get eleven wards that are already stressed and are
-> about to receive disproportionate pressure. Kafrul Ward 14 is first.
+> projected arrivals, and get eleven wards where existing stress and
+> incoming numbers combine most strongly. Kafrul Ward 14 is first.
 > That's a list a planner can act on before the arrivals, not after.
 
 Say the problem, then the number, then the name of one ward. Concrete
