@@ -58,8 +58,8 @@ for _, row in g.iterrows():
         # ASI comes from the ranking when the ward is ranked, and otherwise
         # from the ward-score table, so the 65 unranked polygons still carry
         # a stress value and still colour on the stress layer.
-        'asi': (round(float(src.ASI), 4) if src is not None and pd.notna(src.ASI)
-                else round(float(s.ASI), 4) if s is not None and pd.notna(s.ASI) else None),
+        'asi': (round(float(src.ASI), 6) if src is not None and pd.notna(src.ASI)
+                else round(float(s.ASI), 6) if s is not None and pd.notna(s.ASI) else None),
         'stress_tier': (s.stress_tier if s is not None and pd.notna(s.stress_tier) else None),
         # city_corp is only filled where a BBS record matched; corp_spatial is
         # the spatial assignment and covers every city polygon.
@@ -72,7 +72,7 @@ for _, row in g.iterrows():
         props['population'] = int(s.pop_total)
     if r is not None:
         props.update({
-            'crisis_index': round(float(r.crisis_index), 4),
+            'crisis_index': round(float(r.crisis_index), 6),
             'crisis_tier': r.crisis_tier,
             'arrivals_central': int(r.arrivals_central),
         })

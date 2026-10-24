@@ -98,9 +98,9 @@ rate(t) = clip( 0.36 * (D_t / D_ref)^EPSILON , 0.20, 0.50 )
 anchor was actually observed. Ratios are unit-free, so this is immune to the
 cm/m question below.
 
-**Why EPSILON must be small:** D(2026)/D(2006–07) = 2.31. A proportional
-response implies a 0.83 mobility rate, which is not credible, and any
-EPSILON ≥ 0.4 pins the 0.50 cap. Mobility is damped by irrigation
+**Why EPSILON must be small:** D(2026)/D(2006–07) = 1.44 on the committed
+MASCON series. A proportional response implies a 0.52 mobility rate, past
+the 0.50 cap, which binds for any EPSILON ≥ 0.90. Mobility is damped by irrigation
 investment, remittances and adaptation. EPSILON is a *scenario parameter*,
 not an estimate — say so.
 
@@ -109,13 +109,13 @@ varied):
 
 | trend | central arrivals |
 |---|---|
-| half the observed slope | 835,278 |
-| observed slope | 869,208 |
-| 50% steeper | 890,128 |
+| half the observed slope | 790,769 |
+| observed slope | 809,478 |
+| 50% steeper | 824,503 |
 
 **Decision for you:** `ADOPT_COUPLED_AS_HEADLINE = False` by default, so your
 published 766,489 stands and the coupling is shown alongside. Flipping it to
-`True` moves the headline to **869,208** and cascades through the site. Your
+`True` moves the headline to **809,478** and cascades through the site. Your
 call — I did not make it for you.
 
 ## 5. Allocation rule — DISCLOSED AND TESTED *(superseded by §8)*

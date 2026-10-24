@@ -78,6 +78,11 @@ w = w.merge(areas[['GID_4', 'area_km2']], on='GID_4', how='left')
 city = w[w.corp_spatial.isin(['DNCC', 'DSCC'])].copy()
 rest = w[~w.corp_spatial.isin(['DNCC', 'DSCC'])].copy()
 city['wno'] = city.NAME_4.map(wno)
+# DNCC has wards 1-54 only. A higher number placed in DNCC by the centroid
+# join (Ramna Ward No-55) sits on the boundary and belongs to DSCC; without
+# this it misses the BBS key and is ranked off its name-join record with no
+# ward_no.
+city.loc[(city.corp_spatial == 'DNCC') & (city.wno > 54), 'corp_spatial'] = 'DSCC'
 bbs['key'] = list(zip(bbs.city_corp, bbs.ward_no))
 city['key'] = [(c, int(n)) if pd.notna(n) else (c, None)
                for c, n in zip(city.corp_spatial, city.wno)]
@@ -242,7 +247,7 @@ RESULTS
   Exact top-13 set reproduced     : {int(s.exact_top13.sum())}/{n} ({s.exact_top13.mean()*100:.1f}%)
   Median worst-case rank shift    : {s.max_shift_top13.median():.0f} places
 """
-open(OUT + 'sensitivity_summary.txt','w').write(txt)
+open(OUT + 'sensitivity_summary.txt','w', encoding='utf-8').write(txt)
 print(txt)
 
 # ── 6. DISSOLVED GEOJSON FOR THE MAP ─────────────────────────

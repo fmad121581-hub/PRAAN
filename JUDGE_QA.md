@@ -56,8 +56,8 @@ Never say "GRACE proves groundwater depletion in the Barind Tract."
 Make sure you can show this:
 
 > "It drives it. The mobility rate scales with the GRACE deficit relative to
-> the 2006/07 baseline. Half the observed slope gives 835,000 arrivals, the
-> observed slope 869,000, a 50% steeper slope 890,000. If the trend were
+> the 2006/07 baseline. Half the observed slope gives 791,000 arrivals, the
+> observed slope 809,000, a 50% steeper slope 825,000. If the trend were
 > different, the planning output would be different."
 
 Have `phase2_coupled_summary.txt` open in a tab.

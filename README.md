@@ -24,8 +24,9 @@ scenarios → Dhaka ward absorption stress
 NASA GRACE/GRACE-FO reveals persistent water-storage depletion consistent
 with groundwater stress in the Barind Tract districts of Rajshahi Division.
 CHIRPS rainfall shows no statistically significant linear correlation with
-the TWS anomaly (r = −0.266, p = 0.142), so the depletion is not explained by
-rainfall variability.
+Aman rice yield (r = −0.266, p = 0.142, n = 32), and rainfall itself has no
+significant trend (Mann-Kendall p = 0.063 over 1984–2022), so the depletion
+is not explained by rainfall variability.
 
 > **Reproducibility note.** Layer 1 figures come from
 > `NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI` (JPL RL06.3Mv04), extracted by
@@ -66,7 +67,7 @@ where `D_ref` is the fitted deficit during the 2006/07 monga survey — the
 period in which the 36% anchor was observed. ε is an assumed scenario
 parameter, not an estimate. Ratios are unit-free, so the coupling is
 unaffected by the units question above. Under the coupled central case
-(ε = 0.15) the estimate rises to 869,208 arrivals; the uncoupled 766,489
+(ε = 0.15) the estimate rises to 809,478 arrivals; the uncoupled 766,489
 remains the published headline.
 
 **Layer 3 — The City (Scenario framework)**

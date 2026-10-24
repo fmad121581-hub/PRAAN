@@ -21,6 +21,6 @@ HEADLINE IN USE: uncoupled (original 0.36 anchor)
 
 WHY EPSILON IS SMALL
   D_2026/D_ref = 1.44. A proportional response (EPSILON=1) implies a
-  0.52 mobility rate, which is not credible, and any
-  EPSILON >= 0.4 saturates the 0.5 cap. Mobility is damped relative to
+  0.52 mobility rate, past the 0.5 cap, which binds for any
+  EPSILON >= 0.90. Mobility is damped relative to
   water stress by irrigation investment, remittances and adaptation.

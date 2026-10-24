@@ -29,9 +29,9 @@ THE COUPLING
     in the raw GRACE export.
 
 CHOOSING EPSILON — AND WHY IT MUST BE SMALL
-    D_2026 / D_2006-07 = 2.31. A proportional response (EPSILON = 1) would
-    give 0.36 * 2.31 = 0.83, far beyond any observed mobility rate, and it
-    saturates the 0.50 cap for any EPSILON >= 0.4. Mobility does not scale
+    D_2026 / D_2006-07 = 1.44 on the committed MASCON series. A proportional
+    response (EPSILON = 1) would give 0.36 * 1.44 = 0.52, past the 0.50 cap,
+    which binds for any EPSILON >= 0.90. Mobility does not scale
     linearly with water deficit: irrigation investment, remittances,
     adaptation and alternative livelihoods all damp the response. EPSILON is
     therefore a small, explicitly stated assumption, and it is the honest
@@ -125,7 +125,7 @@ cmp.to_csv(OUT + 'phase2_coupled_scenarios.csv', index=False)
 headline = cpl[cpl.scenario == 'central'].iloc[0] if ADOPT_COUPLED_AS_HEADLINE \
     else orig[orig.scenario == 'central'].iloc[0]
 
-with open(OUT + 'phase2_coupled_summary.txt', 'w') as f:
+with open(OUT + 'phase2_coupled_summary.txt', 'w', encoding='utf-8') as f:
     f.write(f"""PRAAN Phase 2 — GRACE-coupled mobility scenarios
 {'=' * 60}
 
@@ -147,8 +147,8 @@ HEADLINE IN USE: {'coupled' if ADOPT_COUPLED_AS_HEADLINE else 'uncoupled (origin
 
 WHY EPSILON IS SMALL
   D_2026/D_ref = {ratio:.2f}. A proportional response (EPSILON=1) implies a
-  {RATE_ANCHOR*ratio:.2f} mobility rate, which is not credible, and any
-  EPSILON >= 0.4 saturates the {RATE_CAP} cap. Mobility is damped relative to
+  {RATE_ANCHOR*ratio:.2f} mobility rate, past the {RATE_CAP} cap, which binds for any
+  EPSILON >= {np.log(RATE_CAP / RATE_ANCHOR) / np.log(ratio):.2f}. Mobility is damped relative to
   water stress by irrigation investment, remittances and adaptation.
 """)
 print(f"\nWrote {OUT}phase2_coupled_scenarios.csv and phase2_coupled_summary.txt")
