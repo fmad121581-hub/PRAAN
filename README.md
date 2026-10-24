@@ -238,6 +238,14 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
 - Khalily M.A.B., Khandker S.R., Samad H.A. (2006/07). *Seasonal Migration and
   Coping Strategies: The Monga Context in Bangladesh.* World Bank / BRAC
 
+## Licence
+
+The code and analysis are MIT-licensed (see `LICENSE`). The underlying
+datasets keep their own terms: NASA GRACE/GRACE-FO, CHIRPS, WorldPop, JRC
+GHSL and JRC Global Surface Water are open-access via Google Earth Engine;
+BBS census data belongs to the Bangladesh Bureau of Statistics; boundaries
+are GADM 4.1 and OCHA COD-AB.
+
 ## Challenge
 
 NASA Space Apps Challenge 2026 — "Be An Earth System Trend Detective"
