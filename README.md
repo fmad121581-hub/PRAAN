@@ -36,10 +36,13 @@ is not explained by rainfall variability.
 > **-0.898 cm/yr, r = -0.678, p = 0.0039** (2002-2017, n = 16); over the
 > full GRACE + GRACE-FO record, **-0.431 cm/yr, r = -0.491, p = 0.0203**
 > (2002-2024, n = 22, 2018 absent). The MASCON band is in centimetres.
-> Those are the OLS figures. The website reports the autocorrelation-safe
-> versions from script 18 (`outputs/robust_trend_stats.csv`): Sen's slope
-> **-0.90 cm/yr**, Mann-Kendall with Hamed-Rao correction **p = 0.010**
-> (2002-2017), and **-0.57 cm/yr, p = 0.0016** over 2002-2024.
+> Those are the OLS figures. The website reports the rank-based versions
+> from script 18 (`outputs/robust_trend_stats.csv`): Sen's slope
+> **-0.90 cm/yr**, Mann-Kendall **p = 0.010** (2002-2017), and
+> **-0.57 cm/yr, p = 0.018** over 2002-2024. Each is checked for serial
+> correlation with the Hamed-Rao method; the correction is only ever
+> allowed to make a p-value larger, and for the Barind it finds no
+> significant autocorrelation once the trend is removed.
 >
 > Script 01 separately extracts `MASS_GRIDS_V04/LAND` (band
 > `lwe_thickness_csr`) into `grace_tws_raw.csv`. That band is in **metres**,
@@ -183,8 +186,9 @@ it in a browser, there is no build step.
 
 ## Repository Structure
 
-- `notebooks/` — Scripts 01–13: GEE extraction, signal validation, mobility
-  model, ASI scoring, sensitivity analysis
+- `notebooks/` — Scripts 01–22: GEE extraction, signal validation, mobility
+  model, ASI scoring, sensitivity analysis, claim testing. Superseded
+  versions are in `notebooks/archive/`
 - `data/processed/` — All processed CSVs
 - `outputs/` — Maps, charts, website HTML, ward scores, sensitivity results
 
@@ -205,10 +209,16 @@ it in a browser, there is no build step.
 | 11 | GRACE-FO extension (2002–2024) |
 | 12 | GeoJSON export |
 | 13 | Sensitivity analysis — ASI weight robustness |
+| 14 | Reconcile the two GRACE products against the site's figures |
 | 15 | **Dissolve GADM ward fragments, key on ward number, re-rank** |
+| 16–17 | Same GRACE extraction over four regions; pairwise separation and trends |
+| 18 | Sen's slope + Mann-Kendall with Hamed-Rao check — the published trend statistics |
+| 19–20 | Observed ward growth 2000–2020; does the ASI predict it? (it does not) |
+| 21 | Rebuild the site's map data from the committed CSVs |
+| 22 | GRACE minus GLDAS soil/snow/canopy — groundwater separation (not on the site yet) |
 
-Run order for Phase 3: `10` → `13` (13 reads the deduplicated frame written
-by 10, so their ASI normalisation bases cannot drift apart).
+Run order for Phase 3: `10` → `15` (15 reads the deduplicated frame written
+by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
 
 ## Data Sources
 

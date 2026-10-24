@@ -250,6 +250,11 @@ with Sen's slope and the Hamed-Rao variance correction for serial
 correlation. The headline trend survives: **p = 0.0103, Sen's slope
 −0.905 cm/yr**. The site now publishes the stricter number.
 
+*Correction (§11):* most of that +0.724 is the trend itself. Once the
+trend is removed the Hamed-Rao check finds no significant autocorrelation,
+so the step from 0.0039 to 0.0103 comes from the rank-based test, not from
+an autocorrelation penalty.
+
 ### 8b. Only one region was ever examined
 
 The challenge asks for regional contrast; the project showed one region
@@ -416,3 +421,29 @@ satellite records": CHIRPS is produced by the UCSB Climate Hazards Center,
 not NASA. The map legend showed a "No data" swatch in a different colour
 from the map after switching layers; it now matches.
 
+
+## 11. The autocorrelation correction could make p-values smaller — FIXED
+
+Script 18 let the Hamed-Rao variance ratio fall below 1. When it did, the
+"corrected" p-value came out *smaller* than the plain Mann-Kendall one, and
+the site published those as the stricter figures:
+
+| series | plain MK p | "corrected" p (published) | now |
+|---|---|---|---|
+| Barind 2002-2024 | 0.018 | 0.0016 | **0.018** |
+| Coastal south 2002-2017 | 0.0079 | 0.0015 | **0.0079** |
+| Coastal south 2002-2024 | 0.021 | 0.0095 | **0.021** |
+| Haor basin 2002-2024 | 0.176 | 0.154 | **0.18** |
+
+A correction for serial correlation should only ever make a test stricter,
+so the ratio is now floored at 1 (scripts 18 and 22). No verdict changes:
+the Barind and coastal declines are significant in both windows, the haor
+basin in neither. The Barind 2002-2017 headline (p = 0.010) is unaffected,
+because the correction never applied to it: after the trend is removed its
+residuals show no significant autocorrelation. The site's wording now says
+that, instead of implying the +0.72 lag-1 autocorrelation was penalised.
+
+The site's "aquifer is locked in a depleted state" and "has not recovered"
+now describe what GRACE measures — dry-season water storage that has not
+regained its 2002-04 level — and "identify what is driving it" reads
+"point to the most likely driver".

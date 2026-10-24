@@ -122,7 +122,7 @@ def mk_hamed_rao(y):
             rho = np.sum((r[:-lag] - rbar) * (r[lag:] - rbar)) / ((n - lag) * rvar)
             if abs(rho) > 1.96 / np.sqrt(n - lag):
                 acc += (n - lag) * (n - lag - 1) * (n - lag - 2) * rho
-    var *= max(1 + (2.0 / (n * (n - 1) * (n - 2))) * acc, 1e-6)
+    var *= max(1 + (2.0 / (n * (n - 1) * (n - 2))) * acc, 1.0)   # never shrink, as script 18
     Z = (S - 1) / np.sqrt(var) if S > 0 else (S + 1) / np.sqrt(var) if S < 0 else 0.0
     return 2 * (1 - stats.norm.cdf(abs(Z)))
 

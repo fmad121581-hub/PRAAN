@@ -1,6 +1,7 @@
 > **Historical — all of these were applied on 19–20 September 2026.**
 > Some figures below have since been superseded by the fragment-dissolve
-> round (61 → 75 ranked wards; see `CORRECTIONS.md` §7). Kept as a record
+> round (61 → 75 ranked wards; see `CORRECTIONS.md` §7), and the team is
+> now Urban Alchemists, not Voyagers. Kept as a record
 > of what was changed and why, not as current copy.
 
 # Website copy — exact replacements

@@ -70,7 +70,12 @@ def mann_kendall(y, autocorr_correction=True):
                 if abs(rho) > 1.96 / np.sqrt(n - lag):
                     acc += (n - lag) * (n - lag - 1) * (n - lag - 2) * rho
         n_star_ratio = 1 + (2.0 / (n * (n - 1) * (n - 2))) * acc
-        n_star_ratio = max(n_star_ratio, 1e-6)
+        # Never let the correction shrink the variance. Negative or
+        # chance-significant lags can push the ratio below 1, which would
+        # make the 'corrected' p-value smaller than the plain Mann-Kendall
+        # one (Barind 2002-2024 went 0.018 -> 0.0016). A correction for
+        # serial correlation should only ever make the test stricter.
+        n_star_ratio = max(n_star_ratio, 1.0)
         var *= n_star_ratio
 
     if S > 0:   Z = (S - 1) / np.sqrt(var)

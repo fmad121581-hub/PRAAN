@@ -382,7 +382,7 @@ footer{font-size:.85rem;}
     <div class="det-card">
       <div class="det-q">Is it significant?</div>
       <div class="det-a">Yes in two regions, no in one</div>
-      <p>Mann-Kendall with a Hamed-Rao correction for autocorrelation: Barind <b>p&nbsp;=&nbsp;0.010</b>, coastal south <b>p&nbsp;=&nbsp;0.0015</b>, haor basin p&nbsp;=&nbsp;0.22 (not significant). Both declines hold over the full 2002&ndash;2024 record.</p>
+      <p>Mann-Kendall with a Hamed-Rao correction for autocorrelation: Barind <b>p&nbsp;=&nbsp;0.010</b>, coastal south <b>p&nbsp;=&nbsp;0.0079</b>, haor basin p&nbsp;=&nbsp;0.22 (not significant). Both declines hold over the full 2002&ndash;2024 record.</p>
     </div>
   </div>
   <p class="det-foot">Explore the series yourself in the <a class="inline" href="#trend-chart">interactive chart</a>, or check every number against the <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/robust_trend_stats.csv" target="_blank" rel="noopener">trend statistics file</a>.</p>
@@ -393,18 +393,18 @@ footer{font-size:.85rem;}
 <section id="layer1">
 <div class="section-inner">
   <div class="section-tag"><span class="st-num" style="color:var(--blue)">1</span><span class="st-name">The signal</span></div>
-  <h2>The aquifer is locked in a depleted state</h2>
+  <h2>Water storage is stuck at a depleted level</h2>
   <p class="section-sub">NASA GRACE and GRACE-FO satellites (2002–2024) detect terrestrial water storage anomalies invisible to ground sensors. We thought it was drought. Then we looked underground. In the Barind Tract, surface water storage is minimal and monsoon soil moisture is seasonal — the residual persistent negative TWS anomaly is therefore consistent with groundwater depletion, supported by BWDB/BMDA tube-well records showing water-table decline averaging 0.2–0.4 m/year across Rajshahi district (2000–2013), and over 0.6 m/year in the fastest-depleting upazilas (Aziz et al. 2015).</p>
   <div class="grace-layout">
     <div class="finding-card red">
       <div class="fc-label">Structural depletion depth</div>
       <div class="fc-val">~14 cm TWS</div>
-      <div class="fc-desc">Dry-season water storage sits 14 cm below its 2002&ndash;04 baseline and has not recovered despite seasonal variability across 22 years of satellite observation</div>
+      <div class="fc-desc">Dry-season water storage sat 14 cm below its 2002&ndash;04 baseline by 2011&ndash;17, and in the GRACE-FO years (2019&ndash;2024) it has not returned there apart from the brief 2022 recharge</div>
     </div>
     <div class="finding-card blue">
       <div class="fc-label">GRACE trend (2002–2017)</div>
       <div class="fc-val">−0.90 cm/yr &nbsp;·&nbsp; Mann-Kendall p = 0.010</div>
-      <div class="fc-desc">Statistically significant decline, consistent with Boro irrigation extraction. Reported on Mann-Kendall with a Hamed-Rao correction for serial correlation, not ordinary least squares: water storage is autocorrelated (lag-1 = +0.72), which makes OLS p-values optimistic. Sen's slope agrees at −0.905 cm/yr.</div>
+      <div class="fc-desc">Statistically significant decline, consistent with Boro irrigation extraction. Reported on a rank-based Mann-Kendall test rather than ordinary least squares, which gives p = 0.004 here. The raw series has lag-1 autocorrelation of +0.72, but most of that is the trend itself: once the trend is removed the Hamed-Rao check finds no significant serial correlation, so no correction was needed. Sen's slope is −0.905 cm/yr.</div>
     </div>
     <div class="finding-card yellow">
       <div class="fc-label">Rainfall was not the cause</div>
@@ -414,7 +414,7 @@ footer{font-size:.85rem;}
     <div class="finding-card green">
       <div class="fc-label">GRACE-FO continuity (2019–2024)</div>
       <div class="fc-val">Persistently depressed</div>
-      <div class="fc-desc">2022 La Niña recharge was transient — TWS returned to depleted levels by 2023–24. The aquifer has not recovered in 22 years of satellite record</div>
+      <div class="fc-desc">2022 La Niña recharge was transient — TWS returned to depleted levels by 2023–24. Dry-season storage has not regained its 2002–04 level since</div>
     </div>
   </div>
   <div class="grace-note">
@@ -437,7 +437,7 @@ footer{font-size:.85rem;}
     </div>
     <div class="finding-card blue">
       <div class="fc-label">Coastal south &middot; Khulna, Satkhira, Bagerhat</div>
-      <div class="fc-val">&minus;0.56 cm/yr &nbsp;&middot;&nbsp; p = 0.0015</div>
+      <div class="fc-val">&minus;0.56 cm/yr &nbsp;&middot;&nbsp; p = 0.0079</div>
       <div class="fc-desc">Also a significant decline, shallower than the Barind. Depletion is not
         confined to one corner of the country.</div>
     </div>
@@ -477,7 +477,7 @@ footer{font-size:.85rem;}
     centred on Dhaka returned a series differing from the haor basin by
     <strong>0.05&nbsp;cm with a correlation of 1.000</strong> &mdash; one mascon cell, not two &mdash;
     so it is not reported as a separate result. Over the full 2002&ndash;2024 record the haor slope
-    turns positive (+0.34&nbsp;cm/yr) but at p&nbsp;=&nbsp;0.15 that is not a significant increase,
+    turns positive (+0.34&nbsp;cm/yr) but at p&nbsp;=&nbsp;0.18 that is not a significant increase,
     and we do not claim one.
   </div>
 
@@ -491,7 +491,7 @@ footer{font-size:.85rem;}
     <div class="finding-card">
       <div class="fc-label">GRACE &middot; water storage</div>
       <div class="fc-val">Falling: &minus;0.90 cm/yr</div>
-      <div class="fc-desc">Mann-Kendall p = 0.010. Significant even after correcting for serial correlation.</div>
+      <div class="fc-desc">Mann-Kendall p = 0.010. Significant after checking for serial correlation.</div>
     </div>
     <div class="finding-card yellow">
       <div class="fc-label">CHIRPS &middot; rainfall</div>
@@ -510,7 +510,7 @@ footer{font-size:.85rem;}
     thriving. The water underneath is disappearing. That is irrigation: the
     Barind is sustaining its harvest by spending an aquifer that rainfall does
     not refill. The satellites do not just record a decline &mdash; between them
-    they identify what is driving it, and rule out the obvious alternative.
+    they point to the most likely driver, and rule out the obvious alternative.
   </div>
 </div>
 </section>
@@ -1053,7 +1053,7 @@ window.addEventListener('DOMContentLoaded', initMap);
 <script>
 // ── INTERACTIVE TREND CHART (data: data/processed/grace_regional_tws.csv,
 //    statistics: outputs/robust_trend_stats.csv; Sen intercept = median(y - slope*x))
-const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"series":{"barind":{"tws":[-10.7,-11.41,-12.85,-16.63,-24.47,-19.69,-15.57,-24.88,-24.36,-29.33,-26.95,-28.77,-29.67,-21.9,-22.62,-20.08,null,-26.09,-22.36,-25.02,-13.26,-27.3,-26.76],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"coastal":{"tws":[-11.71,-11.59,-10.1,-13.51,-18.34,-14.84,-10.31,-16.92,-18.55,-21.19,-16.67,-19.15,-22.29,-17.56,-18.61,-17.53,null,-20.08,-15.67,-18.47,-9.74,-20.81,-19.58],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"haor":{"tws":[-11.22,-19.57,-18.03,-21.08,-29.64,-23.4,-15.49,-25.61,-18.42,-24.28,-25.3,-21.11,-34.07,-29.18,-22.16,-9.1,null,-18.13,-14.9,-15.75,-2.9,-13.97,-14.16],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]}},"stats":{"barind_grace":{"slope":-0.9048,"intercept":1796.8688,"p":0.0102794784852129,"sig":true,"n":16,"x0":2002,"x1":2017},"barind_full":{"slope":-0.5663,"intercept":1118.9212,"p":0.0015579179080122,"sig":true,"n":22,"x0":2002,"x1":2024},"coastal_grace":{"slope":-0.5613,"intercept":1111.9545,"p":0.0014578066711188,"sig":true,"n":16,"x0":2002,"x1":2017},"coastal_full":{"slope":-0.3156,"intercept":618.4716,"p":0.0094682786103557,"sig":true,"n":22,"x0":2002,"x1":2024},"haor_grace":{"slope":-0.5985,"intercept":1179.2645,"p":0.2241343019601669,"sig":false,"n":16,"x0":2002,"x1":2017},"haor_full":{"slope":0.3426,"intercept":-708.0688,"p":0.1542608484910275,"sig":false,"n":22,"x0":2002,"x1":2024}},"barind_baseline":-11.65,"barind_plateau":-25.62};
+const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"series":{"barind":{"tws":[-10.7,-11.41,-12.85,-16.63,-24.47,-19.69,-15.57,-24.88,-24.36,-29.33,-26.95,-28.77,-29.67,-21.9,-22.62,-20.08,null,-26.09,-22.36,-25.02,-13.26,-27.3,-26.76],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"coastal":{"tws":[-11.71,-11.59,-10.1,-13.51,-18.34,-14.84,-10.31,-16.92,-18.55,-21.19,-16.67,-19.15,-22.29,-17.56,-18.61,-17.53,null,-20.08,-15.67,-18.47,-9.74,-20.81,-19.58],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"haor":{"tws":[-11.22,-19.57,-18.03,-21.08,-29.64,-23.4,-15.49,-25.61,-18.42,-24.28,-25.3,-21.11,-34.07,-29.18,-22.16,-9.1,null,-18.13,-14.9,-15.75,-2.9,-13.97,-14.16],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]}},"stats":{"barind_grace":{"slope":-0.9048,"intercept":1796.8688,"p":0.0102794784852129,"sig":true,"n":16,"x0":2002,"x1":2017},"barind_full":{"slope":-0.5663,"intercept":1118.9212,"p":0.0178542927893830,"sig":true,"n":22,"x0":2002,"x1":2024},"coastal_grace":{"slope":-0.5613,"intercept":1111.9545,"p":0.0078996621304936,"sig":true,"n":16,"x0":2002,"x1":2017},"coastal_full":{"slope":-0.3156,"intercept":618.4716,"p":0.0207649985354210,"sig":true,"n":22,"x0":2002,"x1":2024},"haor_grace":{"slope":-0.5985,"intercept":1179.2645,"p":0.2241343019601669,"sig":false,"n":16,"x0":2002,"x1":2017},"haor_full":{"slope":0.3426,"intercept":-708.0688,"p":0.1758957490227675,"sig":false,"n":22,"x0":2002,"x1":2024}},"barind_baseline":-11.65,"barind_plateau":-25.62};
 (function () {
   const wrap = document.getElementById('trend-wrap');
   if (!wrap) return;

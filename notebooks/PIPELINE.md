@@ -65,6 +65,7 @@ attacked once before a judge attacks it.
 | 19 | `19_validate_asi.py` | `ward_observed_growth.csv` — WorldPop and GHSL growth per ward | yes |
 | 20 | `20_predictive_validation.py` | `predictive_validation.*` — does the ASI predict growth? | no |
 | 21 | `21_build_site_geojson.py` | rewrites `WARD_GEO` in `outputs/PRAAN.html`, mirrors to `deploy/index.html` | no |
+| 22 | `22_gldas_groundwater.py` | `gldas_regional_storage.csv`, `gldas_groundwater_*` — TWS minus GLDAS soil/snow/canopy, to separate groundwater. Not on the site yet | yes |
 
 Run 16 before 17, and 19 before 20. Scripts 17, 18, 20 and 21 read committed
 CSVs, so they re-run in seconds without Earth Engine.
@@ -77,9 +78,12 @@ predicted. Rebuilt from year-2000 inputs only the index predicts nothing
 (rho = −0.154, p = 0.19), so arrivals are now allocated on population alone
 and `ALLOCATION = 'population'` in script 15.
 
-**What 18 settled.** OLS gives the Barind GRACE trend p = 0.0039, but the
-series has lag-1 autocorrelation of +0.724. Mann-Kendall with the Hamed-Rao
-variance correction gives p = 0.0103. The site publishes the stricter number.
+**What 18 settled.** OLS gives the Barind GRACE trend p = 0.0039.
+Mann-Kendall gives p = 0.0103, and the site publishes that. The raw series
+has lag-1 autocorrelation of +0.724, but almost all of it is trend: the
+Hamed-Rao check on the detrended series finds nothing significant, so the
+correction leaves the p-value unchanged. The correction is floored at 1, so
+it can raise a p-value but never lower one.
 
 ## Minimum rebuild of the published result
 

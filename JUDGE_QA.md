@@ -6,7 +6,7 @@ an unusually honest project. Lead with that, don't hide it.
 
 ---
 
-## The five hard questions
+## The six hard questions
 
 ### 1. "GRACE resolves about 300 km. Your study area is smaller than one pixel. How is this a Barind Tract result?"
 
@@ -33,12 +33,23 @@ Never say "GRACE proves groundwater depletion in the Barind Tract."
 
 **If they press on significance**, you are on stronger ground than OLS:
 
-> "The series has lag-1 autocorrelation of +0.72, so ordinary least squares
-> overstates the certainty — its p of 0.0039 assumes each year is
-> independent of the last, and water storage isn't. We publish the
-> Mann-Kendall result with the Hamed-Rao variance correction instead:
-> p = 0.0103, Sen's slope −0.905 cm/yr. The trend survives the stricter
-> test, which is why we're willing to lead with it."
+> "OLS gives p = 0.0039, but it assumes each year is independent of the
+> last. We publish a rank-based Mann-Kendall test instead: p = 0.0103,
+> Sen's slope −0.905 cm/yr. We also ran the Hamed-Rao check for serial
+> correlation. The raw series has lag-1 autocorrelation of +0.72, but
+> almost all of that is the trend itself — once the trend is removed there
+> is no significant autocorrelation left, so the correction changes
+> nothing. We publish the more conservative number either way."
+
+**If they ask why the haor basin's slope (−0.60 cm/yr) is "not
+significant" when the coastal south's (−0.56) is:**
+
+> "Significance depends on the noise as well as the slope. The haor basin is
+> the wettest part of the country and its year-to-year swings are far
+> larger, so a slope of that size can't be told apart from chance there
+> (p = 0.22). Over the full record it even turns positive. The coastal
+> series is much steadier, so a similar slope is clearly detectable
+> (p = 0.0079). We report the test result, not the slope alone."
 
 ### 2. "Your mobility rate comes from a famine survey. Why does that transfer to slow groundwater decline?"
 
@@ -139,10 +150,11 @@ wrong claim.
 
 ## Do not do these
 
-- Don't publish the −0.898 / r = −0.678 figures until
-  `grace_mascon_tws_raw.csv` is committed and reproduces them. A judge who
-  opens `phase2_summary.txt` and sees different numbers has found a
-  contradiction you handed them. Run `14_reconcile_grace.py` first.
+- Don't quote the −0.898 / r = −0.678 OLS figures as the headline. The
+  site leads with Sen's slope and Mann-Kendall (−0.90 cm/yr, p = 0.010).
+  `grace_mascon_tws_raw.csv` is committed and reproduces both; if a judge
+  opens `phase2_summary.txt` (the older LAND product, r = −0.921), say which
+  product the site uses. `14_reconcile_grace.py` shows the two side by side.
 - Don't call any layer "validated" except Layer 1's trend detection.
 - Don't say "prediction" anywhere. Say scenario, or mobility pressure.
 - Don't let the demo open on the map. Open on the problem.
@@ -151,9 +163,9 @@ wrong claim.
 
 ## The 30-second version
 
-> Northwest Bangladesh is losing groundwater and it isn't coming back —
-> GRACE has watched it for 22 years and the aquifer has never recovered to
-> its 2002 level. When farming fails there, people move, and two-thirds of
+> Northwest Bangladesh is losing stored water, consistent with groundwater
+> depletion — GRACE has watched it for 22 years and dry-season storage has
+> not regained its 2002 level. When farming fails there, people move, and two-thirds of
 > them go to Dhaka. PRAAN asks the question nobody has costed: which Dhaka
 > wards can actually absorb them? We score every city-corporation ward on
 > density, built-up land, flood risk and household crowding, cross it with
