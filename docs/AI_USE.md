@@ -60,9 +60,24 @@ team member; nothing is cited from an AI summary alone.
 
 ## What the team did
 
-The team chose the problem and the challenge, decided which datasets and
-methods to use, set the study regions, and made the judgement calls about
-what to claim and what to leave out. Every AI-written script was run by a
-team member, and its output was checked against the committed data before
-anything reached the site. Where the AI and the data disagreed, the data
-won and the change is logged in `CORRECTIONS.md`.
+Our team independently conceptualized, designed, and developed PRAAN. We
+selected the research problem, defined the study areas, identified the
+datasets, established the analytical framework, made decisions regarding
+statistical methods, conducted the data analysis, and interpreted the
+findings. All major research decisions, methodological choices, and final
+conclusions were made by the team.
+
+AI tools were used only as supporting assistants during development. They
+helped us identify and correct coding errors, understand which datasets were
+required and how to access them, review analytical methods, and critically
+evaluate the project's strengths, weaknesses, and limitations from the
+perspective of a NASA Space Apps evaluator. AI also assisted in reviewing
+documentation and suggesting improvements.
+
+The AI tools did not independently determine our research direction, make
+final methodological decisions, or establish our conclusions. Our team
+remained responsible for implementing the analysis, verifying outputs
+against the source data, evaluating suggestions, and deciding what was
+ultimately included in PRAAN. AI served as a supportive resource; the
+project's research, development decisions, and final outcomes belong to our
+team.
