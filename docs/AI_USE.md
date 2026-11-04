@@ -15,23 +15,23 @@ We used two AI tools while building it.
 
 | Tool | Maker | Used for | Extent |
 |---|---|---|---|
-| Claude (Claude Opus 5 and 5.5, in chat and Claude Code) | Anthropic | Writing and debugging analysis scripts, reviewing statistical methods, building the website, editing documentation | Extensive |
+| Claude (Claude Opus 5 and 5.5, in chat and Claude Code) | Anthropic | Helping write and debug analysis scripts and website code, reviewing statistical methods, reviewing documentation | Extensive |
 | Perplexity | Perplexity AI | Finding literature and data sources | Light |
 
 ## Claude
 
 **What it did**
 
-- Drafted and debugged the Python scripts that extract and analyse the
-  data (Google Earth Engine extraction, trend tests, the Absorption Stress
-  Index, sensitivity analysis, map export).
+- Helped write and debug, from our instructions, the Python scripts that
+  extract and analyse the data (Google Earth Engine extraction, trend tests,
+  the Absorption Stress Index, sensitivity analysis, map export).
 - Reviewed our methods and flagged problems. Several entries in
   `CORRECTIONS.md` started this way: a wrong unit label on the GRACE LAND
   band, an allocation rule that ran in the wrong direction, an
   autocorrelation correction that could make p-values smaller instead of
   larger, and claims on the site that went further than the data.
-- Built and revised the single-file website (`deploy/index.html`).
-- Edited the README, the judge Q&A notes and other documentation.
+- Helped build and revise the single-file website (`deploy/index.html`).
+- Helped edit the README, the judge Q&A notes and other documentation.
 
 Commits written with Claude Code carry a `Co-Authored-By: Claude` line, so
 the git history shows exactly which changes it touched.
@@ -67,8 +67,9 @@ statistical methods, conducted the data analysis, and interpreted the
 findings. All major research decisions, methodological choices, and final
 conclusions were made by the team.
 
-AI tools were used only as supporting assistants during development. They
-helped us identify and correct coding errors, understand which datasets were
+AI tools were used as supporting assistants during development. Working
+from our instructions, they helped us write and debug the analysis scripts
+and the website code, identify and correct coding errors, understand which datasets were
 required and how to access them, review analytical methods, and critically
 evaluate the project's strengths, weaknesses, and limitations from the
 perspective of a NASA Space Apps evaluator. AI also assisted in reviewing

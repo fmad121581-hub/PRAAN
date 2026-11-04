@@ -106,8 +106,9 @@ Netlify; Git and GitHub. Full credits in `docs/REFERENCES.md`.
 
 PRAAN itself contains no AI: every number on the site comes from
 deterministic Python scripts reading committed data. During development we
-used Claude (Anthropic) extensively to draft and debug analysis scripts,
-review our statistical methods, build the website and edit documentation;
+used Claude (Anthropic) extensively as an assistant: working from our
+instructions, it helped write and debug the analysis scripts and website
+code, review our statistical methods and edit documentation;
 commits it helped write are marked "Co-Authored-By: Claude" in the git
 history. We used Perplexity lightly to find literature and data sources. The
 AI worked only on open datasets and our own derived files. The team chose
