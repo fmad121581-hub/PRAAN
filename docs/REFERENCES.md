@@ -16,7 +16,7 @@ Every dataset, paper, tool and asset PRAAN draws on.
 - **MODIS Terra Vegetation Indices, monthly, 1 km (MOD13A3 v061)**, via Google Earth Engine.
   Scripts 01, 03, 18. Didan, K. (2021). NASA EOSDIS Land Processes DAAC.
 - **GLDAS-2.1 Noah, 3-hourly, 0.25°** (`NASA/GLDAS/V021/NOAH/G025/T3H`), via Google
-  Earth Engine. Script 22. Beaudoing, H., & Rodell, M. (2020). NASA GES DISC.
+  Earth Engine. Script 22 (written, not yet run). Beaudoing, H., & Rodell, M. (2020). NASA GES DISC.
   Rodell, M., et al. (2004). The Global Land Data Assimilation System. *Bulletin of
   the American Meteorological Society*, 85(3), 381–394.
 

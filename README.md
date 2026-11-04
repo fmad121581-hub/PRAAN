@@ -227,7 +227,7 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
   script 11 uses `NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI` (JPL RL06.3Mv04,
   band `lwe_thickness`). Watkins et al. (2015), Wiese et al. (2016)
 - MODIS Terra NDVI — `MODIS/061/MOD13A3` (scripts 01, 03, 18) — Didan (2021)
-- GLDAS-2.1 Noah — `NASA/GLDAS/V021/NOAH/G025/T3H` (script 22) — Beaudoing & Rodell (2020)
+- GLDAS-2.1 Noah — `NASA/GLDAS/V021/NOAH/G025/T3H` (script 22, not yet run) — Beaudoing & Rodell (2020)
 - CHIRPS Rainfall v2.0 — `UCSB-CHG/CHIRPS/PENTAD` — Funk et al. (2015)
 - WorldPop 2020 — WorldPop Global Project, University of Southampton
 - JRC GHSL P2023A — `JRC/GHSL/P2023A/GHS_BUILT_S` — Pesaresi et al. (2023)

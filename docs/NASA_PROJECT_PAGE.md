@@ -68,10 +68,12 @@ p = 0.018 (2002–2024). Coastal south: −0.56 cm/yr, p = 0.0079. Haor basin:
 not significant in either window.
 
 *Why.* MODIS NDVI over the same districts and season rises significantly,
-CHIRPS rainfall shows no significant trend over 39 years, and GLDAS lets us
-subtract soil moisture, snow and canopy water from GRACE to isolate
-groundwater. Together these point to irrigation extraction, consistent with
-Bangladesh Water Development Board tube-well records (Aziz et al. 2015).
+and CHIRPS rainfall shows no significant trend over 39 years. Together these
+point to irrigation extraction, consistent with Bangladesh Water Development
+Board tube-well records (Aziz et al. 2015). GRACE measures total water
+storage, not groundwater alone; a GLDAS-2.1 step that subtracts soil
+moisture, snow and canopy water is written (script 22) but not yet run, so
+we make no groundwater-only claim.
 
 *So what.* Using BBS census data, a migration scenario and an Absorption
 Stress Index built from WorldPop density, JRC built-up surface, JRC flood
@@ -86,7 +88,7 @@ NGOs that work with low-income arrivals. A trend that is visible from space
 years before it shows up in a city gives planners lead time: the ward list
 says where services, drainage and housing pressure are most likely to build
 first. The site works in a browser with no installation, on a phone, and
-offline, and every number links to the CSV behind it. We want the method to
+offline, and the key results link to the CSVs behind them. We want the method to
 be reused for other Bangladeshi cities, and the code is open for that.
 
 Highlights: identical trend tests across three regions; a three-satellite
@@ -119,8 +121,9 @@ what to claim. Details and example prompts: `docs/AI_USE.md`.
 - GRACE Tellus land grids — cross-check of the mascon result.
 - MODIS Terra NDVI (MOD13A3 v061) — vegetation trend over the same districts
   and season, used to explain the decline.
-- GLDAS-2.1 Noah — soil moisture, snow and canopy water, subtracted from
-  GRACE to isolate groundwater.
+- GLDAS-2.1 Noah — the next step: subtracting soil moisture, snow and
+  canopy water from GRACE to separate groundwater. The script (22) is
+  written but not yet run, so no result from it is claimed.
 
 Other sources on top of NASA data: CHIRPS rainfall, WorldPop, JRC GHSL, JRC
 Global Surface Water, BBS census 2011 and 2022, GADM and OCHA boundaries.
