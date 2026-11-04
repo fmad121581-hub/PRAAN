@@ -180,7 +180,7 @@ beats comprehensive.
 
 ## Before the event
 
-- [ ] Run `14_reconcile_grace.py`, commit the MASCON CSV
+- [x] Run `14_reconcile_grace.py`, commit the MASCON CSV
 - [ ] Have `predictive_validation.txt` open too — the failed ASI test is
       your strongest answer, not your weakest, and you want the file
 - [x] Team member names and roles are on the site. Each person owns a named

@@ -226,6 +226,8 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
   Script 01 uses `NASA/GRACE/MASS_GRIDS_V04/LAND` (band `lwe_thickness_csr`);
   script 11 uses `NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI` (JPL RL06.3Mv04,
   band `lwe_thickness`). Watkins et al. (2015), Wiese et al. (2016)
+- MODIS Terra NDVI — `MODIS/061/MOD13A3` (scripts 01, 03, 18) — Didan (2021)
+- GLDAS-2.1 Noah — `NASA/GLDAS/V021/NOAH/G025/T3H` (script 22) — Beaudoing & Rodell (2020)
 - CHIRPS Rainfall v2.0 — `UCSB-CHG/CHIRPS/PENTAD` — Funk et al. (2015)
 - WorldPop 2020 — WorldPop Global Project, University of Southampton
 - JRC GHSL P2023A — `JRC/GHSL/P2023A/GHS_BUILT_S` — Pesaresi et al. (2023)
@@ -237,6 +239,17 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
 - GADM 4.1 — ward-level boundaries (ADM4)
 - Khalily M.A.B., Khandker S.R., Samad H.A. (2006/07). *Seasonal Migration and
   Coping Strategies: The Monga Context in Bangladesh.* World Bank / BRAC
+
+## Documentation
+
+- `docs/NASA_PROJECT_PAGE.md` — the text submitted on the NASA project page
+- `docs/AI_USE.md` — every AI tool used during development, and for what
+- `docs/REFERENCES.md` — full citations for every dataset, paper and tool
+- `CORRECTIONS.md` — errors we found in our own work, and the fixes
+- `JUDGE_QA.md` — prepared answers for judging
+
+The site runs offline: Leaflet and the fonts are bundled in `deploy/`,
+and the map data is inline.
 
 ## Licence
 
