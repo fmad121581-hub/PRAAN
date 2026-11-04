@@ -65,9 +65,13 @@ attacked once before a judge attacks it.
 | 19 | `19_validate_asi.py` | `ward_observed_growth.csv` — WorldPop and GHSL growth per ward | yes |
 | 20 | `20_predictive_validation.py` | `predictive_validation.*` — does the ASI predict growth? | no |
 | 21 | `21_build_site_geojson.py` | rewrites `WARD_GEO` in `outputs/PRAAN.html`, mirrors to `deploy/index.html` | no |
+| 23 | `23_detective_monthly.py` | `detective_monthly.csv` — monthly means of six variables over five regions, for the Trend Detective tool | yes |
+| 24 | `24_check_site_stats.py` | checks the page's trend statistics and GRACE aggregation against scripts 16 and 18 (needs Node.js) | no |
 | 22 | `22_gldas_groundwater.py` | `gldas_regional_storage.csv`, `gldas_groundwater_*` — TWS minus GLDAS soil/snow/canopy, to separate groundwater. Not on the site yet | yes |
 
-Run 16 before 17, and 19 before 20. Scripts 17, 18, 20 and 21 read committed
+Run 16 before 17, 19 before 20, and 23 before 21 (21 inlines the Trend
+Detective's data and statistics code). Run 24 after any change to
+`notebooks/site/trend_stats.js`. Scripts 17, 18, 20, 21 and 24 read committed
 CSVs, so they re-run in seconds without Earth Engine.
 
 **What 20 settled.** The arrival-allocation rule used to be

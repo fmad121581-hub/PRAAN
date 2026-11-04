@@ -447,3 +447,48 @@ The site's "aquifer is locked in a depleted state" and "has not recovered"
 now describe what GRACE measures — dry-season water storage that has not
 regained its 2002-04 level — and "identify what is driving it" reads
 "point to the most likely driver".
+
+## 12. GRACE months were off by one, and the grid was resampled — FOUND, NOT YET APPLIED
+
+Building the Trend Detective (script 23) meant extracting GRACE month by
+month, and that exposed two problems in how scripts 11 and 16 built the
+published dry-season series.
+
+**Image dates.** JPL mascon images in Earth Engine are stamped with the
+*last day of the previous month*: the January 2005 image starts 2004-12-31,
+the May image starts 2005-04-30. Scripts 11 and 16 filtered by start date
+over 1 January–31 May, so they caught the February–May images and missed
+January. The published "January–May" series is really February–May. In
+2015–2017, when late-GRACE images cover irregular spans, the two rules also
+pick different images. Script 23 places each image in the month that
+contains its midpoint.
+
+**Grid.** Averaging images in Earth Engine drops their projection, and
+reducing the composite at `scale=55000` resamples it onto a grid with a
+different alignment from the product's own 0.5° grid. For the small coastal
+region, next to ocean mascons, one year moved from −21.2 cm (resampled) to
+−23.7 cm (native grid). Script 23 reduces on the native grid.
+
+**What the corrected series gives** (Sen's slope, Mann-Kendall p, same
+code as the site):
+
+| series | published | true Jan–May, native grid |
+|---|---|---|
+| Barind 2002–2017 | −0.90 cm/yr, p = 0.010 | −1.04 cm/yr, p = 0.0046 |
+| Barind 2002–2024 | −0.57, p = 0.018 | −0.56, p = 0.0075 |
+| Coastal 2002–2017 | −0.56, p = 0.0079 | −0.63, p = 0.017 |
+| Coastal 2002–2024 | −0.32, p = 0.021 | **−0.13, p = 0.54** |
+| Haor 2002–2017 | −0.60, p = 0.22 | −0.54, p = 0.26 |
+| Haor 2002–2024 | +0.34, p = 0.18 | +0.32, p = 0.14 |
+
+The Barind result holds and strengthens. The haor basin is not significant
+either way, and on the native grid the Dhaka region and the haor basin
+return identical series, as before. **One published claim does not
+survive:** the coastal south's decline is significant over 2002–2017 but
+not over 2002–2024, so "both declines hold over the full record" is wrong.
+
+**Status.** The Trend Detective already uses the corrected series. The
+site's text, the hero chart, the 14 cm figure and the docs still carry the
+published (February–May, resampled) values. Applying the correction means
+fixing scripts 11 and 16 the same way, re-running 11, 16, 17, 18, 14 and
+05b, and updating every figure that depends on them.

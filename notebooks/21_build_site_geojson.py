@@ -1,5 +1,5 @@
 """
-PRAAN — rebuild the map data embedded in the site
+PRAAN — rebuild the data embedded in the site
 Script: 21_build_site_geojson.py
 
 WHY
@@ -17,11 +17,15 @@ WHAT IT DOES
       vertex count stays within a few percent of the original
     - writes the block back into outputs/PRAAN.html and mirrors the file to
       deploy/index.html, which is what Netlify publishes
+    - inlines notebooks/site/trend_stats.js (the Trend Detective's
+      statistics, checked by script 24) between the TREND_STATS markers
+    - rebuilds `const DETECTIVE` from data/processed/detective_monthly.csv
+      (script 23), if that file exists
 
 NO EARTH ENGINE NEEDED.
 
 OUTPUT
-    outputs/PRAAN.html   (WARD_GEO block replaced)
+    outputs/PRAAN.html   (WARD_GEO, TREND_STATS and DETECTIVE replaced)
     deploy/index.html    (copy)
 """
 import geopandas as gpd, pandas as pd, json, shutil, os, re
@@ -99,6 +103,42 @@ if start < 0:
     raise SystemExit('WARD_GEO block not found in ' + html_path)
 end = s.find('};', start) + 2
 s = s[:start] + blob + s[end:]
+
+# ── Trend Detective: statistics code and monthly data ─────────────────────
+a, b = '/* TREND_STATS:BEGIN */\n', '/* TREND_STATS:END */'
+i, j = s.find(a), s.find(b)
+if i < 0 or j < 0:
+    raise SystemExit('TREND_STATS markers not found in ' + html_path)
+js = open(BASE + 'notebooks/site/trend_stats.js', encoding='utf-8').read()
+s = s[:i + len(a)] + js + s[j:]
+
+DET_DP = {'tws': 4, 'gpm': 1, 'chirps': 1, 'ndvi': 4, 'lst': 2, 'soil': 2}
+det_path = DATA + 'detective_monthly.csv'
+if os.path.exists(det_path):
+    m = pd.read_csv(det_path)
+    det = {}
+    for (var, reg), d in m.groupby(['variable', 'region']):
+        y0, y1 = int(d.year.min()), int(d.year.max())
+        idx = (d.year - y0) * 12 + d.month - 1
+        v = [None] * ((y1 - y0 + 1) * 12)
+        n = [0] * len(v)
+        for k, val, cnt in zip(idx, d.value, d.n):
+            v[k] = round(float(val), DET_DP[var])
+            n[k] = int(cnt)
+        entry = {'y0': y0, 'v': v}
+        if var == 'tws':      # GRACE seasons are image-weighted means, as script 16
+            entry['n'] = n
+        det.setdefault(var, {})[reg] = entry
+    det_blob = 'const DETECTIVE = ' + json.dumps({'data': det}, separators=(',', ':')) + ';'
+    start = s.find('const DETECTIVE = ')
+    if start < 0:
+        raise SystemExit('DETECTIVE block not found in ' + html_path)
+    end = s.find(';\n', start) + 1
+    s = s[:start] + det_blob + s[end:]
+    print(f'detective: {len(m)} region-months, {len(det)} variables')
+else:
+    print('detective_monthly.csv not found; run script 23 to fill the Trend Detective')
+
 open(html_path, 'w', encoding='utf-8').write(s)
 
 os.makedirs(DEPLOY, exist_ok=True)

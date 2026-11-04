@@ -6,7 +6,7 @@ an unusually honest project. Lead with that, don't hide it.
 
 ---
 
-## The six hard questions
+## The seven hard questions
 
 ### 1. "GRACE resolves about 300 km. Your study area is smaller than one pixel. How is this a Barind Tract result?"
 
@@ -121,6 +121,20 @@ wrong claim.
 > correlates negatively with census counts; density times ward area gives rank
 > agreement of only 0.20 with 47% median error. Those wards are on the map,
 > scored for absorption stress, and explicitly not ranked."
+
+---
+
+### 7. "The challenge asks for a tool. Where is it?"
+
+> "Scroll to Be the trend detective. Pick any of six variables — GRACE
+> water storage, GPM and CHIRPS rainfall, MODIS greenness and ground
+> temperature, GLDAS soil moisture — any of five regions, a season and a
+> range of years. It draws the record and runs Sen's slope with a 95%
+> confidence interval and the Mann-Kendall test right in the page, with
+> the same code as our Python pipeline, which script 24 checks against
+> scipy. It works with the internet off. Case 3 is a null result on
+> purpose: Dhaka's ground temperature shows no significant trend, and a
+> detective should say so."
 
 ---
 

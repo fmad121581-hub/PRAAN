@@ -25,6 +25,15 @@ rising significantly and CHIRPS rainfall shows no significant trend: the land
 is getting greener while the water under it runs down, which points to
 irrigation pumping rather than drought.
 
+Anyone can repeat the investigation. The site's Trend Detective lets a user
+choose one of six variables (GRACE/GRACE-FO water storage, GPM rainfall,
+CHIRPS rainfall, MODIS vegetation greenness, MODIS land surface temperature,
+GLDAS soil moisture), any of five regions, a season and a range of years. It
+draws the record and runs Sen's slope with a 95% confidence interval and the
+Mann-Kendall test in the browser, with code checked against our Python
+analysis. Three worked cases, one of them a null result, show how to read
+it, and it works offline.
+
 We then follow that trend to where its consequences may land. Using census
 data, we score all 75 matchable Dhaka city-corporation wards on how much
 strain they could absorb from rural arrivals, and identify 11 high-concern
@@ -66,6 +75,15 @@ a Hamed-Rao check for serial correlation that is only ever allowed to make a
 p-value larger. Barind: −0.90 cm/yr, p = 0.010 (2002–2017) and −0.57 cm/yr,
 p = 0.018 (2002–2024). Coastal south: −0.56 cm/yr, p = 0.0079. Haor basin:
 not significant in either window.
+
+*The tool.* The Trend Detective answers the same four questions for any
+variable, region, season and period a user picks: six variables from GRACE
+and GRACE-FO, GPM, MODIS, GLDAS and CHIRPS, extracted as monthly means over
+five regions (script 23) and embedded in the page. The statistics run in
+the browser from one source file that a test (script 24) checks against our
+Python pipeline and scipy. Plain-language definitions sit beside every
+variable and statistical term, and three worked cases guide a first-time
+user, including one where the answer is "no significant trend".
 
 *Why.* MODIS NDVI over the same districts and season rises significantly,
 and CHIRPS rainfall shows no significant trend over 39 years. Together these
@@ -121,12 +139,17 @@ what to claim. Details and example prompts: `docs/AI_USE.md`.
   storage trends in three regions, 2002–2024.
 - GRACE Tellus land grids — cross-check of the mascon result.
 - MODIS Terra NDVI (MOD13A3 v061) — vegetation trend over the same districts
-  and season, used to explain the decline.
-- GLDAS-2.1 Noah — the next step: subtracting soil moisture, snow and
-  canopy water from GRACE to separate groundwater. The script (22) is
-  written but not yet run, so no result from it is claimed.
+  and season, used to explain the decline; also a Trend Detective variable.
+- MODIS Terra land surface temperature (MOD11A2 v061) — Trend Detective
+  variable (daytime ground temperature).
+- GPM IMERG V07 monthly precipitation — Trend Detective rainfall variable.
+- GLDAS-2.1 Noah — root-zone soil moisture as a Trend Detective variable.
+  Subtracting GLDAS soil, snow and canopy water from GRACE to separate
+  groundwater (script 22) is written but not yet run, so no result from it
+  is claimed.
 
-Other sources on top of NASA data: CHIRPS rainfall, WorldPop, JRC GHSL, JRC
+Other sources on top of NASA data: CHIRPS rainfall (also a Trend Detective
+variable, for its record back to 1981), WorldPop, JRC GHSL, JRC
 Global Surface Water, BBS census 2011 and 2022, GADM and OCHA boundaries.
 
 ## References

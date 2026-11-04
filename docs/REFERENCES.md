@@ -15,8 +15,12 @@ Every dataset, paper, tool and asset PRAAN draws on.
   `lwe_thickness_csr`), via Google Earth Engine. Script 01, cross-check only.
 - **MODIS Terra Vegetation Indices, monthly, 1 km (MOD13A3 v061)**, via Google Earth Engine.
   Scripts 01, 03, 18. Didan, K. (2021). NASA EOSDIS Land Processes DAAC.
+- **MODIS Terra Land Surface Temperature, 8-day, 1 km (MOD11A2 v061)**, via Google Earth
+  Engine. Script 23. Wan, Z., Hook, S., & Hulley, G. (2021). NASA EOSDIS Land Processes DAAC.
+- **GPM IMERG Final Precipitation, monthly, V07** (`NASA/GPM_L3/IMERG_MONTHLY_V07`), via
+  Google Earth Engine. Script 23. Huffman, G. J., et al. (2023). NASA GES DISC.
 - **GLDAS-2.1 Noah, 3-hourly, 0.25°** (`NASA/GLDAS/V021/NOAH/G025/T3H`), via Google
-  Earth Engine. Script 22 (written, not yet run). Beaudoing, H., & Rodell, M. (2020). NASA GES DISC.
+  Earth Engine. Script 23 (root-zone soil moisture); script 22 (written, not yet run). Beaudoing, H., & Rodell, M. (2020). NASA GES DISC.
   Rodell, M., et al. (2004). The Global Land Data Assimilation System. *Bulletin of
   the American Meteorological Society*, 85(3), 381–394.
 

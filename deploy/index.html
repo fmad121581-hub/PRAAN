@@ -322,6 +322,47 @@ nav{background:rgba(14,39,48,.94);}
 #trend-tip{background:var(--bg);}
 .map-toggle.active{background:rgba(98,208,221,.14);}
 a.inline{color:var(--blue);border-bottom-color:rgba(98,208,221,.4);}
+
+/* trend detective tool */
+.dt-cases{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin-bottom:.7rem;}
+.dt-cases>span{color:var(--muted);font-size:.92rem;margin-right:.2rem;}
+.dt-case{background:transparent;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.45rem .8rem;font:inherit;font-size:.9rem;cursor:pointer;text-align:left;}
+.dt-case:hover{border-color:var(--gold);}
+.dt-case[aria-pressed="true"]{border-color:var(--gold);background:rgba(226,194,111,.10);}
+.dt-case-text{color:var(--muted);font-size:.95rem;max-width:75ch;margin:0 0 1.1rem;min-height:1.5em;}
+.dt-case-text b{color:var(--text);}
+.dt-steps{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:1.2rem 1.8rem;margin-bottom:1.1rem;}
+@media(max-width:900px){.dt-steps{grid-template-columns:1fr;}}
+.dt-q{font-weight:650;font-size:.95rem;margin-bottom:.5rem;}
+.dt-opts{display:flex;flex-wrap:wrap;gap:.4rem;}
+.dt-opts .chip{font-size:.82rem;}
+.dt-def{font-size:.86rem;color:var(--muted);margin-top:.6rem;line-height:1.55;}
+.dt-def b{color:var(--text);font-weight:600;}
+.dt-warn{font-size:.84rem;color:var(--orange);margin-top:.55rem;line-height:1.5;}
+.dt-warn:empty,.dt-def:empty{display:none;}
+.dt-years{display:flex;gap:.9rem;margin-top:.65rem;font-size:.88rem;color:var(--muted);flex-wrap:wrap;}
+.dt-years select{background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:.25rem .4rem;font:inherit;margin-left:.3rem;}
+#dt-wrap{position:relative;width:100%;touch-action:pan-y;}
+#dt-wrap svg{display:block;width:100%;}
+#dt-tip{position:absolute;pointer-events:none;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.45rem .6rem;font-size:.78rem;display:none;z-index:2;min-width:160px;}
+#dt-tip b{display:block;margin-bottom:.15rem;}
+#dt-tip .row{display:flex;justify-content:space-between;gap:.8rem;}
+.dt-answer{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem 1.5rem;margin:1.1rem 0 .5rem;}
+@media(max-width:820px){.dt-answer{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.dt-answer{grid-template-columns:1fr;}}
+.dt-answer>div{border-top:2px solid var(--gold);padding-top:.5rem;}
+.dt-answer .q{color:var(--gold);font-size:.84rem;}
+.dt-answer .a{font-weight:720;font-stretch:88%;font-size:1.08rem;line-height:1.3;margin-top:.15rem;}
+.dt-answer p{font-size:.85rem;color:var(--muted);margin-top:.3rem;line-height:1.5;}
+.dt-actions{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-top:.8rem;}
+.dt-btn{background:transparent;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.35rem .8rem;font:inherit;font-size:.85rem;cursor:pointer;}
+.dt-btn:hover{border-color:var(--blue);}
+details.dt-gloss{margin-top:1rem;font-size:.88rem;color:var(--muted);}
+details.dt-gloss summary{cursor:pointer;color:var(--text);font-weight:600;}
+details.dt-gloss dl{margin-top:.4rem;max-width:80ch;}
+details.dt-gloss dt{color:var(--text);font-weight:600;margin-top:.55rem;}
+details.dt-gloss dd{margin:0;line-height:1.55;}
+@media(max-width:480px){#dt-table{font-size:.78rem;}#dt-table td,#dt-table th{padding:.4rem .25rem;}}
 footer{font-size:.85rem;}
 </style>
 </head>
@@ -331,6 +372,7 @@ footer{font-size:.85rem;}
   <div class="nav-brand">PRAAN <span>Early Warning System · Urban Alchemists</span></div>
   <div class="nav-links">
     <a href="#detective">Trend</a>
+    <a href="#tool">Explore</a>
     <a href="#layer1">Signal</a>
     <a href="#layer2">Pressure</a>
     <a href="#layer3">City</a>
@@ -385,7 +427,68 @@ footer{font-size:.85rem;}
       <p>Mann-Kendall with a Hamed-Rao correction for autocorrelation: Barind <b>p&nbsp;=&nbsp;0.010</b>, coastal south <b>p&nbsp;=&nbsp;0.0079</b>, haor basin p&nbsp;=&nbsp;0.22 (not significant). Both declines hold over the full 2002&ndash;2024 record.</p>
     </div>
   </div>
-  <p class="det-foot">Explore the series yourself in the <a class="inline" href="#trend-chart">interactive chart</a>, or check every number against the <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/robust_trend_stats.csv" target="_blank" rel="noopener">trend statistics file</a>.</p>
+  <p class="det-foot">Investigate it yourself, and other NASA variables and regions, in the <a class="inline" href="#tool">Trend Detective</a> below, or check every number against the <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/outputs/robust_trend_stats.csv" target="_blank" rel="noopener">trend statistics file</a>.</p>
+</div>
+</section>
+
+<!-- TREND DETECTIVE TOOL -->
+<section id="tool">
+<div class="section-inner">
+  <div class="section-tag"><span class="st-name">Your turn</span></div>
+  <h2>Be the trend detective</h2>
+  <p class="section-sub">Choose what to investigate, where, and over which years. The page draws the record and tests the trend itself, with the same Sen&rsquo;s slope and Mann-Kendall code our analysis uses. It works offline: every value is already in this page.</p>
+  <div class="dt-cases" role="group" aria-label="Worked examples">
+    <span>Start from a case:</span>
+    <button class="dt-case" type="button" data-case="1" aria-pressed="false">1 &middot; Barind&rsquo;s falling water</button>
+    <button class="dt-case" type="button" data-case="2" aria-pressed="false">2 &middot; Same satellite, opposite answers</button>
+    <button class="dt-case" type="button" data-case="3" aria-pressed="false">3 &middot; Is Dhaka heating up?</button>
+  </div>
+  <p class="dt-case-text" id="dt-case-text" aria-live="polite"></p>
+  <div class="trend-card" id="dt-card">
+    <div class="dt-steps">
+      <div>
+        <div class="dt-q">1 &middot; What do you want to investigate?</div>
+        <div class="dt-opts" id="dt-var" role="group" aria-label="Variable"></div>
+        <p class="dt-def" id="dt-def"></p>
+      </div>
+      <div>
+        <div class="dt-q">2 &middot; Where?</div>
+        <div class="dt-opts" id="dt-reg" role="group" aria-label="Regions"></div>
+        <p class="dt-warn" id="dt-regnote"></p>
+      </div>
+      <div>
+        <div class="dt-q">3 &middot; Which season and years?</div>
+        <div class="dt-opts" id="dt-season" role="group" aria-label="Season"></div>
+        <div class="dt-years">
+          <label>From<select id="dt-y0" aria-label="First year"></select></label>
+          <label>to<select id="dt-y1" aria-label="Last year"></select></label>
+        </div>
+      </div>
+    </div>
+    <div id="dt-wrap" role="img" aria-label="Line chart of the selected variable for the selected regions, with Sen's slope trend lines over the selected years. The same numbers are in the table below.">
+      <div id="dt-tip"></div>
+      <noscript><p class="trend-note">The Trend Detective needs JavaScript. The monthly data are in data/processed/detective_monthly.csv in the repository.</p></noscript>
+    </div>
+    <div class="dt-answer" id="dt-answer" aria-live="polite"></div>
+    <table class="trend-stats" id="dt-table"></table>
+    <p class="dt-warn" id="dt-varnote"></p>
+    <div class="dt-actions">
+      <button class="dt-btn" id="dt-csv" type="button">Download these yearly values (CSV)</button>
+      <span class="trend-note" style="margin:0">Monthly source data: <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/data/processed/detective_monthly.csv" target="_blank" rel="noopener">detective_monthly.csv</a></span>
+    </div>
+    <details class="dt-gloss">
+      <summary>What the words mean</summary>
+      <dl>
+        <dt>Trend</dt><dd>A steady change in one direction over the years, rising or falling. Year-to-year ups and downs are not a trend.</dd>
+        <dt>Sen&rsquo;s slope</dt><dd>How fast the value changes per year. It is the middle value of the slopes between every pair of years, so one unusual year cannot pull it far.</dd>
+        <dt>95% confidence interval</dt><dd>The range the true rate of change probably lies in. If it includes zero, the data cannot rule out &ldquo;no change&rdquo;.</dd>
+        <dt>Mann-Kendall test and p-value</dt><dd>A test of whether later years are consistently higher (or lower) than earlier ones. The p-value is how likely a pattern this strong would be if there were really no trend. Below 0.05 we call the trend significant.</dd>
+        <dt>Not significant</dt><dd>Not the same as &ldquo;no change&rdquo;. It means this record cannot tell the trend apart from natural variation. Sometimes a longer record is all a trend needs.</dd>
+        <dt>Anomaly</dt><dd>The difference from a long-term average. GRACE reports water storage this way, so a negative value means less water than the 2004&ndash;2009 average.</dd>
+        <dt>Serial correlation</dt><dd>When one year resembles the next, the record holds less independent evidence than its length suggests. The test checks for this and, where it is present, demands stronger evidence.</dd>
+      </dl>
+    </details>
+  </div>
 </div>
 </section>
 
@@ -450,25 +553,7 @@ footer{font-size:.85rem;}
     </div>
   </div>
 
-  <div class="trend-card" id="trend-chart">
-    <div class="trend-head">
-      <div class="trend-title">Dry-season water storage, 2002&ndash;2024<span>GRACE / GRACE-FO, January&ndash;May mean, anomaly in cm of water</span></div>
-      <div class="trend-controls">
-        <button class="chip" data-region="barind" aria-pressed="true"><span class="sw" style="background:#f85149"></span>Barind (NW)</button>
-        <button class="chip" data-region="coastal" aria-pressed="true"><span class="sw" style="background:#58a6ff"></span>Coastal south</button>
-        <button class="chip" data-region="haor" aria-pressed="true"><span class="sw" style="background:#3fb950"></span>Haor basin (NE)</button>
-        <span class="seg" role="group" aria-label="Trend window">
-          <button data-win="grace" aria-pressed="true">2002&ndash;2017</button><button data-win="full" aria-pressed="false">2002&ndash;2024</button>
-        </span>
-      </div>
-    </div>
-    <div id="trend-wrap" role="img" aria-label="Line chart of GRACE and GRACE-FO dry-season water storage anomalies for three regions of Bangladesh, 2002 to 2024, with Sen's slope trend lines. The same numbers are in the table below.">
-      <div id="trend-tip"></div>
-      <noscript><p class="trend-note">This chart needs JavaScript. The same series is in the CSV linked below.</p></noscript>
-    </div>
-    <table class="trend-stats" id="trend-table" aria-live="polite"></table>
-    <div class="trend-note">Dashed lines are Sen&rsquo;s slope over the selected window; p-values are Mann-Kendall with a Hamed-Rao correction for autocorrelation. No data in 2018, between the two missions. The central floodplain around Dhaka is not drawn: it sits in the same mascon cell as the haor basin and returns the same series. <a class="inline" href="https://github.com/fmad121581-hub/PRAAN/blob/master/data/processed/grace_regional_tws.csv" target="_blank" rel="noopener">Download the series (CSV)</a></div>
-  </div>
+  <p class="det-foot" style="margin:0 0 1.4rem">See these three series, with their trend lines and tests, in the <a class="inline" href="#tool" data-open-case="1">Trend Detective, case 1</a>.</p>
 
   <div class="grace-note">
     <strong>What GRACE can and cannot resolve.</strong> A mascon cell spans roughly 300&nbsp;km and
@@ -1051,158 +1136,9 @@ window.addEventListener('DOMContentLoaded', initMap);
 </script>
 
 <script>
-// ── INTERACTIVE TREND CHART (data: data/processed/grace_regional_tws.csv,
-//    statistics: outputs/robust_trend_stats.csv; Sen intercept = median(y - slope*x))
+// ── TREND: Barind GRACE series and baselines read by the hero chart
+//    (data: data/processed/grace_regional_tws.csv)
 const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024],"series":{"barind":{"tws":[-10.7,-11.41,-12.85,-16.63,-24.47,-19.69,-15.57,-24.88,-24.36,-29.33,-26.95,-28.77,-29.67,-21.9,-22.62,-20.08,null,-26.09,-22.36,-25.02,-13.26,-27.3,-26.76],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"coastal":{"tws":[-11.71,-11.59,-10.1,-13.51,-18.34,-14.84,-10.31,-16.92,-18.55,-21.19,-16.67,-19.15,-22.29,-17.56,-18.61,-17.53,null,-20.08,-15.67,-18.47,-9.74,-20.81,-19.58],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]},"haor":{"tws":[-11.22,-19.57,-18.03,-21.08,-29.64,-23.4,-15.49,-25.61,-18.42,-24.28,-25.3,-21.11,-34.07,-29.18,-22.16,-9.1,null,-18.13,-14.9,-15.75,-2.9,-13.97,-14.16],"n":[2,4,4,4,4,4,4,4,4,4,3,3,3,5,4,5,0,4,4,4,4,4,4]}},"stats":{"barind_grace":{"slope":-0.9048,"intercept":1796.8688,"p":0.0102794784852129,"sig":true,"n":16,"x0":2002,"x1":2017},"barind_full":{"slope":-0.5663,"intercept":1118.9212,"p":0.0178542927893830,"sig":true,"n":22,"x0":2002,"x1":2024},"coastal_grace":{"slope":-0.5613,"intercept":1111.9545,"p":0.0078996621304936,"sig":true,"n":16,"x0":2002,"x1":2017},"coastal_full":{"slope":-0.3156,"intercept":618.4716,"p":0.0207649985354210,"sig":true,"n":22,"x0":2002,"x1":2024},"haor_grace":{"slope":-0.5985,"intercept":1179.2645,"p":0.2241343019601669,"sig":false,"n":16,"x0":2002,"x1":2017},"haor_full":{"slope":0.3426,"intercept":-708.0688,"p":0.1758957490227675,"sig":false,"n":22,"x0":2002,"x1":2024}},"barind_baseline":-11.65,"barind_plateau":-25.62};
-(function () {
-  const wrap = document.getElementById('trend-wrap');
-  if (!wrap) return;
-  const tip = document.getElementById('trend-tip');
-  const table = document.getElementById('trend-table');
-  const COL = { barind: '#f85149', coastal: '#58a6ff', haor: '#3fb950' };
-  const NAME = { barind: 'Barind Tract (NW)', coastal: 'Coastal south (SW)', haor: 'Haor basin (NE)' };
-  const ORDER = ['barind', 'coastal', 'haor'];
-  const vis = { barind: true, coastal: true, haor: true };
-  let win = 'grace';
-  const NS = 'http://www.w3.org/2000/svg';
-  const fmtP = p => p < 0.001 ? '< 0.001' : '= ' + p.toPrecision(2);
-  const fmtS = s => (s > 0 ? '+' : '−') + Math.abs(s).toFixed(2);
-  const el = (tag, attrs, txt) => {
-    const e = document.createElementNS(NS, tag);
-    for (const k in attrs) e.setAttribute(k, attrs[k]);
-    if (txt != null) e.textContent = txt;
-    return e;
-  };
-  let svg = null, geom = null;
-
-  function render() {
-    const W = Math.max(280, wrap.clientWidth);
-    const small = W < 560;
-    const H = small ? 290 : 380;
-    const m = { l: small ? 34 : 46, r: 12, t: 26, b: 30 };
-    const x0 = 2001.5, x1 = 2024.5, y0 = -36, y1 = 0;
-    const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
-    const Y = v => m.t + (y1 - v) / (y1 - y0) * (H - m.t - m.b);
-    geom = { X, Y, m, W, H };
-    if (svg) svg.remove();
-    svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
-    const fs = small ? 10 : 11;
-
-    // grid + y axis
-    for (let v = -35; v <= y1; v += 5) {
-      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: '#1f4a57' }));
-      svg.appendChild(el('text', { x: m.l - 6, y: Y(v) + 3.5, 'text-anchor': 'end', fill: '#9db7bb', 'font-size': fs }, v === 0 ? '0' : '−' + Math.abs(v)));
-    }
-    if (!small) svg.appendChild(el('text', { x: 12, y: Y(-18), transform: `rotate(-90 12 ${Y(-18)})`, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': 11 }, 'cm of water'));
-    // x axis
-    const step = small ? 4 : 2;
-    for (let yr = 2002; yr <= 2024; yr += step) {
-      svg.appendChild(el('text', { x: X(yr), y: H - m.b + 16, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': fs }, String(yr)));
-    }
-    // mission gap and labels
-    svg.appendChild(el('rect', { x: X(2017.5), y: m.t, width: X(2018.5) - X(2017.5), height: H - m.t - m.b, fill: 'rgba(157,183,187,0.10)' }));
-    svg.appendChild(el('text', { x: X(2009.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': fs }, 'GRACE'));
-    svg.appendChild(el('text', { x: X(2021.5), y: m.t - 9, 'text-anchor': 'middle', fill: '#9db7bb', 'font-size': fs }, 'GRACE-FO'));
-    svg.appendChild(el('text', { x: X(2018), y: m.t - 9, 'text-anchor': 'middle', fill: '#7f9ea3', 'font-size': fs - 1 }, 'gap'));
-
-    // Barind baseline and depleted plateau
-    if (vis.barind) {
-      const bb = TREND.barind_baseline, bp = TREND.barind_plateau;
-      svg.appendChild(el('line', { x1: X(2002), x2: X(2004), y1: Y(bb), y2: Y(bb), stroke: '#f85149', 'stroke-width': 1.2, 'stroke-dasharray': '2 3', opacity: 0.8 }));
-      svg.appendChild(el('line', { x1: X(2011), x2: X(2017), y1: Y(bp), y2: Y(bp), stroke: '#f85149', 'stroke-width': 1.2, 'stroke-dasharray': '2 3', opacity: 0.8 }));
-      const bx = X(2001.85);
-      svg.appendChild(el('path', { d: `M${bx + 4} ${Y(bb)} H${bx} V${Y(bp)} H${bx + 4}`, fill: 'none', stroke: '#f85149', 'stroke-width': 1.2, opacity: 0.85 }));
-      if (!small) svg.appendChild(el('text', { x: X(2002.15), y: Y((bb + bp) / 2) + 4, fill: '#f85149', 'font-size': 11, 'font-weight': 600, stroke: '#133440', 'stroke-width': 4, 'paint-order': 'stroke' }, '≈' + Math.round(bb - bp) + ' cm'));
-    }
-
-    // series
-    ORDER.forEach(k => {
-      if (!vis[k]) return;
-      const s = TREND.series[k].tws;
-      let d = '', pen = false;
-      s.forEach((v, i) => {
-        const yr = TREND.years[i];
-        if (v == null) { pen = false; return; }
-        d += (pen ? 'L' : 'M') + X(yr).toFixed(1) + ' ' + Y(v).toFixed(1) + ' ';
-        pen = true;
-      });
-      svg.appendChild(el('path', { d, fill: 'none', stroke: COL[k], 'stroke-width': small ? 1.8 : 2.2, 'stroke-linejoin': 'round', opacity: 0.95 }));
-      s.forEach((v, i) => {
-        if (v == null) return;
-        svg.appendChild(el('circle', { cx: X(TREND.years[i]), cy: Y(v), r: small ? 2.4 : 3, fill: COL[k] }));
-      });
-    });
-    // Sen's slope lines for the selected window
-    ORDER.forEach(k => {
-      if (!vis[k]) return;
-      const st = TREND.stats[k + '_' + win];
-      const ya = st.slope * st.x0 + st.intercept, yb = st.slope * st.x1 + st.intercept;
-      svg.appendChild(el('line', { x1: X(st.x0), y1: Y(ya), x2: X(st.x1), y2: Y(yb), stroke: COL[k],
-        'stroke-width': st.sig ? 2 : 1.4, 'stroke-dasharray': st.sig ? '7 5' : '3 5', opacity: st.sig ? 0.95 : 0.6 }));
-    });
-
-    // hover layer
-    const guide = el('line', { y1: m.t, y2: H - m.b, stroke: '#eaf3f2', 'stroke-width': 1, opacity: 0, 'pointer-events': 'none' });
-    svg.appendChild(guide);
-    const hit = el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' });
-    svg.appendChild(hit);
-    const move = ev => {
-      const r = svg.getBoundingClientRect();
-      const px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
-      const yr = Math.round(x0 + (px - m.l) / (W - m.l - m.r) * (x1 - x0));
-      if (yr < 2002 || yr > 2024) return hide();
-      const i = yr - 2002;
-      guide.setAttribute('x1', X(yr)); guide.setAttribute('x2', X(yr)); guide.setAttribute('opacity', 0.35);
-      let html = '<b>' + yr + (yr <= 2017 ? ' · GRACE' : yr >= 2019 ? ' · GRACE-FO' : '') + '</b>';
-      if (yr === 2018) html += '<div class="muted">No data: gap between missions</div>';
-      else ORDER.forEach(k => {
-        if (!vis[k]) return;
-        const v = TREND.series[k].tws[i];
-        html += '<div class="row"><span style="color:' + COL[k] + '">' + NAME[k] + '</span><span>' + (v == null ? '—' : (v > 0 ? '+' : '−') + Math.abs(v).toFixed(1) + ' cm') + '</span></div>';
-      });
-      const n = TREND.series.barind.n[i];
-      if (yr !== 2018) html += '<div class="muted">' + n + ' monthly image' + (n === 1 ? '' : 's') + ' in Jan–May</div>';
-      tip.innerHTML = html; tip.style.display = 'block';
-      const tw = tip.offsetWidth;
-      let left = X(yr) + 12; if (left + tw > W - 4) left = X(yr) - tw - 12;
-      tip.style.left = Math.max(4, left) + 'px'; tip.style.top = (m.t + 6) + 'px';
-    };
-    const hide = () => { tip.style.display = 'none'; guide.setAttribute('opacity', 0); };
-    hit.addEventListener('mousemove', move);
-    hit.addEventListener('mouseleave', hide);
-    hit.addEventListener('touchstart', move, { passive: true });
-    hit.addEventListener('touchmove', move, { passive: true });
-    wrap.insertBefore(svg, tip);
-    renderTable();
-  }
-
-  function renderTable() {
-    const w = win === 'grace' ? '2002–2017' : '2002–2024';
-    let t = '<thead><tr><th>Region</th><th class="num">Sen’s slope (' + w + ')</th><th class="num">p</th><th class="hide-sm">Verdict</th></tr></thead><tbody>';
-    ORDER.forEach(k => {
-      if (!vis[k]) return;
-      const st = TREND.stats[k + '_' + win];
-      t += '<tr><td><span class="dot" style="background:' + COL[k] + '"></span>' + NAME[k] + '</td>'
-        + '<td class="num">' + fmtS(st.slope) + ' cm/yr</td><td class="num">' + fmtP(st.p) + '</td>'
-        + '<td class="hide-sm ' + (st.sig ? 'verdict-sig' : 'verdict-ns') + '">'
-        + (st.sig ? (st.slope < 0 ? 'Significant decline' : 'Significant rise') : 'No significant trend') + '</td></tr>';
-    });
-    table.innerHTML = t + '</tbody>';
-  }
-
-  document.querySelectorAll('#trend-chart .chip').forEach(b => b.addEventListener('click', () => {
-    const k = b.dataset.region;
-    if (vis[k] && Object.values(vis).filter(Boolean).length === 1) return; // keep one visible
-    vis[k] = !vis[k]; b.setAttribute('aria-pressed', vis[k]); render();
-  }));
-  document.querySelectorAll('#trend-chart .seg button').forEach(b => b.addEventListener('click', () => {
-    win = b.dataset.win;
-    document.querySelectorAll('#trend-chart .seg button').forEach(x => x.setAttribute('aria-pressed', x === b));
-    render();
-  }));
-  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 120); });
-  render();
-})();
 </script>
 
 <script>
@@ -1263,5 +1199,429 @@ const TREND = {"years":[2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2
   let t; window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 150); });
 })();
 </script>
+
+<script>
+// ── TREND DETECTIVE: trend statistics, inlined by script 21 from notebooks/site/trend_stats.js
+/* TREND_STATS:BEGIN */
+// PRAAN trend statistics — the same tests as notebooks/18_robust_trends.py.
+// Script 21 inlines this file into outputs/PRAAN.html; test_trend_stats.mjs
+// checks it against outputs/robust_trend_stats.csv and scipy.
+const TrendStats = (() => {
+  // Complementary error function, W. J. Cody's rational approximations
+  // (relative error below 1e-15), so p-values match scipy closely.
+  function erfc(x) {
+    const ax = Math.abs(x);
+    let r;
+    if (ax < 0.5) {
+      const t = x * x;
+      const p = [3.16112374387056560e00, 1.13864154151050156e02, 3.77485237685302021e02, 3.20937758913846947e03, 1.85777706184603153e-1];
+      const q = [2.36012909523441209e01, 2.44024637934444173e02, 1.28261652607737228e03, 2.84423683343917062e03];
+      const num = ((((p[4] * t + p[0]) * t + p[1]) * t + p[2]) * t + p[3]);
+      const den = ((((t + q[0]) * t + q[1]) * t + q[2]) * t + q[3]);
+      return 1 - x * num / den;
+    } else if (ax < 4) {
+      const p = [5.64188496988670089e-1, 8.88314979438837594e00, 6.61191906371416295e01, 2.98635138197400131e02, 8.81952221241769090e02, 1.71204761263407058e03, 2.05107837782607147e03, 1.23033935479799725e03, 2.15311535474403846e-8];
+      const q = [1.57449261107098347e01, 1.17693950891312499e02, 5.37181101862009858e02, 1.62138957456669019e03, 3.29079923573345963e03, 4.36261909014324716e03, 3.43936767414372164e03, 1.23033935480374942e03];
+      let num = p[8] * ax, den = ax;
+      for (let i = 0; i < 7; i++) { num = (num + p[i]) * ax; den = (den + q[i]) * ax; }
+      r = (num + p[7]) / (den + q[7]);
+    } else {
+      const p = [3.05326634961232344e-1, 3.60344899949804439e-1, 1.25781726111229246e-1, 1.60837851487422766e-2, 6.58749161529837803e-4, 1.63153871373020978e-2];
+      const q = [2.56852019228982242e00, 1.87295284992346725e00, 5.27905102951428412e-1, 6.05183413124413191e-2, 2.33520497626869185e-3];
+      const t = 1 / (ax * ax);
+      let num = p[5] * t, den = t;
+      for (let i = 0; i < 4; i++) { num = (num + p[i]) * t; den = (den + q[i]) * t; }
+      r = t * (num + p[4]) / (den + q[4]);
+      r = (0.56418958354775628695 - r) / ax;
+    }
+    const xsq = Math.trunc(ax * 16) / 16, del = (ax - xsq) * (ax + xsq);
+    r = Math.exp(-xsq * xsq) * Math.exp(-del) * r;
+    return x < 0 ? 2 - r : r;
+  }
+  // two-sided p for a standard normal Z: 2 * (1 - Phi(|Z|))
+  const twoSidedP = z => erfc(Math.abs(z) / Math.SQRT2);
+
+  // Median of all pairwise slopes over pairs with distinct x (script 18).
+  function pairSlopes(y, x) {
+    const s = [];
+    for (let i = 0; i < y.length; i++)
+      for (let j = i + 1; j < y.length; j++)
+        if (x[j] !== x[i]) s.push((y[j] - y[i]) / (x[j] - x[i]));
+    return s.sort((a, b) => a - b);
+  }
+  const median = a => {
+    const b = [...a].sort((p, q) => p - q), m = b.length >> 1;
+    return b.length % 2 ? b[m] : (b[m - 1] + b[m]) / 2;
+  };
+  const sensSlope = (y, x) => { const s = pairSlopes(y, x); return s.length ? median(s) : NaN; };
+
+  // numpy.round: round half to even
+  const roundHalfEven = v => {
+    const f = Math.floor(v), d = v - f;
+    if (d > 0.5) return f + 1;
+    if (d < 0.5) return f;
+    return f % 2 === 0 ? f : f + 1;
+  };
+  const tieTerm = a => {
+    const c = new Map();
+    a.forEach(v => c.set(v, (c.get(v) || 0) + 1));
+    let t = 0;
+    c.forEach(k => { if (k > 1) t += k * (k - 1) * (2 * k + 5); });
+    return t;
+  };
+
+  // 95% confidence interval for Sen's slope, as scipy.stats.theilslopes.
+  function sensCI(y, x) {
+    const s = pairSlopes(y, x), n = y.length, nt = s.length;
+    if (nt < 2) return [NaN, NaN];
+    const z = -1.959963984540054;   // norm.ppf(0.025), as scipy
+    const sig = Math.sqrt((n * (n - 1) * (2 * n + 5) - tieTerm(x) - tieTerm(y)) / 18);
+    const ru = Math.min(roundHalfEven((nt - z * sig) / 2), nt - 1);
+    const rl = Math.max(roundHalfEven((nt + z * sig) / 2) - 1, 0);
+    return [s[rl], s[ru]];
+  }
+
+  // Mann-Kendall; with correct=true, Hamed-Rao variance inflation on the
+  // ranks of the series detrended by Sen's slope over its index, floored
+  // at 1 so the correction can never make the test less strict.
+  function mannKendall(y, correct) {
+    const n = y.length;
+    let S = 0;
+    for (let i = 0; i < n - 1; i++)
+      for (let j = i + 1; j < n; j++) S += Math.sign(y[j] - y[i]);
+    let v = (n * (n - 1) * (2 * n + 5) - tieTerm(y)) / 18;
+    let ratio = 1;
+    if (correct && n > 3) {
+      const idx = y.map((_, i) => i);
+      const sl = sensSlope(y, idx);
+      const detr = y.map((val, i) => val - sl * i);
+      const order = idx.slice().sort((a, b) => detr[a] - detr[b] || a - b);
+      const r = new Array(n);
+      order.forEach((k, rank) => { r[k] = rank; });
+      const rbar = (n - 1) / 2;
+      const rvar = r.reduce((a, q) => a + (q - rbar) ** 2, 0) / n;
+      let acc = 0;
+      if (rvar > 0) {
+        for (let lag = 1; lag < n; lag++) {
+          let s = 0;
+          for (let i = 0; i < n - lag; i++) s += (r[i] - rbar) * (r[i + lag] - rbar);
+          const rho = s / ((n - lag) * rvar);
+          if (Math.abs(rho) > 1.96 / Math.sqrt(n - lag))
+            acc += (n - lag) * (n - lag - 1) * (n - lag - 2) * rho;
+        }
+      }
+      ratio = Math.max(1 + (2 / (n * (n - 1) * (n - 2))) * acc, 1);
+      v *= ratio;
+    }
+    const Z = S > 0 ? (S - 1) / Math.sqrt(v) : S < 0 ? (S + 1) / Math.sqrt(v) : 0;
+    return { S, Z, p: twoSidedP(Z), ratio };
+  }
+
+  // Full analysis of a series of {year, value}; missing values dropped.
+  function analyse(years, values) {
+    const pts = years.map((yr, i) => [yr, values[i]]).filter(p => p[1] != null && isFinite(p[1]));
+    const x = pts.map(p => p[0]), y = pts.map(p => p[1]);
+    const n = y.length;
+    if (n < 3) return { n };
+    const slope = sensSlope(y, x);
+    const [lo, hi] = sensCI(y, x);
+    const intercept = median(y) - slope * median(x);
+    const mk = mannKendall(y, true);
+    return { n, x0: x[0], x1: x[n - 1], slope, lo, hi, intercept, p: mk.p, ratio: mk.ratio, S: mk.S };
+  }
+
+  return { erfc, sensSlope, sensCI, mannKendall, analyse };
+})();
+if (typeof module !== 'undefined') module.exports = TrendStats;
+/* TREND_STATS:END */
+
+// ── TREND DETECTIVE: monthly regional means, inlined by script 21 from
+//    data/processed/detective_monthly.csv (script 23). v = values from January of y0, n = images per month (GRACE)
+const DETECTIVE = {"data":{"chirps":{"barind":{"y0":1981,"v":[27.8,25.5,30.4,117.6,247.4,127.6,483.6,311.8,213.0,21.8,4.2,4.8,8.9,8.8,20.3,59.3,85.7,242.2,288.5,205.8,153.6,52.2,7.8,2.2,13.3,11.1,26.5,41.5,217.8,178.8,355.5,290.1,261.9,242.4,4.2,5.8,24.0,9.8,13.5,30.2,291.1,519.9,387.5,313.1,270.8,137.9,5.4,2.8,13.3,10.5,18.3,34.9,178.7,313.4,410.7,242.6,282.9,170.3,4.4,3.2,10.1,6.3,9.9,61.6,132.4,192.5,380.5,255.6,351.7,238.4,22.3,4.4,8.4,8.7,40.5,72.5,97.0,218.6,660.1,589.9,284.9,61.6,9.5,3.1,10.2,20.4,36.4,69.4,186.4,357.8,300.6,423.9,176.8,92.1,10.5,2.5,9.6,11.5,8.4,17.2,194.6,153.1,423.7,101.4,260.4,151.1,4.2,3.0,9.3,21.6,35.5,53.5,171.5,313.4,348.3,219.4,269.0,160.4,9.8,2.4,18.0,12.0,24.9,25.6,167.3,341.7,375.7,208.1,315.7,174.9,6.2,4.5,12.5,14.7,11.4,39.3,128.0,157.1,360.9,177.1,108.1,82.4,4.3,2.7,16.3,8.7,31.5,98.9,190.5,313.0,329.4,262.8,209.4,153.7,12.4,2.5,13.4,18.9,19.3,46.8,125.9,171.3,168.8,252.6,125.7,145.9,7.1,2.5,14.6,14.2,13.7,26.1,97.3,284.8,336.6,224.3,443.2,77.6,27.0,2.5,12.4,14.2,18.1,49.0,111.4,290.8,268.1,338.1,143.7,169.2,4.3,2.3,16.6,10.5,17.4,116.4,181.4,256.0,345.5,429.9,249.7,71.0,5.6,4.9,20.3,12.6,64.8,64.8,191.8,220.6,375.2,423.0,246.2,246.2,14.1,2.3,9.1,6.8,14.5,15.2,166.6,295.2,380.4,472.5,259.7,222.2,6.5,2.5,11.2,13.8,17.8,110.5,218.1,303.5,235.5,310.3,288.3,105.4,4.5,2.3,7.0,11.6,21.8,36.0,224.0,191.5,206.7,242.3,290.0,300.7,6.3,2.0,10.0,4.9,22.4,87.1,113.8,316.2,447.1,316.9,226.1,59.6,12.5,2.0,12.8,10.8,44.4,59.2,109.4,308.2,338.0,133.4,163.2,236.0,3.4,2.7,10.8,4.8,20.5,92.6,86.4,354.1,440.0,183.0,321.4,188.3,3.3,2.3,20.7,9.5,45.2,37.5,69.5,172.7,379.7,389.5,197.0,323.4,3.3,2.0,6.1,4.9,14.8,70.6,169.8,196.7,183.0,157.7,229.2,55.9,9.5,2.8,6.7,23.0,17.2,37.9,109.4,285.4,469.8,183.3,283.1,164.0,11.3,2.2,29.6,5.7,16.8,36.4,147.5,299.2,366.8,279.5,189.3,147.6,3.9,2.0,6.2,5.6,30.0,19.6,138.7,162.8,261.5,365.5,180.1,168.5,4.1,2.0,6.1,10.1,11.5,39.1,129.8,350.7,203.1,202.9,185.1,128.0,4.3,3.3,6.8,6.5,21.8,76.8,156.1,345.0,171.0,480.0,262.5,28.6,4.4,2.0,16.6,5.7,13.7,83.2,82.1,224.3,397.9,248.8,213.1,89.4,11.7,1.9,7.0,14.0,9.6,51.8,159.0,203.9,150.0,248.1,150.5,213.6,3.6,2.2,6.4,14.2,15.8,20.3,131.7,303.2,230.6,257.4,225.5,63.1,3.6,2.2,10.9,12.0,35.7,110.0,144.0,250.5,436.8,331.9,199.1,35.1,3.9,2.8,15.5,10.6,47.9,24.7,220.8,178.2,365.7,181.1,277.4,99.5,6.9,2.9,7.0,4.6,34.0,117.7,181.5,203.9,581.3,351.8,223.4,372.3,8.4,4.6,6.1,10.1,28.3,138.7,137.1,160.0,347.4,184.6,137.9,53.4,4.1,4.2,7.0,19.9,34.1,88.8,171.0,236.2,536.3,195.3,266.0,83.4,17.0,3.7,34.1,12.0,33.4,95.0,238.3,331.2,478.7,156.1,406.7,156.3,4.0,2.2,6.0,4.8,9.6,38.3,255.7,352.7,288.7,375.0,134.8,219.7,7.2,7.0,19.5,33.9,8.3,46.6,200.7,248.3,197.2,168.3,258.9,196.7,3.6,2.4,6.2,4.6,62.0,35.1,124.5,197.7,166.2,318.3,251.3,175.8,4.4,8.2,6.6,9.8,47.5,13.7,103.1,191.4,243.2,248.5,356.2,148.5,4.1,2.4,5.9,10.8,12.2,68.1,240.1,182.4,343.0,303.1,267.2,201.1,7.1,2.2]},"bd":{"y0":1981,"v":[20.6,25.3,83.2,282.1,332.3,304.5,587.6,393.1,273.9,34.5,10.0,13.7,6.2,16.6,33.5,175.0,180.7,502.0,420.1,452.4,276.3,55.8,16.4,5.1,10.0,24.1,68.4,169.0,348.0,375.2,481.5,518.5,323.2,285.2,22.1,10.4,14.2,9.0,22.9,85.2,459.2,722.6,536.6,434.3,349.5,158.6,7.4,7.1,9.8,11.7,75.4,103.0,315.5,440.9,441.6,352.7,338.8,118.2,9.1,5.4,8.9,7.8,19.8,201.4,181.8,380.0,482.0,346.1,470.5,236.4,72.3,5.3,6.8,9.4,59.5,180.4,166.6,338.7,667.7,582.3,357.2,91.9,24.3,7.5,7.5,29.8,62.4,128.7,422.8,550.1,438.1,461.5,314.5,180.0,35.8,6.1,7.7,15.3,19.0,79.3,266.1,336.0,547.3,225.9,349.0,274.4,6.8,4.9,6.6,32.7,94.0,149.2,268.6,430.7,498.4,277.1,332.2,195.8,51.8,10.8,12.8,15.9,48.6,89.5,357.6,392.2,354.0,361.4,477.1,312.9,15.0,9.0,9.0,19.5,17.4,55.2,225.1,321.2,458.8,269.6,242.0,133.6,12.7,5.9,10.1,13.5,78.2,185.6,407.6,494.5,576.4,326.4,363.9,156.9,20.9,5.6,10.2,25.0,72.6,154.4,193.2,360.6,346.6,420.1,180.0,131.7,12.7,5.4,9.9,19.7,25.1,79.5,222.4,447.3,469.3,427.2,530.3,107.3,100.6,5.0,7.8,16.5,60.0,91.9,260.0,483.1,420.7,433.1,235.3,193.1,8.0,5.4,10.2,14.1,55.3,189.0,287.4,416.1,621.2,481.6,433.1,60.7,9.6,12.8,12.3,15.6,110.9,196.0,339.9,296.0,512.0,494.8,288.8,176.7,34.4,4.7,7.4,7.6,24.3,30.3,391.4,414.5,591.9,546.5,349.5,305.8,9.8,5.4,8.7,17.6,48.0,182.5,468.3,428.1,378.5,467.8,380.0,176.1,10.6,5.3,6.1,27.8,33.6,76.0,348.4,440.2,357.1,418.0,316.2,321.7,34.2,4.8,8.6,7.6,54.6,168.5,308.3,501.6,632.7,381.1,290.5,90.2,46.3,4.1,8.1,12.9,76.1,130.2,202.6,647.9,387.3,263.3,291.2,253.5,5.8,8.2,7.2,6.7,25.0,281.5,217.3,582.8,560.1,322.6,463.1,239.7,5.7,4.4,11.6,11.4,95.9,117.4,209.6,283.7,443.2,437.2,296.7,322.3,8.2,4.0,5.2,8.6,22.3,149.8,353.0,357.0,365.4,269.4,376.2,81.0,14.9,4.1,6.0,49.5,22.5,177.0,202.7,513.4,694.2,360.1,384.8,264.1,48.3,4.8,19.7,10.8,43.3,59.4,224.8,410.0,522.1,415.5,270.2,200.0,8.9,3.7,5.3,7.1,51.4,87.8,297.9,334.1,498.1,517.1,288.9,176.6,17.8,3.7,5.2,17.1,39.5,109.2,341.3,526.7,331.4,358.6,300.5,234.3,12.0,9.9,5.9,8.6,45.8,89.8,315.9,503.9,362.2,628.5,359.1,59.8,5.6,3.7,14.3,9.1,21.7,219.7,186.5,429.6,454.8,375.0,320.8,175.8,30.6,4.1,5.8,13.5,25.1,95.8,423.7,418.2,337.7,392.0,264.7,217.9,7.2,5.2,5.3,14.7,34.9,57.3,258.6,521.9,396.6,423.4,361.8,79.1,7.5,4.6,7.7,20.9,41.1,192.9,244.3,469.2,737.6,443.5,312.0,118.1,12.5,5.9,8.9,23.2,70.9,94.0,348.2,346.9,537.1,396.0,339.3,146.9,73.7,5.0,5.5,8.3,98.9,233.9,289.2,489.5,722.0,530.4,337.0,389.9,19.5,22.6,6.5,14.7,42.5,179.5,306.6,411.2,490.8,285.6,216.2,97.5,10.8,8.8,5.8,32.2,57.6,181.3,264.9,342.2,710.0,375.5,311.4,145.7,58.9,6.8,25.9,11.7,36.2,157.5,302.2,459.8,537.0,352.6,413.8,269.1,24.8,4.2,5.6,6.7,28.6,54.2,279.3,459.6,485.5,452.1,288.1,228.3,12.3,27.2,13.5,33.1,21.7,92.5,253.4,462.3,291.6,285.0,314.4,276.3,6.1,5.7,6.0,7.8,100.2,63.1,176.6,411.7,308.6,477.3,295.8,226.6,42.1,16.7,8.5,18.8,84.8,46.7,303.9,421.0,419.0,601.4,440.0,226.7,14.1,5.4,5.2,10.4,29.8,117.0,457.0,376.0,590.8,396.0,377.3,214.8,37.0,4.5]},"coastal":{"y0":1981,"v":[17.1,41.6,107.5,227.6,213.6,237.3,419.6,272.7,253.8,27.3,10.2,16.1,5.7,24.4,27.4,129.7,51.6,353.7,207.9,445.2,211.8,26.6,14.0,3.3,9.9,35.3,32.5,121.5,220.9,287.4,207.1,444.5,252.0,252.6,15.7,4.6,17.4,8.8,11.2,61.2,157.5,824.9,326.1,443.3,175.9,122.3,6.5,8.1,12.9,11.1,33.6,46.6,147.5,301.6,249.8,303.2,221.9,135.9,8.5,2.7,9.9,8.5,10.0,89.7,152.4,259.6,453.9,262.7,535.5,180.0,74.0,3.3,6.5,10.0,22.5,130.6,90.5,249.2,485.7,589.5,216.7,49.9,31.3,4.4,6.2,39.9,37.5,67.9,224.6,606.7,335.5,316.1,196.6,97.6,34.4,2.8,5.8,11.9,9.0,48.9,189.2,232.2,321.0,176.9,260.0,279.4,5.1,3.4,5.6,43.5,102.7,43.9,198.3,315.2,527.1,186.9,242.8,143.7,67.9,8.9,13.6,21.3,34.6,53.9,92.7,368.4,308.5,245.8,311.2,217.3,11.9,11.9,8.8,30.6,8.7,20.7,194.2,237.7,384.9,222.1,215.7,88.8,9.3,2.7,9.0,9.6,65.9,132.2,205.8,361.0,401.4,348.3,374.6,161.2,27.2,4.7,8.7,34.7,45.8,129.5,131.5,316.5,308.9,384.3,120.7,90.0,17.0,3.0,10.4,26.1,18.0,27.5,237.6,309.3,317.2,306.4,442.9,143.6,109.7,2.7,7.8,15.8,32.0,108.2,117.5,430.3,261.8,441.8,182.7,160.5,6.0,5.0,13.9,16.4,49.5,190.4,190.0,202.3,553.1,513.9,349.1,37.0,9.0,11.4,15.4,35.9,139.3,108.8,130.9,178.6,380.9,351.7,264.7,201.8,47.6,2.6,6.3,8.6,16.1,13.8,230.2,347.9,467.4,464.7,494.5,297.7,12.7,2.7,6.4,28.7,16.3,104.3,235.9,351.1,312.6,337.1,238.8,128.8,15.0,2.7,6.0,25.6,42.4,55.2,255.5,462.3,255.3,330.0,176.5,282.2,37.6,4.3,11.0,8.6,28.1,72.3,157.2,481.0,456.6,363.7,262.1,92.2,46.3,3.0,6.4,10.9,64.0,51.3,139.9,466.3,253.4,227.2,210.3,272.6,6.1,11.4,5.8,8.2,21.5,123.4,80.6,414.6,321.9,309.9,408.9,242.6,4.0,2.6,11.0,10.8,62.8,52.3,100.3,274.0,326.7,375.0,251.4,344.3,4.9,2.8,5.7,8.9,13.0,71.0,180.2,195.1,354.2,318.7,386.5,59.2,10.3,2.6,6.2,54.9,15.4,80.3,95.2,369.7,696.8,315.4,437.4,219.3,46.5,5.6,15.6,16.5,15.8,59.9,118.7,412.0,414.0,297.5,252.8,189.4,11.0,2.7,5.6,8.4,53.7,29.3,216.0,195.2,425.1,434.7,325.4,130.8,26.6,2.7,5.7,23.3,18.6,32.7,164.7,324.3,284.3,217.8,238.3,192.5,9.0,12.5,5.6,9.9,33.7,62.0,200.9,406.0,291.1,559.3,283.1,46.0,4.3,2.7,22.7,13.7,8.9,124.0,95.4,207.5,297.4,261.5,306.1,114.4,33.9,4.4,7.6,16.4,18.6,65.1,318.6,306.6,274.4,405.6,292.1,270.6,7.9,5.2,5.5,17.7,27.1,20.3,138.4,377.3,366.7,278.3,222.9,51.5,5.0,4.1,6.9,26.5,39.3,133.8,58.5,379.1,816.0,288.3,306.7,119.0,14.0,5.2,7.5,55.2,38.2,50.7,212.5,199.5,465.9,470.6,139.5,105.5,60.2,4.5,5.5,8.0,47.7,91.3,124.5,315.4,650.1,388.4,231.8,427.0,35.9,22.5,7.5,17.8,20.4,108.8,157.9,308.5,377.0,198.3,165.9,87.8,6.9,4.9,5.8,59.2,58.1,98.6,135.0,209.9,409.7,321.7,277.4,178.2,71.4,7.5,27.5,12.1,44.7,100.0,245.8,378.2,328.6,387.1,200.6,158.2,17.7,3.2,5.5,9.4,9.8,19.0,187.5,420.6,528.7,297.1,377.8,196.5,8.6,36.6,14.2,43.0,10.7,22.7,187.9,179.6,138.5,277.5,207.8,261.3,5.2,4.0,5.5,8.4,86.5,49.0,107.6,256.2,196.8,352.7,231.1,175.4,20.4,20.0,18.0,27.2,46.4,13.6,210.8,139.5,236.1,685.5,418.0,278.1,8.1,7.6,5.5,16.8,16.6,53.1,252.0,356.3,715.8,303.2,225.3,145.2,26.2,3.2]},"dhaka":{"y0":1981,"v":[16.7,31.3,100.1,398.4,315.5,203.3,452.7,229.7,252.3,42.3,10.5,20.6,5.8,18.0,53.9,198.3,264.8,417.3,329.4,353.5,221.1,52.8,13.3,5.7,10.2,24.9,89.6,204.7,377.7,259.5,254.6,418.9,273.9,372.3,21.3,10.7,11.1,8.0,35.6,89.5,628.5,712.6,445.9,355.4,323.7,173.9,7.5,6.5,9.4,8.6,116.2,128.2,292.1,333.2,267.9,275.8,371.6,103.0,4.9,5.2,10.7,9.4,25.5,208.8,190.6,259.6,337.5,228.8,560.4,235.8,70.0,5.1,6.6,7.5,61.0,174.1,182.4,281.8,419.3,378.3,387.7,98.7,20.6,10.8,7.4,33.8,88.1,170.2,472.8,449.1,271.9,279.0,215.7,208.6,35.6,5.5,6.8,15.1,18.9,89.0,287.5,259.2,334.2,140.1,268.6,161.8,4.7,6.6,5.6,32.8,128.7,168.3,247.2,295.0,393.8,198.3,282.7,151.0,61.0,11.3,13.9,21.0,54.0,85.4,413.4,322.3,242.5,307.5,572.5,314.5,15.2,11.2,6.7,20.4,20.1,47.1,203.5,192.0,306.4,193.9,211.4,94.9,7.9,6.0,6.1,14.6,90.8,230.0,415.6,360.2,439.9,197.7,402.3,187.4,11.4,5.2,9.3,26.1,70.1,164.8,222.3,202.5,258.1,333.3,180.2,144.0,12.7,5.4,8.7,20.1,32.7,105.4,227.2,285.6,388.8,373.9,533.9,93.5,95.6,4.9,5.9,17.6,55.5,140.6,230.4,415.0,293.1,337.8,212.3,195.0,4.6,4.3,8.2,15.1,89.1,254.8,265.9,346.0,472.1,446.6,475.4,73.3,8.9,16.8,10.2,14.4,120.3,250.0,395.1,178.2,433.6,405.7,253.4,140.9,35.8,4.1,7.6,7.4,33.1,21.2,392.0,290.3,525.8,422.5,287.8,317.4,6.6,5.6,8.0,19.1,66.4,196.8,554.3,268.0,209.5,334.5,358.8,175.7,8.4,4.6,5.2,30.5,42.1,99.8,393.2,293.2,265.0,321.6,273.5,268.2,24.0,4.4,7.3,6.9,69.6,181.3,332.0,437.6,555.2,260.9,221.3,69.7,56.8,3.2,8.4,10.5,102.8,160.6,171.3,496.0,315.8,188.6,305.2,288.5,4.2,7.5,5.5,6.7,26.9,330.4,210.4,550.4,467.4,196.1,488.5,183.4,7.0,4.1,9.2,11.2,128.8,126.5,137.3,181.2,378.9,255.4,347.1,353.3,5.4,3.6,4.8,6.4,28.7,182.3,320.8,300.9,244.9,233.6,347.7,72.8,11.9,3.3,5.0,52.7,22.8,242.7,133.9,450.8,659.9,288.1,268.4,268.4,52.6,4.5,16.7,10.6,44.2,63.8,245.2,275.4,397.2,276.6,246.1,216.0,4.4,3.5,4.8,7.1,77.4,56.4,276.6,260.3,425.5,370.5,282.5,113.8,11.5,3.3,4.8,25.4,44.2,97.6,285.0,386.9,206.2,264.3,262.1,213.9,7.1,7.6,5.0,6.9,60.3,112.8,282.2,400.7,244.0,479.5,199.4,56.2,4.7,3.3,15.0,9.3,24.1,205.5,143.6,268.3,325.7,304.7,240.3,182.5,33.2,4.2,4.6,12.0,35.0,98.2,405.8,329.0,213.8,238.9,268.6,177.8,4.9,6.1,4.4,11.6,49.3,79.8,251.8,359.6,249.4,350.0,290.2,94.3,5.0,4.4,5.9,21.8,45.3,217.9,213.5,302.4,551.3,366.5,271.3,113.8,6.7,5.6,5.6,18.4,83.0,113.7,343.1,243.6,367.1,291.8,220.5,115.5,70.9,4.4,4.4,6.5,111.8,286.1,333.3,409.6,498.8,472.0,372.5,441.2,18.3,27.7,5.5,17.8,54.2,305.1,405.3,273.6,422.8,192.6,174.7,77.4,10.6,8.8,4.3,38.8,85.0,248.1,312.9,272.6,552.1,215.6,199.0,139.4,54.8,7.2,21.0,8.6,40.8,178.6,329.3,290.1,378.1,259.4,318.6,276.4,24.0,4.4,4.8,5.9,26.1,66.3,348.4,416.9,366.9,347.3,276.0,237.9,14.5,38.8,8.7,29.8,25.2,108.4,210.9,337.9,174.1,192.9,315.5,378.0,4.9,5.3,7.8,5.8,118.0,75.0,254.5,339.1,175.1,341.6,261.6,254.8,36.3,25.8,6.7,16.3,100.7,50.2,219.7,292.3,282.1,392.2,457.5,299.1,14.2,5.9,4.4,7.6,35.0,95.3,398.0,230.9,410.5,357.4,415.4,264.9,47.9,5.0]},"haor":{"y0":1981,"v":[24.6,31.6,153.7,469.1,552.2,330.2,669.2,533.6,448.6,43.0,9.4,15.1,6.2,15.9,69.3,468.4,510.1,691.8,575.5,712.2,375.5,110.9,12.8,7.3,8.5,32.0,194.8,333.8,519.6,583.2,635.4,581.2,623.6,251.9,16.2,11.4,10.5,10.4,67.1,207.2,866.5,577.8,739.1,541.4,613.7,226.3,9.3,13.5,8.6,25.1,235.8,242.8,582.7,709.8,519.6,492.1,550.1,70.3,5.4,9.9,8.7,9.8,54.1,633.5,239.4,589.5,611.2,631.0,537.4,398.3,78.7,5.6,8.2,14.5,147.3,344.3,414.3,561.2,669.9,536.1,598.3,163.9,16.9,9.9,9.4,49.0,152.1,271.5,1092.9,705.4,648.0,838.2,650.0,368.6,26.6,10.9,9.9,32.2,57.2,207.0,377.1,724.8,913.0,547.5,549.9,355.3,11.0,6.0,8.0,38.6,166.9,459.5,452.1,549.4,491.8,367.4,608.1,225.3,39.1,8.3,11.9,25.9,89.1,207.9,823.8,506.1,308.6,551.3,849.1,415.8,18.9,7.9,13.2,24.6,45.6,172.9,463.9,472.7,530.6,385.8,476.5,160.5,6.9,8.7,14.3,32.6,161.2,330.9,772.7,860.6,806.8,422.4,487.9,178.6,22.4,5.6,12.7,40.5,222.8,286.8,335.5,584.3,483.6,553.6,249.7,208.8,18.5,5.9,10.5,24.8,52.3,246.3,349.1,801.7,608.3,680.5,847.7,106.3,72.1,5.6,7.7,27.3,213.1,137.9,517.8,682.4,749.9,684.7,308.4,240.1,5.4,5.2,8.8,20.4,103.8,300.8,472.7,777.9,759.5,571.8,806.8,55.6,9.5,17.4,10.4,14.5,193.7,430.9,609.8,438.4,619.2,688.9,344.7,138.6,24.0,5.0,6.3,7.6,50.7,76.0,762.9,564.1,756.2,734.8,334.0,346.0,6.6,5.9,10.5,18.3,131.6,414.2,813.1,644.7,510.0,733.8,695.4,202.6,9.0,8.6,6.0,60.7,64.2,184.9,552.8,688.3,498.1,525.1,520.2,357.8,15.8,4.9,8.5,12.4,161.8,489.4,659.8,719.8,703.5,575.0,437.3,85.2,46.8,5.4,8.4,22.0,133.5,349.1,333.4,961.3,503.1,458.3,442.4,293.6,7.2,7.9,7.2,9.9,50.9,871.9,504.4,851.9,874.5,461.6,666.4,282.7,6.1,7.9,9.3,29.6,286.8,346.2,668.4,399.3,659.3,543.7,313.4,230.0,4.4,4.8,4.8,22.6,46.9,414.9,536.3,622.2,527.1,396.6,469.3,104.9,21.0,5.4,5.0,98.5,42.1,532.8,608.5,774.4,820.2,565.6,484.4,293.4,47.2,4.5,26.0,17.1,161.3,150.0,402.9,497.6,634.4,673.6,447.2,223.9,4.7,4.7,4.7,10.4,92.2,318.8,563.4,611.0,537.9,727.5,351.2,204.7,17.0,5.0,4.7,16.4,121.5,451.1,816.0,797.8,476.4,715.2,683.8,264.4,9.4,9.3,6.9,15.0,94.0,144.7,574.5,828.9,545.1,892.0,472.5,55.7,4.3,4.3,11.7,9.5,70.7,592.9,462.0,770.7,514.1,619.1,490.4,280.2,26.7,4.7,4.6,15.8,60.3,238.9,804.2,706.5,658.8,674.2,327.8,282.7,4.9,6.2,4.6,14.8,74.3,189.5,625.1,738.9,691.0,641.2,819.7,88.7,5.0,4.9,8.4,38.3,67.0,465.2,694.5,551.5,801.1,652.1,355.6,119.3,11.6,9.4,8.4,33.5,141.8,395.9,623.8,634.8,490.8,511.8,533.0,134.7,93.3,6.8,4.6,13.9,258.6,378.0,551.1,973.9,751.2,796.6,584.7,441.8,14.8,24.1,7.4,20.1,108.0,270.7,596.3,617.1,530.3,458.0,366.1,119.3,10.6,16.0,4.5,30.4,90.3,412.4,571.6,587.0,837.2,369.3,372.6,173.3,35.0,6.0,25.8,16.9,48.6,214.4,483.3,754.8,829.5,414.8,667.5,395.9,14.2,4.9,6.7,8.1,125.1,134.9,429.3,567.8,513.1,609.3,300.1,233.9,6.1,23.0,13.2,32.0,65.6,236.6,523.8,1000.8,536.7,365.0,509.2,343.1,4.7,7.2,4.8,17.8,223.2,133.8,266.1,841.9,542.2,686.7,344.0,364.3,48.7,18.1,6.4,38.1,155.6,134.3,600.2,977.7,624.0,576.4,330.4,268.4,17.7,4.9,4.7,10.8,102.1,281.4,967.2,478.6,527.6,655.6,551.6,282.7,58.8,5.2]}},"gpm":{"barind":{"y0":2001,"v":[1.5,2.8,9.9,38.2,246.8,361.5,231.5,198.8,273.4,235.8,9.9,0.0,13.8,4.2,42.5,149.7,174.9,351.6,395.6,309.6,319.8,56.5,29.9,0.0,4.4,27.9,89.5,70.2,124.4,341.1,277.3,155.9,204.4,285.8,0.5,12.1,9.5,0.6,12.8,93.7,146.1,445.4,449.2,251.4,369.2,229.7,0.6,0.0,16.0,7.4,78.2,65.2,102.0,186.5,464.8,322.1,212.5,458.8,0.7,0.5,1.0,0.9,4.6,61.9,248.2,199.5,186.2,227.8,310.6,43.5,12.1,1.5,1.2,42.8,28.4,27.0,158.0,436.9,564.7,247.4,311.6,108.0,15.8,0.0,34.3,6.2,16.5,31.0,166.3,321.4,398.2,308.6,186.4,116.6,0.4,0.0,3.2,4.9,32.5,25.4,152.2,119.5,243.3,440.6,243.9,113.3,1.6,0.0,2.5,6.6,15.5,49.2,125.3,231.5,172.5,176.7,193.1,104.5,5.0,16.1,3.6,6.1,19.4,78.6,185.2,360.5,190.0,399.5,283.3,19.4,2.6,0.0,12.4,3.1,5.9,80.3,59.8,181.3,292.9,160.4,264.6,103.0,48.0,0.9,3.0,21.1,8.9,55.2,159.4,240.3,172.4,257.1,150.4,153.7,0.4,0.0,1.7,40.2,9.1,25.7,156.2,329.4,211.6,309.6,233.0,42.5,0.3,0.5,14.5,13.1,25.6,148.9,203.6,298.3,376.8,294.0,226.0,29.5,0.8,0.0,25.4,7.4,47.7,47.4,172.5,174.6,401.3,188.5,269.8,104.8,2.3,0.4,3.3,1.3,60.7,127.7,149.0,164.4,375.5,341.5,203.4,235.9,6.2,16.1,1.5,12.7,22.4,147.7,183.0,169.5,285.7,162.6,144.6,59.9,0.9,15.7,2.7,44.3,20.8,76.4,182.2,195.9,352.1,169.2,282.6,143.4,10.8,1.1,16.2,7.9,29.7,76.8,270.9,329.5,394.9,171.0,319.7,102.9,1.3,0.2,2.1,0.2,2.4,22.5,226.3,333.5,260.7,325.9,116.8,154.3,5.8,9.5,13.5,43.6,2.6,48.3,218.6,192.7,161.0,218.8,243.2,92.2,0.2,0.2,1.5,0.1,57.7,34.4,117.7,200.3,200.9,339.0,257.9,166.1,1.2,29.8,3.5,14.5,37.9,0.8,143.2,219.9,301.1,309.3,321.0,139.8,1.4,0.0,1.7,6.7,6.5,65.3,257.8,203.7,354.5,353.9,221.8,null,null,null]},"bd":{"y0":2001,"v":[1.7,26.3,18.2,85.7,356.6,607.1,383.9,289.4,321.7,254.4,46.8,1.0,15.3,2.9,64.1,185.2,341.9,590.1,587.2,396.7,333.5,92.3,86.5,1.7,2.6,18.2,115.5,103.1,208.3,647.7,362.5,274.5,260.2,277.5,3.4,26.4,4.8,2.3,35.8,208.5,228.8,506.1,624.8,343.0,550.8,287.3,2.5,2.4,13.0,11.8,120.7,101.6,246.5,338.7,517.5,481.0,326.9,382.2,6.1,4.0,1.1,7.6,3.5,106.7,434.2,380.3,365.3,290.7,438.7,69.1,11.0,2.1,1.9,62.7,18.2,140.9,210.1,574.2,685.8,326.2,410.6,261.8,87.9,0.8,42.4,21.2,51.9,42.2,230.8,436.2,554.7,441.8,272.9,218.9,4.7,0.7,1.5,7.2,34.7,70.3,255.6,276.3,469.9,543.8,268.1,153.8,18.8,0.7,1.4,12.3,48.5,168.7,313.4,494.2,302.3,324.0,275.8,204.7,17.2,26.9,2.5,6.9,81.1,70.1,265.8,429.8,330.2,578.0,366.5,56.2,4.9,0.8,16.5,5.6,15.5,237.7,155.1,482.6,447.4,319.9,348.1,189.1,40.6,3.4,2.2,11.7,17.9,90.1,468.4,360.0,317.3,382.5,254.2,229.3,2.1,1.0,1.3,29.7,13.6,38.1,247.0,504.7,317.0,442.2,353.1,75.4,2.3,1.9,12.7,18.0,22.9,190.1,230.0,554.0,657.8,483.1,333.7,96.4,6.6,3.5,9.6,17.8,68.8,116.1,342.4,324.1,548.4,347.6,292.5,151.2,64.3,1.3,1.5,12.0,127.6,278.6,223.0,459.9,574.7,493.6,350.5,322.1,14.4,45.7,3.4,8.9,26.2,189.4,328.0,441.5,438.0,272.2,212.0,112.4,4.5,14.0,2.2,65.5,45.4,118.4,232.4,309.4,581.3,309.1,324.8,177.7,67.7,5.2,29.8,6.9,22.3,156.1,344.3,465.2,533.3,373.1,424.2,229.3,21.6,1.1,1.8,1.8,14.6,37.6,228.2,524.1,472.0,474.1,257.6,238.7,13.4,62.9,11.2,39.3,13.4,114.9,355.8,500.4,227.6,297.8,334.0,214.6,2.3,3.0,0.9,2.0,67.2,51.0,169.5,412.6,297.6,522.9,309.8,215.6,54.1,29.1,5.6,20.9,55.8,29.6,317.7,453.9,460.2,610.2,388.8,214.1,8.9,1.4,1.1,5.5,7.2,122.7,437.6,361.3,538.6,421.7,301.2,null,null,null]},"coastal":{"y0":2001,"v":[0.3,31.7,16.5,49.6,303.3,567.8,398.1,208.0,247.4,220.5,64.0,0.0,18.9,1.2,31.1,87.8,242.6,701.5,431.0,449.4,360.6,76.4,101.0,0.0,0.3,6.0,151.2,32.9,139.0,445.9,294.8,273.3,197.1,353.1,5.7,26.7,0.9,0.6,17.1,99.5,122.3,373.9,332.9,407.8,539.9,258.8,3.3,0.1,27.1,1.3,115.6,36.7,148.6,301.7,560.3,323.4,343.9,464.4,3.0,4.5,0.6,1.2,5.5,46.9,293.2,281.8,484.0,365.3,517.8,61.6,9.8,0.0,2.9,75.8,9.6,77.8,105.0,317.5,626.6,265.6,415.5,288.0,101.7,0.2,66.5,37.0,24.2,29.3,148.2,316.5,489.2,289.5,330.3,246.5,2.8,0.1,0.8,6.6,39.5,28.1,227.3,162.7,488.7,466.2,303.0,122.8,46.9,1.0,1.5,13.0,9.4,30.1,179.8,346.8,302.6,223.6,264.0,204.1,27.6,26.9,0.6,4.0,50.2,58.7,182.8,446.2,350.3,578.0,346.8,57.2,6.3,0.4,41.4,11.1,7.0,174.1,105.6,245.8,392.0,316.5,386.3,123.7,46.7,11.3,3.3,9.6,14.5,70.3,460.8,325.8,392.1,444.9,309.3,313.5,4.3,0.0,0.3,29.9,11.9,3.8,210.3,377.3,338.3,296.3,250.1,90.5,3.1,3.0,21.2,11.7,25.1,126.3,80.9,411.2,831.0,362.8,317.9,78.0,7.4,3.2,8.3,28.9,35.4,14.9,289.9,278.0,542.0,528.7,165.6,124.3,79.6,0.1,0.3,1.7,78.7,96.1,111.0,359.5,658.0,337.6,247.9,388.0,28.8,59.0,0.2,1.6,5.8,102.6,214.9,373.7,464.2,233.8,159.7,123.8,2.8,11.0,2.1,97.6,57.1,92.3,138.9,221.9,339.7,401.3,291.3,178.5,175.2,10.0,43.3,4.9,26.6,115.5,253.4,393.4,363.0,448.9,236.2,231.9,32.3,1.2,2.6,2.3,0.8,14.6,164.0,517.7,620.9,374.0,458.7,291.6,15.0,93.5,8.9,47.4,2.2,24.9,229.1,203.7,202.5,355.5,318.9,242.9,4.0,0.4,0.3,1.8,48.2,47.6,133.6,323.2,297.6,461.0,298.5,194.7,74.3,16.1,14.8,15.8,22.7,5.0,315.1,261.0,393.5,690.0,474.0,275.3,10.8,4.7,0.9,13.9,2.0,80.5,289.2,344.0,723.4,346.0,233.8,null,null,null]},"dhaka":{"y0":2001,"v":[0.7,16.0,20.7,104.6,375.7,475.7,301.9,230.7,270.4,192.8,31.6,0.0,15.8,1.5,84.1,152.2,316.9,516.0,493.4,346.6,243.9,63.4,103.3,0.2,0.9,20.1,134.5,112.2,186.5,494.5,256.2,209.1,221.8,239.1,0.4,25.5,3.3,0.8,23.4,178.0,178.4,477.1,456.9,288.2,629.6,269.3,1.0,3.2,6.5,9.7,132.4,89.6,228.5,251.7,467.3,388.7,365.8,379.6,1.2,0.8,0.7,1.4,1.6,129.9,353.2,321.8,294.1,282.9,457.0,47.0,4.2,0.2,0.9,56.2,19.5,145.5,151.0,615.5,709.4,310.1,264.1,244.6,98.2,0.0,38.4,31.7,57.2,47.8,239.3,414.7,490.5,340.5,228.3,243.3,0.2,0.0,0.8,4.0,45.6,39.5,222.7,243.5,470.6,493.7,277.0,103.9,4.9,0.0,0.7,24.8,55.0,119.7,262.5,397.7,191.2,276.3,205.4,185.4,8.4,33.7,0.6,1.9,75.9,68.6,249.7,358.4,240.5,521.5,234.8,49.7,1.3,0.0,17.8,2.2,11.6,250.4,102.4,294.9,345.9,280.3,251.1,114.1,59.8,0.9,0.9,7.5,36.7,85.4,427.3,296.2,225.8,286.6,223.6,166.1,0.0,0.7,0.8,24.3,12.8,47.5,189.1,435.4,272.7,398.4,275.9,66.9,0.1,0.8,6.8,19.6,11.6,210.1,196.2,447.7,581.7,368.1,270.7,63.7,0.9,0.9,6.6,14.0,88.3,70.2,321.7,226.5,460.1,266.0,232.5,95.1,56.7,0.3,0.7,3.8,125.2,278.3,219.6,409.6,511.2,457.1,316.7,358.3,16.3,53.9,0.7,9.2,23.6,258.9,368.5,347.7,365.8,189.3,145.3,73.1,4.1,15.5,1.3,92.9,48.1,156.5,206.9,258.9,426.8,241.3,227.6,173.2,56.4,4.7,24.2,2.9,24.5,171.1,350.0,365.5,431.2,268.9,314.6,201.0,13.2,0.7,1.1,0.6,10.4,46.3,234.5,540.5,348.1,400.2,211.1,203.5,28.4,103.4,13.0,35.9,9.9,108.6,344.7,366.7,135.7,254.4,303.7,265.8,0.0,2.3,0.6,0.9,80.6,40.1,173.9,334.2,249.4,408.8,254.3,240.9,41.8,42.6,4.3,21.6,73.6,17.5,285.3,321.8,350.0,488.2,397.9,248.9,7.8,0.1,0.7,3.3,9.1,109.0,409.2,279.4,522.6,352.6,302.6,null,null,null]},"haor":{"y0":2001,"v":[2.0,84.6,42.3,217.1,398.2,709.4,548.9,453.6,395.0,302.8,42.5,0.1,15.2,3.0,110.6,406.6,560.9,811.6,703.6,465.8,394.3,76.9,121.4,3.1,2.1,10.5,109.7,220.9,347.1,888.9,532.3,391.2,351.3,275.4,3.5,31.1,3.6,3.6,154.8,611.4,453.4,536.1,1270.8,442.5,527.7,392.1,3.5,5.9,4.6,44.4,268.3,197.3,562.3,437.7,630.0,659.7,309.7,273.2,6.3,1.3,0.9,49.4,3.3,271.7,656.5,761.5,357.8,330.5,409.5,82.4,17.2,0.9,1.2,69.1,22.9,390.8,394.0,792.3,894.4,403.0,587.7,267.6,155.2,0.6,38.6,26.7,150.3,94.6,293.9,504.9,687.4,774.6,307.0,253.1,6.6,0.2,1.2,18.0,37.1,187.8,398.2,394.3,472.0,689.7,296.1,144.8,24.8,0.2,0.9,2.6,204.3,754.3,606.0,879.4,427.2,525.1,505.8,226.8,33.1,40.9,5.4,11.1,255.5,55.0,370.6,483.6,313.0,672.5,383.4,57.9,10.5,0.2,14.5,2.4,38.5,570.4,311.1,933.4,664.1,490.2,515.8,312.2,41.9,1.4,0.7,10.0,17.4,160.2,774.7,458.5,402.5,464.0,256.7,321.4,2.8,0.8,1.0,30.0,22.0,93.4,495.8,585.0,426.6,733.4,647.1,69.9,2.3,0.6,9.3,37.3,12.5,371.7,558.3,867.5,527.9,841.0,463.5,90.3,9.3,4.1,8.9,38.5,102.3,624.1,613.7,437.5,694.3,350.3,389.3,179.4,96.0,2.0,0.8,74.4,289.8,633.9,411.8,850.3,542.7,797.6,521.4,410.3,10.0,71.1,2.3,18.4,67.4,249.1,519.1,599.9,477.7,441.3,355.5,94.3,13.0,22.6,0.2,57.6,73.6,185.1,490.4,609.8,772.2,369.8,399.0,289.1,33.2,1.7,25.1,7.3,8.9,238.9,554.0,830.6,857.9,454.5,669.3,315.6,13.2,0.1,3.3,2.0,70.5,68.4,343.3,626.5,443.1,689.3,224.3,230.6,6.4,56.4,16.5,38.5,62.2,338.5,744.5,1219.0,396.6,324.9,439.2,306.0,1.7,6.0,0.0,4.6,117.3,125.2,221.1,851.2,569.4,569.3,336.3,332.1,64.3,39.5,0.9,49.9,95.4,159.7,586.8,952.1,568.2,687.0,294.9,231.4,11.3,0.0,0.8,4.3,21.7,257.1,771.1,416.5,460.0,627.5,415.2,null,null,null]}},"lst":{"barind":{"y0":2001,"v":[22.44,26.69,32.46,35.06,30.88,26.39,26.8,26.11,29.22,28.78,27.52,23.82,23.42,26.6,29.86,28.5,29.78,29.37,28.69,28.54,28.78,28.59,27.3,25.01,20.83,25.85,28.43,30.57,29.28,35.08,29.18,28.25,28.17,27.53,27.22,23.45,21.75,26.11,30.85,31.53,31.63,31.27,27.51,28.64,29.41,27.67,26.83,24.84,21.77,26.48,29.29,31.88,31.83,36.52,26.51,29.41,29.16,28.04,25.4,24.07,22.7,27.52,31.0,29.9,33.52,30.27,26.93,30.31,28.75,28.4,26.96,24.57,22.16,25.51,30.29,31.76,32.95,30.11,28.47,29.39,29.32,28.69,27.92,23.2,22.16,24.04,28.89,31.97,31.8,29.17,26.78,28.09,28.91,28.94,27.61,25.05,23.59,26.32,29.22,33.71,33.8,31.95,27.75,29.34,29.17,28.68,26.92,23.3,22.76,26.72,32.09,31.28,31.52,31.96,28.84,30.7,29.6,29.02,27.74,23.3,20.89,25.94,29.94,30.11,29.45,30.96,28.41,28.59,29.62,29.61,28.03,24.16,21.48,25.17,28.83,30.95,34.34,32.58,27.28,28.22,30.16,28.87,26.18,22.53,21.05,26.54,31.48,31.85,32.84,32.79,27.71,27.57,29.13,27.91,27.15,23.25,21.78,24.05,29.89,34.16,33.81,31.54,29.18,28.19,28.61,28.26,27.22,23.0,22.34,25.0,29.86,28.23,30.11,32.52,28.86,28.88,29.55,29.38,28.32,23.17,21.88,26.14,29.98,33.71,30.03,31.32,27.2,29.91,28.39,28.9,27.82,24.26,23.31,26.27,27.3,30.48,29.96,30.08,32.64,30.58,29.08,28.6,27.39,24.22,20.33,25.36,29.13,28.87,27.72,29.7,29.22,28.6,29.61,28.89,27.66,23.17,23.26,24.5,28.76,29.54,31.33,29.69,30.88,29.58,29.6,28.06,27.78,22.65,21.33,24.73,29.52,30.2,30.9,30.05,25.04,29.03,29.38,29.02,27.83,23.29,23.2,25.69,29.6,32.04,32.14,31.06,28.54,28.04,29.63,28.64,27.45,23.67,21.48,23.86,29.76,30.46,29.86,29.49,31.04,29.87,28.91,28.7,27.26,23.15,21.34,25.57,29.4,32.73,31.45,34.1,28.36,29.37,28.49,28.56,27.45,22.24,19.27,23.25,27.99,32.74,33.02,31.6,27.67,28.69,29.77,28.08,25.75,21.68,20.31,23.55,28.53,28.64,30.09,29.81,29.41,30.09,28.64,27.95,24.44,20.51]},"bd":{"y0":2001,"v":[23.01,26.17,30.89,32.88,29.32,26.13,27.75,27.63,28.55,28.47,26.97,23.89,23.52,26.55,29.11,27.65,28.19,28.09,26.81,28.49,29.04,28.28,26.84,24.34,21.97,26.39,27.9,29.31,28.91,28.35,28.05,27.54,28.03,27.69,26.91,23.84,22.49,26.3,29.72,29.06,29.65,28.89,27.35,28.08,28.48,27.9,26.55,24.58,22.41,26.7,28.71,29.69,28.75,30.23,27.38,28.26,28.71,28.3,26.2,24.51,23.05,27.32,30.67,30.44,31.29,28.83,27.89,29.44,28.42,28.48,26.86,24.23,22.31,25.18,30.03,29.18,31.16,27.92,27.42,28.67,28.87,28.28,27.19,23.34,22.59,23.92,28.37,30.78,29.93,28.57,27.52,27.72,28.63,28.44,26.84,24.84,23.77,26.82,28.79,31.27,30.85,29.51,27.27,29.01,29.17,28.68,26.79,23.46,23.25,26.07,30.27,29.19,29.22,28.18,27.96,28.3,28.39,28.56,27.02,23.44,21.51,26.29,29.04,29.67,29.48,29.45,27.72,28.41,28.73,29.01,27.29,24.34,22.19,25.62,29.0,29.31,30.35,29.3,26.06,28.14,28.95,28.33,25.69,22.85,21.86,27.17,30.97,30.74,28.12,30.44,27.51,27.15,28.92,27.99,26.99,23.67,22.75,25.21,30.07,32.88,31.52,28.87,27.77,28.05,28.77,28.51,27.1,23.87,23.08,25.72,29.8,28.68,29.1,30.37,29.07,27.54,29.14,28.78,27.69,22.93,22.18,26.54,29.04,30.9,29.17,29.27,27.19,29.61,28.34,28.67,26.98,24.71,23.53,26.55,27.08,29.37,29.43,29.21,29.6,28.94,28.86,28.14,27.09,24.34,21.67,25.74,28.93,28.69,27.66,28.69,28.2,28.12,29.58,28.37,26.85,23.79,23.73,25.31,28.45,30.03,29.83,29.02,29.14,29.44,29.36,28.24,27.51,22.87,22.0,25.39,30.05,30.04,30.18,28.73,26.71,28.41,28.85,28.53,27.35,23.58,23.04,26.16,29.86,31.05,31.67,29.89,26.76,28.4,29.13,28.46,27.01,23.35,22.23,24.55,29.73,29.07,29.73,27.61,29.42,28.53,28.63,28.11,26.99,24.11,22.25,25.72,28.37,31.59,30.97,31.31,28.3,29.52,27.88,28.63,27.07,22.72,20.65,23.94,27.66,30.8,31.65,29.47,26.74,28.23,29.24,27.81,25.61,22.11,21.4,24.0,28.03,28.21,29.56,28.94,28.83,28.67,28.1,27.91,24.86,21.46]},"coastal":{"y0":2001,"v":[21.92,25.19,29.47,31.62,29.26,26.93,24.46,26.96,27.84,27.94,26.45,23.0,22.87,25.77,28.62,27.78,27.39,28.46,27.67,27.59,28.17,27.59,25.67,23.38,20.53,25.97,27.49,29.26,28.79,28.86,27.26,26.86,28.32,27.45,26.1,22.43,21.57,25.63,28.81,29.04,28.55,28.77,25.52,25.74,27.83,27.54,25.67,23.28,21.67,26.25,28.41,30.29,29.11,29.45,26.86,28.49,28.22,27.77,25.33,22.58,22.07,27.13,29.68,30.15,30.88,28.01,25.07,27.21,28.21,28.23,26.13,23.1,21.55,24.47,29.09,29.04,30.98,28.0,28.46,27.2,27.53,27.82,26.0,22.36,22.21,23.26,28.48,30.22,30.23,29.54,26.51,27.37,28.14,27.58,25.82,23.65,22.9,26.17,28.45,31.21,30.74,29.16,26.43,27.99,28.08,28.37,26.03,22.68,21.62,25.13,29.52,29.3,29.6,27.4,27.66,28.67,28.0,28.05,26.12,22.43,20.78,25.36,28.69,30.15,29.76,30.12,26.76,26.48,27.77,28.54,26.63,22.53,21.33,24.87,28.31,30.36,30.36,30.91,25.91,27.72,28.1,27.35,24.54,22.08,20.92,25.59,30.19,30.18,27.92,29.02,27.38,26.66,28.21,27.6,25.61,22.71,21.91,24.51,29.46,32.11,31.02,28.32,26.69,27.05,28.59,28.44,26.06,21.94,21.55,25.16,29.0,28.32,29.65,30.49,26.55,28.55,28.69,28.13,26.78,22.19,21.71,26.15,28.09,31.25,29.62,28.45,27.01,28.25,27.86,27.5,25.69,23.16,22.37,25.83,27.34,29.44,30.42,28.78,26.8,28.5,28.62,27.68,25.88,23.23,20.95,25.84,28.82,28.95,27.97,28.2,28.52,27.09,29.6,28.0,26.19,22.44,22.63,24.6,27.62,29.79,29.81,28.6,30.27,27.95,28.69,27.86,26.65,21.79,21.62,24.7,29.14,30.31,30.77,28.82,26.63,27.64,28.09,27.96,26.25,22.35,22.32,25.29,29.35,30.66,31.53,30.18,25.95,27.5,28.22,27.99,25.88,22.26,21.57,24.24,28.66,28.82,30.28,27.73,28.17,27.31,28.04,27.94,25.75,22.84,21.45,25.73,28.15,31.7,30.54,29.59,27.48,27.23,27.38,28.86,26.15,21.85,19.96,23.92,27.94,31.6,31.08,29.1,25.9,27.4,28.19,27.73,24.74,21.34,20.35,24.12,28.19,28.72,30.14,29.01,26.61,25.25,27.32,27.74,24.47,20.77]},"dhaka":{"y0":2001,"v":[23.18,26.7,31.86,32.95,29.31,24.05,27.01,27.06,28.88,29.54,27.65,23.62,23.82,27.15,29.32,27.45,27.05,28.58,26.51,28.43,30.41,29.02,27.15,24.2,22.02,26.89,28.16,28.64,28.7,26.72,27.73,27.16,28.29,28.12,27.69,24.28,22.44,26.94,30.5,29.49,29.54,29.07,27.56,28.0,28.78,28.87,27.24,24.96,22.71,27.35,29.29,29.85,28.39,30.91,26.84,27.63,28.88,29.74,27.08,25.14,23.29,28.22,31.49,30.42,30.49,28.04,28.77,30.2,28.88,29.54,27.95,24.89,22.69,25.32,30.81,30.27,32.24,27.34,27.98,28.92,30.11,29.23,27.86,23.52,22.47,23.92,28.99,31.59,30.13,26.94,26.73,28.33,29.48,29.23,27.46,25.25,23.89,27.44,29.24,31.58,30.8,29.29,27.86,29.19,29.85,29.99,27.74,24.0,23.33,26.63,30.46,29.27,29.59,27.73,28.61,29.01,29.48,29.6,27.94,23.75,21.59,26.96,29.54,29.46,29.98,29.89,28.92,28.69,29.4,30.06,28.22,24.23,22.41,26.36,30.01,29.71,31.12,28.72,26.34,27.32,28.38,29.6,26.35,22.45,22.09,27.61,31.81,30.86,25.76,30.33,27.04,26.99,30.28,29.09,28.29,24.04,23.06,25.78,31.46,33.54,31.53,28.73,26.93,27.49,29.83,29.41,27.73,24.29,23.58,26.22,30.51,30.22,29.21,31.8,26.25,27.45,29.75,29.74,28.91,23.02,22.55,27.38,29.78,31.62,29.11,29.28,25.78,28.14,28.79,30.12,27.56,25.11,23.69,27.33,27.71,30.24,29.15,29.12,28.47,26.99,29.66,29.49,27.79,24.66,22.04,26.34,29.44,28.83,27.72,28.89,27.6,28.29,31.13,29.77,27.86,24.28,24.07,25.89,28.91,30.68,30.2,29.26,28.94,29.99,30.82,29.55,28.36,23.09,22.28,26.26,31.42,31.2,30.34,28.23,26.39,29.08,29.94,29.44,28.05,23.91,22.9,26.92,30.62,31.88,32.43,29.84,25.6,29.23,30.31,29.88,27.63,23.37,22.38,25.14,30.23,30.01,31.0,27.64,29.64,28.24,29.63,29.18,27.83,25.01,22.66,26.44,29.66,32.84,31.36,32.09,29.26,29.7,27.21,30.0,28.19,22.71,20.71,24.96,28.5,31.9,31.88,29.81,25.55,29.24,30.43,28.54,26.47,22.45,21.92,24.54,29.14,28.0,30.63,29.23,26.83,29.68,28.51,29.1,25.56,21.93]},"haor":{"y0":2001,"v":[23.21,25.65,28.62,30.65,28.5,26.45,29.82,28.7,29.08,28.31,26.35,23.67,23.35,26.63,28.33,26.22,28.42,25.1,25.03,29.24,30.02,28.42,26.8,23.71,22.74,26.04,27.36,28.35,28.85,25.4,27.57,26.97,28.91,27.95,26.7,24.16,22.91,26.18,29.16,27.01,28.9,28.06,28.57,28.91,29.18,27.83,26.1,24.49,22.75,26.08,27.38,27.57,26.26,28.77,28.3,26.97,29.0,28.53,26.43,25.45,23.05,26.73,29.94,29.44,30.59,29.15,28.34,31.54,29.05,28.74,26.72,24.34,22.3,25.39,29.84,27.54,30.35,27.32,27.3,29.94,28.84,27.96,27.01,23.33,22.66,23.7,26.78,29.59,30.16,28.06,28.09,28.53,28.91,28.29,26.42,24.67,23.64,26.7,28.16,29.24,29.44,29.83,29.15,29.18,29.84,28.74,26.73,23.61,23.91,26.02,29.03,27.08,26.16,25.33,28.27,27.13,27.84,28.52,26.92,23.67,21.68,26.26,27.75,29.46,29.59,28.46,26.9,28.11,29.13,29.2,27.15,24.92,22.12,25.57,28.58,27.33,29.14,27.71,25.93,29.26,29.87,28.41,25.91,23.49,22.09,27.86,30.42,29.93,27.04,29.95,28.68,26.63,29.89,27.99,26.99,23.94,23.3,25.68,29.47,31.11,29.09,27.8,28.73,28.87,28.62,28.63,27.33,24.81,24.09,25.87,30.0,28.35,27.4,27.14,29.17,28.39,29.42,28.63,27.28,22.58,22.07,26.17,27.64,26.96,28.24,29.51,29.31,29.98,28.81,29.0,26.58,25.21,24.13,25.81,26.05,27.3,28.25,28.57,28.85,28.34,29.25,28.64,26.96,24.34,21.87,24.92,27.64,28.33,27.49,28.44,27.52,29.67,29.53,28.42,26.36,24.28,23.72,25.04,28.0,29.57,28.73,29.3,29.07,29.91,29.62,28.77,27.3,23.16,22.28,25.49,29.98,29.66,28.4,26.67,26.04,28.3,29.34,28.27,26.8,24.04,23.33,26.39,29.61,29.14,31.03,26.04,27.3,29.7,29.45,28.96,26.95,23.68,22.69,24.27,29.97,26.8,29.95,26.62,29.33,27.77,29.39,27.8,27.02,24.67,22.51,25.2,26.85,30.01,30.88,30.29,28.7,30.62,28.8,28.02,26.8,22.83,21.14,23.21,26.7,28.35,31.3,28.12,28.13,27.56,30.02,27.87,25.63,22.38,22.25,23.56,26.64,27.48,28.72,28.15,29.11,29.52,28.9,28.02,24.93,21.6]}},"ndvi":{"barind":{"y0":2001,"v":[0.3463,0.3604,0.4673,0.4544,0.4211,0.4231,0.5192,0.5119,0.61,0.6099,0.4606,0.3718,0.3814,0.4278,0.4911,0.5084,0.475,0.4803,0.4994,0.5947,0.5784,0.584,0.4653,0.3869,0.3798,0.3766,0.4739,0.5302,0.464,0.4128,0.4875,0.5676,0.6129,0.6076,0.4755,0.3771,0.3758,0.4119,0.4994,0.4931,0.4401,0.4153,0.4431,0.5575,0.5952,0.5744,0.4592,0.3584,0.3811,0.4427,0.5405,0.505,0.4138,0.4126,0.4612,0.5787,0.6033,0.5809,0.4894,0.3711,0.3497,0.4272,0.5117,0.4897,0.4602,0.4914,0.5819,0.5751,0.6356,0.6145,0.4824,0.3863,0.3523,0.443,0.5229,0.5171,0.448,0.4534,0.5036,0.5153,0.5823,0.5868,0.4732,0.3777,0.3672,0.3891,0.5445,0.5222,0.4536,0.4363,0.487,0.5859,0.6086,0.5911,0.4543,0.3769,0.3792,0.3818,0.5251,0.5088,0.4116,0.436,0.5272,0.5685,0.6258,0.6164,0.509,0.3788,0.3644,0.3701,0.4948,0.4883,0.4164,0.4749,0.5817,0.613,0.6456,0.6393,0.5078,0.4124,0.4076,0.4293,0.5482,0.5437,0.5101,0.5098,0.4792,0.6073,0.6242,0.6147,0.4658,0.3919,0.4131,0.4015,0.5081,0.553,0.463,0.437,0.5448,0.6723,0.6715,0.6657,0.5442,0.4233,0.4136,0.4419,0.5275,0.5224,0.5248,0.5114,0.5007,0.6388,0.6875,0.6742,0.5083,0.4121,0.4556,0.4765,0.5684,0.5314,0.4772,0.4824,0.5196,0.658,0.6909,0.668,0.4842,0.404,0.4544,0.5434,0.5776,0.5787,0.5247,0.5324,0.5353,0.6352,0.6492,0.6543,0.5054,0.4146,0.4318,0.4985,0.5833,0.5535,0.4721,0.5264,0.56,0.644,0.7086,0.6985,0.5651,0.4136,0.4382,0.5076,0.5745,0.5784,0.5427,0.5846,0.5339,0.6448,0.7144,0.6859,0.5469,0.4427,0.4323,0.4981,0.5834,0.6101,0.5563,0.5195,0.5298,0.6102,0.7038,0.6679,0.5424,0.4281,0.4256,0.497,0.5932,0.626,0.5381,0.563,0.5485,0.6461,0.7166,0.703,0.5977,0.427,0.4664,0.5009,0.6204,0.5949,0.5868,0.5785,0.5017,0.6205,0.6819,0.6608,0.4875,0.4371,0.4347,0.4753,0.5876,0.5511,0.533,0.6227,0.5399,0.6803,0.712,0.6841,0.5193,0.4653,0.484,0.495,0.6169,0.5825,0.5737,0.5697,0.5902,0.6767,0.7246,0.7112,0.5629,0.451,0.4729,0.5018,0.6036,0.5968,0.5146,0.5347,0.5637,0.6934,0.7093,0.688,0.5801,0.4976,0.5078,0.5347,0.6195,0.6059,0.5481,0.5443,0.542,0.7155,0.7338,0.7254,0.5788,0.4456,0.463,0.5553,0.6028,0.6043,0.5554,0.5978,0.5382,0.6757,0.7224,0.7189,0.566,0.4715]},"bd":{"y0":2001,"v":[0.4123,0.43,0.4966,0.503,0.4828,0.463,0.5344,0.5394,0.6503,0.6585,0.5561,0.4685,0.449,0.4789,0.5184,0.5426,0.5066,0.5147,0.4855,0.5822,0.6136,0.6322,0.5557,0.4751,0.4375,0.4514,0.5,0.5479,0.5032,0.486,0.5273,0.5716,0.6393,0.6543,0.5476,0.4649,0.4369,0.4528,0.5174,0.5355,0.4804,0.4933,0.4852,0.5242,0.6019,0.6001,0.5216,0.4569,0.4402,0.4817,0.5537,0.5294,0.4886,0.5066,0.5261,0.5822,0.6273,0.6477,0.5697,0.4685,0.4297,0.4738,0.5355,0.5157,0.5127,0.556,0.572,0.5817,0.6443,0.6608,0.574,0.4728,0.402,0.4888,0.5268,0.5488,0.5222,0.5304,0.552,0.5224,0.5899,0.6075,0.5453,0.4614,0.43,0.4527,0.5603,0.5568,0.492,0.5202,0.5349,0.5748,0.6192,0.6306,0.5554,0.4665,0.42,0.4361,0.5122,0.5308,0.4809,0.5202,0.5674,0.5692,0.646,0.647,0.5748,0.4646,0.4223,0.4279,0.5076,0.5267,0.4824,0.5353,0.5825,0.5927,0.6511,0.6573,0.5632,0.4805,0.4232,0.4755,0.5487,0.5663,0.5399,0.5491,0.5384,0.5848,0.6396,0.6561,0.5641,0.4783,0.4418,0.4379,0.5083,0.5648,0.5245,0.5127,0.5493,0.6028,0.6573,0.6691,0.5877,0.4825,0.427,0.4635,0.5351,0.5524,0.5679,0.5728,0.5516,0.6081,0.6836,0.6946,0.5757,0.4881,0.4656,0.4945,0.5559,0.5403,0.5072,0.5402,0.5603,0.6111,0.6633,0.6743,0.5669,0.4825,0.4844,0.5162,0.5611,0.5818,0.5606,0.5538,0.5444,0.6095,0.6492,0.6655,0.5795,0.5025,0.4778,0.5189,0.5899,0.5707,0.5286,0.5585,0.576,0.6106,0.6806,0.6887,0.6027,0.5039,0.489,0.5139,0.5856,0.5917,0.5641,0.5923,0.5491,0.6005,0.6775,0.6857,0.6024,0.5196,0.478,0.4882,0.5754,0.6015,0.5586,0.5595,0.5761,0.614,0.6784,0.6697,0.6042,0.503,0.4679,0.5242,0.5919,0.6163,0.5724,0.5939,0.5694,0.6067,0.6943,0.7019,0.6162,0.5037,0.505,0.5198,0.5951,0.6033,0.6141,0.5841,0.5426,0.6115,0.6808,0.6749,0.5771,0.5043,0.4798,0.5005,0.5712,0.5472,0.545,0.5863,0.567,0.6366,0.6944,0.7017,0.593,0.5263,0.5087,0.5285,0.583,0.5829,0.569,0.5782,0.5967,0.6384,0.6823,0.695,0.6014,0.5104,0.4778,0.526,0.6088,0.6079,0.5577,0.5872,0.5939,0.6296,0.6757,0.6782,0.604,0.5356,0.514,0.5512,0.6179,0.6057,0.5771,0.6027,0.5139,0.6278,0.6851,0.6962,0.6026,0.5128,0.4769,0.5547,0.5875,0.6086,0.5868,0.5939,0.5473,0.6406,0.7041,0.7183,0.6241,0.5386]},"coastal":{"y0":2001,"v":[0.4644,0.4628,0.4738,0.4738,0.4516,0.373,0.4219,0.514,0.6474,0.6582,0.5945,0.5235,0.4848,0.4794,0.4795,0.4802,0.4237,0.4382,0.4199,0.5316,0.6061,0.6308,0.6088,0.5291,0.4836,0.4671,0.4773,0.4847,0.4194,0.4226,0.4844,0.4717,0.595,0.6084,0.5784,0.5014,0.4515,0.46,0.4669,0.4445,0.4218,0.4458,0.4256,0.5012,0.5869,0.6051,0.5615,0.5124,0.4762,0.4961,0.5122,0.4684,0.4328,0.4571,0.4841,0.5281,0.6017,0.6289,0.5935,0.539,0.4781,0.4404,0.5079,0.4752,0.4626,0.4355,0.4617,0.5152,0.5798,0.6058,0.599,0.5126,0.4457,0.4987,0.4965,0.4861,0.4491,0.4909,0.4836,0.4924,0.5869,0.6071,0.5568,0.4752,0.4167,0.4369,0.4768,0.476,0.4269,0.3988,0.4612,0.521,0.5813,0.5901,0.5599,0.4835,0.4465,0.4766,0.493,0.4716,0.4179,0.4122,0.4596,0.483,0.5725,0.5657,0.5639,0.5033,0.452,0.443,0.4636,0.4528,0.4107,0.4813,0.5273,0.5186,0.5989,0.5794,0.5597,0.5112,0.4272,0.4523,0.4876,0.4856,0.4658,0.4455,0.4429,0.4753,0.5522,0.5589,0.5439,0.5094,0.4527,0.4684,0.4528,0.4713,0.4263,0.4082,0.42,0.4616,0.5829,0.6126,0.5797,0.525,0.4345,0.4665,0.4923,0.4784,0.4824,0.4958,0.482,0.4937,0.6253,0.6187,0.5583,0.5087,0.4552,0.486,0.5121,0.4833,0.434,0.4546,0.4354,0.518,0.6025,0.6061,0.5631,0.4968,0.4703,0.4804,0.5132,0.4994,0.4748,0.4572,0.4382,0.5037,0.5919,0.6151,0.5962,0.5306,0.4705,0.5168,0.5494,0.4846,0.4656,0.5056,0.5106,0.5217,0.5868,0.6195,0.5736,0.5316,0.4867,0.5098,0.541,0.5061,0.4699,0.4811,0.4327,0.5259,0.6186,0.6166,0.5885,0.5375,0.4707,0.4715,0.5252,0.5334,0.4703,0.4675,0.522,0.5252,0.6051,0.5936,0.5728,0.5189,0.4627,0.4815,0.527,0.5292,0.4745,0.528,0.5147,0.5027,0.6239,0.6293,0.5848,0.5299,0.4956,0.5115,0.5427,0.5438,0.5098,0.4796,0.5153,0.5553,0.6354,0.6354,0.5689,0.5356,0.4933,0.5118,0.5242,0.506,0.4824,0.497,0.4551,0.4818,0.6071,0.6237,0.5792,0.5437,0.5054,0.5304,0.5598,0.5217,0.4682,0.4964,0.542,0.5804,0.6278,0.6296,0.5912,0.5531,0.4723,0.5209,0.5628,0.5543,0.5386,0.5292,0.5083,0.4959,0.6363,0.6123,0.5854,0.5333,0.5038,0.5287,0.5591,0.5294,0.5006,0.5207,0.4181,0.5204,0.613,0.618,0.5715,0.529,0.4628,0.538,0.5469,0.5424,0.516,0.5149,0.4892,0.5301,0.6562,0.6542,0.6013,0.5762]},"dhaka":{"y0":2001,"v":[0.398,0.3838,0.4564,0.4981,0.4903,0.4805,0.5536,0.4963,0.6174,0.5911,0.5193,0.4648,0.4321,0.4439,0.4911,0.546,0.5259,0.5197,0.5192,0.553,0.5674,0.5611,0.4956,0.4693,0.425,0.4254,0.4774,0.5393,0.4976,0.4836,0.5167,0.518,0.5751,0.5649,0.4819,0.4642,0.4281,0.4417,0.4968,0.5121,0.4742,0.4961,0.4686,0.4546,0.5072,0.5083,0.4496,0.4533,0.4195,0.4411,0.5387,0.5179,0.4857,0.5204,0.5279,0.545,0.5825,0.5787,0.5036,0.4567,0.4198,0.4345,0.4987,0.5165,0.5062,0.582,0.6075,0.5895,0.6159,0.6026,0.5319,0.4484,0.3746,0.4507,0.5058,0.5274,0.5079,0.5318,0.5678,0.4625,0.5175,0.5273,0.4963,0.475,0.4286,0.4424,0.5507,0.5585,0.4854,0.5265,0.5477,0.5234,0.5801,0.5795,0.5094,0.4614,0.408,0.4023,0.4693,0.5016,0.4589,0.546,0.6219,0.5736,0.6205,0.5931,0.5208,0.479,0.419,0.3875,0.4847,0.5203,0.4941,0.5513,0.6147,0.6037,0.6343,0.6236,0.523,0.4899,0.42,0.4301,0.5123,0.5644,0.5427,0.5563,0.5655,0.5985,0.6322,0.606,0.5237,0.4699,0.4317,0.3999,0.4666,0.5574,0.5343,0.5051,0.5789,0.6131,0.6347,0.6149,0.5491,0.4701,0.4057,0.4439,0.487,0.5285,0.5594,0.5863,0.5313,0.6023,0.6589,0.6377,0.5351,0.4895,0.4547,0.465,0.5066,0.5084,0.4921,0.5422,0.5845,0.6129,0.6361,0.6301,0.5196,0.4812,0.477,0.4578,0.517,0.5634,0.563,0.5523,0.5612,0.6091,0.6255,0.6088,0.5172,0.4996,0.4788,0.4471,0.535,0.5376,0.5269,0.5613,0.5745,0.6025,0.6504,0.628,0.5676,0.5057,0.4805,0.4677,0.5474,0.5663,0.583,0.6001,0.5649,0.5884,0.632,0.6105,0.5596,0.5172,0.4885,0.4508,0.5279,0.5826,0.556,0.5781,0.5673,0.621,0.6301,0.5995,0.5454,0.5112,0.4654,0.4835,0.5401,0.5937,0.5747,0.5951,0.5929,0.6151,0.6442,0.6424,0.5616,0.5076,0.5103,0.4982,0.5341,0.562,0.6144,0.6185,0.5263,0.5614,0.6118,0.6086,0.5478,0.5069,0.4706,0.4655,0.5161,0.5078,0.5318,0.5844,0.5668,0.5898,0.6416,0.6306,0.5436,0.5482,0.5138,0.5045,0.5224,0.5425,0.5485,0.5819,0.6298,0.6398,0.6394,0.6225,0.543,0.5006,0.4645,0.4796,0.5454,0.5557,0.5403,0.5979,0.6376,0.639,0.6236,0.6022,0.5585,0.5425,0.5172,0.5068,0.5654,0.5452,0.5546,0.592,0.505,0.6047,0.6599,0.6251,0.5556,0.5019,0.4587,0.4999,0.5088,0.5536,0.5578,0.5954,0.5174,0.6503,0.6627,0.6552,0.5551,0.5078]},"haor":{"y0":2001,"v":[0.3938,0.4618,0.5359,0.5571,0.4909,0.4112,0.4163,0.4638,0.5283,0.5596,0.4868,0.4153,0.4304,0.5058,0.5482,0.5673,0.4619,0.3907,0.3578,0.4337,0.4975,0.5607,0.5051,0.4294,0.4035,0.4988,0.5162,0.553,0.4952,0.4237,0.4254,0.4757,0.5384,0.5836,0.499,0.4332,0.4304,0.4743,0.5465,0.5665,0.3956,0.3954,0.3126,0.3056,0.4259,0.4583,0.4518,0.4108,0.4047,0.4967,0.571,0.5221,0.4728,0.4133,0.4233,0.4739,0.5381,0.5707,0.5082,0.4292,0.4076,0.5141,0.5549,0.5298,0.5177,0.4842,0.4422,0.4732,0.5348,0.5797,0.5216,0.4326,0.3684,0.4927,0.5126,0.5422,0.5161,0.4026,0.4045,0.3898,0.4314,0.4773,0.471,0.4171,0.4149,0.4916,0.5809,0.5869,0.5036,0.5044,0.4438,0.4718,0.5074,0.5626,0.5188,0.4332,0.3881,0.4725,0.5157,0.5534,0.4862,0.4854,0.5025,0.4959,0.5597,0.5875,0.5295,0.4159,0.3848,0.4542,0.5188,0.5316,0.397,0.3361,0.4286,0.4493,0.5078,0.5412,0.4646,0.4076,0.3683,0.4997,0.5642,0.5839,0.5258,0.4725,0.4747,0.4907,0.5646,0.5945,0.5065,0.4203,0.3977,0.443,0.4954,0.5583,0.4895,0.4429,0.4452,0.4995,0.545,0.5767,0.5224,0.411,0.3653,0.4932,0.5482,0.5562,0.5543,0.4659,0.4802,0.5422,0.5855,0.6278,0.5207,0.4291,0.4146,0.5062,0.5532,0.5499,0.5092,0.4881,0.4982,0.5161,0.5364,0.5863,0.5115,0.4233,0.4252,0.4923,0.5543,0.5744,0.5111,0.4477,0.492,0.5061,0.5234,0.555,0.5189,0.4427,0.4103,0.529,0.6062,0.5985,0.4404,0.4276,0.4683,0.537,0.5966,0.6136,0.5469,0.448,0.443,0.5356,0.6145,0.5639,0.4702,0.4861,0.4769,0.4389,0.5543,0.5917,0.5209,0.4498,0.412,0.517,0.5943,0.6003,0.522,0.4655,0.5057,0.5343,0.5805,0.5884,0.5476,0.4638,0.4468,0.5479,0.6029,0.6115,0.5464,0.5089,0.4671,0.5206,0.61,0.6322,0.549,0.4592,0.4254,0.5293,0.5982,0.5827,0.6049,0.4829,0.4683,0.5381,0.5589,0.5886,0.515,0.4301,0.427,0.505,0.5872,0.5625,0.5571,0.5377,0.5244,0.5631,0.607,0.6486,0.556,0.4758,0.4656,0.5397,0.5821,0.5986,0.5268,0.395,0.3963,0.4787,0.5274,0.5697,0.5166,0.4439,0.4187,0.5233,0.6065,0.6058,0.5503,0.5415,0.4884,0.514,0.5664,0.6002,0.5651,0.4794,0.435,0.5554,0.634,0.6349,0.561,0.5827,0.4318,0.4872,0.5406,0.603,0.5319,0.4517,0.4076,0.5548,0.5828,0.6221,0.5625,0.4687,0.4737,0.522,0.6065,0.6413,0.5715,0.4788]}},"soil":{"barind":{"y0":2001,"v":[254.94,231.58,202.18,178.27,280.31,367.09,356.17,367.18,372.17,361.58,316.69,287.62,276.36,251.02,225.99,241.54,302.76,362.19,385.71,373.99,359.49,347.74,315.75,286.13,267.7,256.6,260.78,258.09,276.74,332.55,374.43,363.87,357.87,363.78,316.35,286.95,270.42,245.93,217.34,226.07,257.51,358.53,378.49,355.51,376.73,356.02,297.85,268.41,253.2,238.18,227.32,219.24,227.25,307.27,360.79,372.6,362.02,366.44,325.51,288.13,261.67,233.27,197.24,184.49,196.6,343.16,361.36,360.62,372.38,343.26,302.77,271.53,248.43,252.42,233.69,200.96,208.17,345.0,372.73,371.08,373.64,351.01,312.91,282.43,268.4,262.39,241.12,229.33,245.76,340.08,372.04,371.31,364.0,346.47,311.2,282.76,259.42,233.56,199.71,175.42,231.2,267.75,330.09,375.61,363.22,346.69,303.21,274.3,252.96,232.64,201.59,181.73,240.31,334.56,361.3,360.69,361.9,337.87,299.62,280.91,261.41,235.64,210.14,212.96,245.89,312.08,361.59,369.88,354.31,322.09,276.47,252.32,249.02,225.12,185.16,206.5,201.21,307.98,348.71,341.13,358.11,344.91,303.47,272.76,252.28,232.06,193.28,168.28,224.14,308.64,343.49,361.97,354.48,354.03,308.8,278.1,258.42,236.17,232.42,188.39,192.35,304.83,359.23,347.57,361.9,328.38,285.67,258.37,245.29,221.04,186.94,220.64,251.78,317.46,365.54,361.11,362.36,316.04,268.14,242.43,224.45,201.8,170.36,163.22,181.85,255.74,319.31,336.63,349.0,333.28,288.26,257.71,238.32,212.19,190.67,204.46,246.12,265.85,333.96,357.7,355.37,360.43,317.36,284.58,261.15,233.84,197.05,188.29,249.59,274.99,326.89,361.85,356.89,310.7,264.47,242.21,225.85,207.77,187.47,215.0,281.32,299.74,350.08,356.88,356.46,352.72,317.81,283.48,257.14,234.7,212.28,208.48,267.66,341.0,369.58,354.33,370.78,345.31,291.97,263.34,242.25,218.84,183.92,157.55,197.56,336.68,367.85,369.87,355.67,351.51,308.51,289.02,268.53,255.07,228.92,262.6,285.15,344.62,323.94,356.81,363.91,343.12,299.86,267.09,246.01,221.06,209.81,195.18,213.96,272.83,337.31,359.3,358.49,347.34,291.91,272.45,252.12,233.51,207.43,183.49,196.0,274.23,351.71,360.65,357.62,351.59,296.26,265.39,244.31,219.8,188.41,176.92,225.01,317.29,347.61,366.31,359.79,339.06,303.3,270.33]},"bd":{"y0":2001,"v":[277.18,245.33,218.09,200.08,330.35,430.86,420.76,423.51,422.83,412.39,373.57,329.02,302.59,267.32,236.34,267.82,358.94,424.61,439.25,430.66,414.48,397.01,367.56,331.66,298.61,273.79,268.03,278.34,327.03,413.31,426.47,420.43,415.96,413.65,356.29,316.47,291.75,258.64,227.87,288.87,325.87,414.88,436.07,418.4,430.63,408.58,336.79,292.96,265.47,240.39,239.3,253.4,295.79,364.74,423.46,429.46,418.86,416.88,370.91,321.33,286.28,252.16,208.7,221.42,274.94,418.87,418.64,417.55,424.75,394.7,342.91,299.08,264.92,267.06,236.11,242.59,282.11,404.6,432.38,426.09,428.61,411.05,369.7,333.35,304.09,290.2,267.1,256.38,261.95,383.47,429.98,427.59,417.86,395.52,362.81,320.85,287.08,253.16,212.54,213.36,266.78,350.12,408.15,432.85,416.49,398.83,343.83,306.52,274.85,245.32,216.8,226.96,322.12,409.9,412.47,420.63,414.28,401.41,349.71,324.0,295.02,261.09,238.65,237.02,272.23,375.67,413.94,427.29,413.51,376.91,323.77,286.0,271.69,241.45,202.9,255.53,279.41,380.35,409.22,409.61,414.71,400.7,345.76,307.47,277.7,248.49,208.14,188.61,316.2,401.53,406.32,423.14,410.97,407.7,351.86,309.26,279.16,252.18,224.83,192.46,226.6,355.89,414.37,412.82,418.11,380.13,328.28,289.02,269.77,239.86,202.92,257.22,292.13,370.07,427.32,419.68,419.41,376.29,330.43,293.55,262.88,234.04,203.91,236.15,280.47,363.31,394.48,397.67,402.99,385.77,357.74,311.05,275.68,241.86,228.94,267.17,290.21,367.22,409.2,425.28,420.83,410.99,363.77,334.46,302.24,265.09,223.9,216.08,285.06,367.09,409.31,414.68,403.25,367.43,324.45,287.74,260.09,230.94,218.68,237.02,267.11,316.07,401.37,416.3,413.58,394.27,365.16,322.28,296.55,268.15,234.59,237.44,311.4,402.96,421.41,414.24,420.9,402.89,362.37,314.9,278.52,245.37,214.79,187.59,219.66,380.33,421.28,423.44,415.87,404.67,351.68,332.49,302.08,279.85,244.37,241.14,306.55,392.51,392.71,411.21,413.78,399.88,350.06,304.38,270.84,238.06,219.18,208.45,234.56,336.36,391.92,421.31,417.52,398.82,356.06,337.09,300.82,272.81,239.23,227.89,262.06,378.67,416.04,425.21,417.99,401.9,339.11,295.11,262.58,230.8,195.16,187.91,257.17,401.59,419.83,421.14,417.4,395.44,339.65,293.5]},"coastal":{"y0":2001,"v":[302.31,275.32,247.9,233.43,331.04,445.47,448.6,443.9,445.98,438.26,414.69,365.77,333.96,300.24,269.39,275.68,331.35,433.23,454.74,453.4,444.48,427.02,404.17,358.53,319.14,296.49,288.84,284.59,310.82,404.63,445.02,445.0,441.01,441.58,396.12,347.27,315.87,287.86,255.0,279.93,280.63,400.62,449.65,448.53,449.95,430.31,361.62,309.89,284.24,260.62,254.3,256.76,290.36,345.29,447.93,448.52,443.11,448.01,403.14,344.82,304.83,274.66,240.29,230.82,282.23,415.22,441.75,446.95,447.07,421.69,376.74,323.22,286.93,291.21,260.33,246.8,275.32,391.59,455.23,450.65,450.06,433.35,402.15,356.19,321.48,310.46,276.71,262.27,259.71,390.05,451.17,440.89,441.15,426.15,394.51,343.69,306.43,278.18,245.03,235.84,267.46,362.66,429.68,452.55,441.5,424.22,373.81,327.93,291.5,266.77,242.15,217.39,290.66,380.64,421.36,436.17,431.65,428.73,376.77,347.62,311.94,281.24,255.5,243.18,259.69,368.46,432.77,444.83,437.59,403.52,348.81,301.3,291.51,266.25,232.2,271.71,264.19,327.65,404.34,429.18,437.65,418.46,368.79,319.21,286.47,264.95,232.36,222.26,306.55,415.25,432.39,444.65,437.97,443.71,387.83,332.74,296.78,275.99,247.4,217.2,221.07,360.28,434.43,427.25,428.34,412.01,350.0,299.25,286.97,258.84,227.01,264.86,274.18,334.21,447.37,436.36,437.3,407.26,368.98,320.42,284.93,262.47,243.91,244.39,255.99,332.83,360.21,402.64,420.03,396.5,386.89,332.62,294.02,265.17,252.05,230.81,214.17,300.37,389.48,449.0,443.35,435.3,392.12,365.7,324.52,288.7,252.92,233.73,239.76,314.15,411.29,442.52,440.41,411.08,375.77,321.83,286.2,259.57,249.55,219.42,209.95,269.83,350.93,436.12,441.42,423.77,416.82,369.43,333.76,309.22,281.64,270.12,313.12,412.42,439.83,447.47,435.16,426.05,400.12,345.88,303.68,273.97,242.37,215.88,237.58,392.06,441.22,448.74,448.73,439.72,388.51,370.89,333.0,309.51,271.26,251.36,264.79,369.57,394.18,430.61,435.06,423.4,375.1,317.81,283.88,258.19,239.98,226.39,241.22,307.83,385.34,437.17,443.24,431.95,391.83,367.83,323.53,301.95,268.08,241.16,261.16,356.45,419.87,450.38,441.7,433.21,375.0,320.45,285.89,260.3,232.36,212.34,247.66,406.46,450.31,446.38,439.67,427.85,359.53,303.56]},"dhaka":{"y0":2001,"v":[226.48,193.73,169.66,154.23,283.09,354.44,339.71,346.49,345.12,334.78,298.07,267.37,248.25,215.24,185.62,223.75,304.3,353.26,361.24,352.22,334.85,320.99,302.98,276.1,248.3,224.51,222.59,243.73,274.15,337.47,349.32,344.83,337.73,338.61,295.61,268.65,248.66,215.24,175.8,247.4,273.34,345.93,356.88,340.6,357.26,332.21,277.49,246.02,222.18,196.32,195.91,222.4,261.21,301.57,347.56,349.36,342.11,344.56,304.09,266.45,234.34,198.1,147.38,171.57,236.25,346.18,340.97,341.98,348.52,320.36,281.07,247.76,217.91,214.63,181.94,193.07,226.09,335.31,350.79,348.61,346.22,333.11,304.83,278.2,252.55,238.61,223.6,221.03,221.33,326.87,349.85,347.32,340.04,326.13,298.95,267.67,239.06,204.77,158.15,162.31,198.83,278.6,331.91,354.66,340.35,322.69,279.46,251.02,224.09,195.04,169.08,171.59,283.99,339.01,335.08,342.99,336.36,329.28,289.21,272.07,246.91,212.46,187.77,186.29,210.34,299.98,336.69,349.91,328.93,300.65,262.45,234.87,229.87,198.04,151.9,204.98,225.85,299.02,331.01,333.76,333.9,325.07,286.32,258.0,231.14,197.55,153.71,132.91,272.73,330.87,328.75,345.66,334.98,331.9,285.17,253.9,228.26,200.45,162.81,130.52,158.63,290.94,336.52,338.21,339.7,311.47,271.14,242.27,227.19,196.83,154.38,212.47,238.24,305.84,350.21,336.71,341.94,305.62,268.66,243.59,215.69,183.85,147.26,184.05,237.32,306.92,317.58,318.06,326.46,313.4,296.42,260.39,228.52,192.66,167.1,206.47,259.05,323.76,345.69,345.81,341.46,331.46,294.36,275.72,245.01,208.28,161.08,159.78,268.72,326.27,337.07,336.5,326.17,287.9,254.59,235.47,216.3,181.04,165.17,204.14,229.57,281.61,325.17,335.43,329.19,317.47,297.99,264.22,240.05,211.62,172.39,176.19,261.57,334.14,342.58,334.92,341.35,323.72,296.97,261.02,229.17,194.74,151.41,119.56,160.82,321.42,345.38,342.81,342.76,329.46,287.58,281.53,255.49,234.19,196.22,169.3,236.65,326.12,324.15,338.29,339.35,324.51,287.91,252.99,222.65,187.67,162.66,150.45,177.27,278.15,326.74,345.04,340.68,324.52,290.38,279.26,247.45,220.94,185.74,169.77,210.44,308.63,339.97,346.56,340.61,329.64,275.83,242.08,213.91,179.98,136.53,119.07,196.69,329.02,344.12,342.76,341.18,324.01,274.68,240.76]},"haor":{"y0":2001,"v":[311.93,265.91,239.64,229.85,399.81,496.21,483.57,482.38,482.41,465.01,408.64,361.79,328.99,285.47,252.95,333.46,461.46,491.33,498.94,486.54,463.26,443.83,404.22,367.37,328.61,290.35,273.74,307.3,396.29,484.9,487.85,474.41,475.78,464.88,401.37,354.98,326.68,280.38,242.08,383.2,444.53,480.1,501.27,473.44,492.95,460.7,377.49,326.5,290.42,256.35,264.3,309.19,392.85,474.58,487.19,490.84,469.74,459.62,412.73,355.16,311.79,269.19,211.59,276.04,350.25,491.32,471.79,467.8,471.73,440.56,375.2,323.87,281.18,274.47,236.42,309.37,373.61,492.43,493.2,478.29,482.28,465.43,414.38,376.92,341.95,327.54,315.48,314.84,317.74,454.88,492.9,493.94,474.51,447.39,408.79,359.27,319.58,275.66,220.22,248.32,336.4,425.43,479.94,493.83,465.99,444.91,383.1,341.41,304.78,263.69,227.5,336.89,466.22,491.63,474.38,482.28,482.01,456.04,396.53,364.11,331.48,288.51,271.57,283.85,337.97,458.71,474.8,486.12,475.13,415.67,358.11,314.25,291.49,255.18,210.15,310.55,384.23,489.63,482.03,473.24,480.18,456.25,390.67,351.37,318.23,276.57,220.02,196.11,403.64,477.22,466.35,483.25,465.24,451.56,383.05,335.69,301.75,268.14,225.67,206.51,304.0,444.79,475.79,481.74,484.19,429.59,373.91,329.98,304.93,264.38,216.38,304.85,397.77,478.38,485.39,477.6,477.53,422.69,374.55,332.45,296.34,259.47,221.5,363.51,449.1,480.78,493.79,467.4,462.61,436.06,409.08,357.09,315.88,276.86,282.34,433.63,432.76,490.26,492.95,483.4,470.68,452.12,404.61,384.68,355.89,309.77,265.01,268.65,376.61,425.03,449.11,441.46,427.06,378.42,339.65,311.57,288.33,253.68,246.88,311.39,384.37,429.64,489.02,480.09,471.04,449.71,414.02,365.38,332.56,297.42,245.35,259.45,382.76,483.93,484.92,465.47,483.17,462.16,414.18,362.68,320.35,278.71,226.0,210.56,257.6,454.23,479.17,480.18,464.12,454.7,391.3,373.9,342.42,315.47,262.48,277.26,409.91,488.88,467.75,465.15,473.44,464.19,405.16,355.29,314.21,269.44,243.03,238.57,294.2,424.19,467.5,476.73,472.81,453.07,398.89,383.65,345.56,307.27,265.61,289.89,367.27,486.25,477.07,486.1,468.43,457.05,384.72,335.44,295.11,251.29,204.45,201.4,338.06,465.26,482.62,472.88,474.25,447.83,384.82,332.6]}},"tws":{"barind":{"y0":2002,"v":[null,null,null,-12.3287,-9.0074,null,null,35.94,32.3535,27.431,9.8885,1.8895,3.0395,-5.1684,-12.1096,-12.8563,-12.5742,null,28.0573,27.0694,27.9775,28.1977,17.5044,2.7771,-0.7449,-5.4899,-17.4757,-17.8771,-8.7049,-3.2945,25.0536,27.297,34.0971,35.3541,10.4176,-3.1128,-9.8634,-13.2331,-13.7062,-19.4966,-18.4739,-15.9016,13.8394,22.9291,24.4882,20.1914,5.531,-3.8828,-8.6549,-14.2566,-24.2387,-28.9761,-28.503,-2.7924,16.0713,16.1643,21.7892,20.3854,5.5591,-2.812,-13.7047,-16.2975,-18.8009,-21.0414,-21.2536,-9.283,15.5472,42.1543,40.9923,24.5447,10.0612,1.019,-7.5393,-10.9413,-15.322,-16.0847,-19.9419,-7.9286,22.0644,34.7462,33.6536,18.8629,-1.2883,-11.7581,-12.0824,-14.6716,-25.126,-32.2116,-27.2296,-19.8467,-5.2323,20.5714,20.1157,15.6473,1.1089,-11.18,-10.733,-16.35,-28.7879,-29.8824,-24.5763,-15.134,7.694,5.0606,11.1362,8.2194,-9.5636,-7.5906,null,-27.458,-29.7789,-31.9062,-30.0045,null,4.5382,19.8717,22.087,4.8183,null,-16.1228,-17.3459,-18.9307,-31.7669,-30.5911,null,-20.5093,-2.7856,11.4634,19.9792,null,-5.4167,-14.7167,-15.3568,-21.1256,null,-36.6311,-30.6405,-18.9658,1.0786,null,null,14.8849,4.9361,-8.0819,-14.7356,null,-23.7069,-33.1393,-30.9508,-24.9186,null,8.8794,15.3276,9.8896,-7.1419,null,-10.5443,-20.9418,-13.1447,-30.7751,null,null,12.7538,25.1161,31.2309,null,null,-23.1934,-12.5848,-16.8101,-33.953,null,-27.3166,-22.5536,0.1585,15.8395,null,null,-4.1124,-14.0819,-15.7729,null,-25.1583,-22.5533,-22.7983,-19.1067,null,null,null,null,null,null,null,null,null,null,null,-14.7939,-2.6018,null,null,-1.1844,-9.0282,-18.0188,-24.874,-22.3642,-26.6081,-31.8058,-26.4936,-20.1399,-1.3212,7.2354,15.5951,13.5334,1.9402,-5.045,-11.8454,-12.8471,-23.9229,-30.7202,-24.6913,-9.6521,25.8324,27.0095,27.4089,23.8556,9.7967,0.3848,-9.9186,-18.12,-24.1021,-32.6174,-28.6295,-9.8803,12.9184,23.921,25.9529,19.1647,5.9933,-4.0839,-8.7576,-9.7249,-16.5924,-15.8589,-14.7083,-12.2531,-2.1979,17.0301,23.5066,-2.2258,-1.1203,-16.3115,-18.7292,-18.4614,-27.361,-32.136,-36.1389,-32.3016,-10.1628,6.8319,5.6914,5.6184,-8.1015,-11.4636,-17.5347,-17.4027,-24.4298,-34.0342,-35.7694,-20.4139,-0.3916,18.8592,12.8886,15.4813,null,null],"n":[0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,0,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]},"bd":{"y0":2002,"v":[null,null,null,-13.1743,-8.1454,null,null,37.7288,25.1469,20.0597,2.9154,-5.286,-8.0232,-16.232,-22.5192,-16.0538,-12.5273,null,30.2454,26.7732,26.6953,21.3271,7.6938,-3.3233,-11.2112,-13.5164,-24.9468,-17.7148,-4.948,3.687,39.9175,35.1695,36.2224,33.1085,8.2014,-11.0632,-17.6174,-18.9882,-18.1573,-18.7144,-16.3608,-5.7547,15.1248,25.1828,23.0621,18.1214,3.6881,-5.6105,-14.6013,-19.6521,-26.5582,-31.5144,-28.4953,3.7979,17.101,14.9858,18.2493,14.0544,-3.2495,-7.3627,-19.6298,-20.0555,-25.6844,-21.7436,-17.5091,7.9535,28.7833,43.1497,38.9618,24.0949,6.9169,1.2368,-11.9996,-14.1243,-15.6101,-16.4042,-15.3957,-0.6232,27.8974,32.8628,34.7689,19.9129,-2.6369,-13.0936,-15.3722,-20.4187,-23.7745,-28.022,-25.2693,-10.974,6.0278,26.1163,21.3648,13.8098,1.8072,-10.9605,-12.2401,-19.8431,-29.817,-20.1967,-11.8803,5.5787,22.8147,21.781,24.9999,21.5704,3.7849,-6.1278,null,-27.8591,-22.4298,-27.1575,-22.3838,null,17.1746,31.3865,26.2954,11.3442,null,-13.9916,-15.8103,-19.2925,-29.4809,-28.1417,null,-2.7393,17.1986,26.7369,27.1533,null,-1.1187,-9.6553,-14.3542,-18.5828,null,-32.8918,-18.9764,0.4328,13.7315,null,null,14.9686,-0.3722,-11.8512,-20.0094,null,-32.683,-35.6967,-30.6019,-16.2177,null,20.5532,26.8466,14.5477,-0.9318,null,-14.4472,-23.7037,-37.7378,-30.5088,null,null,21.8772,30.8794,35.7675,null,null,-9.6995,-22.6732,-21.9422,-29.2713,null,-18.1437,-4.5298,20.3389,21.2749,null,null,-0.9698,-16.7693,-14.4859,null,-19.7203,-15.0588,-12.7537,-4.7947,null,null,null,null,null,null,null,null,null,null,null,0.9412,15.5976,null,null,2.7413,-3.8888,-10.5336,-16.0202,-22.8569,-22.7486,-23.2391,-18.7371,-4.8987,20.4095,24.1638,19.8707,19.4704,7.8484,-0.7128,-10.4768,-16.8945,-22.1281,-24.0478,-13.3277,7.0624,39.4041,33.1596,27.9908,32.7375,14.5825,-0.5344,-10.3867,-16.248,-21.4125,-28.3233,-18.9432,0.211,17.0641,33.8447,29.785,22.0944,9.0685,-1.6787,-13.3036,-7.0556,-18.0564,-13.9538,-0.5108,9.4291,24.9029,15.8556,26.4021,12.5294,8.6175,-7.9262,-14.0878,-15.094,-20.3563,-26.2589,-23.9515,-12.0738,8.9888,24.7211,18.6487,16.7508,3.8304,-6.4957,-16.6935,-13.4067,-22.5387,-30.0768,-22.2368,2.1635,21.6249,24.9775,21.7371,22.1343,null,null],"n":[0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,0,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]},"coastal":{"y0":2002,"v":[null,null,null,-13.4354,-10.0265,null,null,30.351,22.5888,18.7868,5.0854,-2.3099,-4.4881,-11.5657,-18.0332,-15.0591,-12.3986,null,22.6156,23.1372,26.0601,22.1475,11.28,0.9747,-5.6452,-9.1513,-19.6642,-16.5467,-6.2522,0.0144,27.8303,28.6551,31.4649,29.569,7.6602,-7.3209,-14.2232,-15.4954,-15.6663,-17.6348,-17.003,-10.5254,11.5042,21.2921,21.4174,16.9362,4.6879,-3.8937,-10.4532,-15.5002,-22.3225,-27.8323,-25.7287,0.0402,14.0406,14.466,17.5825,14.4042,-0.5431,-5.0694,-15.8411,-16.6067,-21.8371,-19.0411,-15.9304,0.7057,20.7876,36.3913,34.5396,21.9841,8.3571,1.6187,-8.3937,-10.8538,-12.3795,-13.7291,-15.1551,-3.2412,23.5261,29.7866,31.1501,18.9752,-0.0008,-9.751,-11.089,-15.4397,-20.4302,-24.7313,-23.1584,-12.4125,0.5113,20.9438,19.72,13.5532,1.2865,-8.9085,-9.9855,-16.0024,-25.5276,-21.2275,-15.4599,-2.3685,13.2592,12.7389,16.8004,15.6082,0.0646,-5.2767,null,-24.6514,-22.074,-25.6147,-22.4809,null,11.4975,24.5264,23.8656,11.1952,null,-10.7842,-12.1411,-14.5118,-23.9261,-22.8329,null,-8.9715,8.5738,20.4944,23.15,null,-0.3214,-7.905,-11.0897,-14.7051,null,-29.3417,-19.7899,-4.7997,9.0711,null,null,15.4396,2.1615,-7.2726,-13.6252,null,-25.5475,-29.2972,-25.6843,-17.2767,null,16.5596,21.8141,12.64,-0.4067,null,-11.0838,-19.9287,-27.6468,-26.1115,null,null,15.5695,25.3199,28.8282,null,null,-11.3005,-18.0908,-18.4817,-26.7682,null,-20.3289,-10.624,10.0162,18.5775,null,null,-0.8963,-12.6416,-13.345,null,-21.5885,-17.3775,-16.2204,-10.4307,null,null,null,null,null,null,null,null,null,null,null,-6.0821,6.3128,null,null,2.7648,-3.5321,-10.4152,-15.6028,-19.5347,-20.3721,-23.2028,-20.3031,-11.0276,9.5395,16.3819,16.6406,16.601,6.3328,-0.9718,-7.7564,-12.2388,-17.7229,-20.9954,-13.6719,1.9526,29.4232,28.9832,25.1811,27.2244,13.9851,2.0512,-7.0312,-13.52,-18.4774,-24.5058,-17.683,-0.9905,14.1449,28.948,27.3741,22.33,11.5244,2.0617,-7.6869,-4.2985,-12.1736,-11.6636,-4.7603,0.6028,14.199,15.9058,25.2223,12.4888,7.3315,-4.7171,-10.6546,-12.1056,-18.0376,-23.9647,-23.5041,-15.9027,2.6088,17.9673,15.4433,13.8157,2.3441,-4.3894,-12.391,-10.5672,-18.3842,-25.6994,-20.9281,-3.4474,13.3312,22.2235,20.7408,21.5471,null,null],"n":[0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,0,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]},"dhaka":{"y0":2002,"v":[null,null,null,-13.8668,-8.3519,null,null,40.4042,23.9709,20.0854,1.0034,-7.0404,-10.7966,-19.3075,-27.262,-17.8002,-13.5346,null,31.5208,27.3039,26.377,20.0106,4.9094,-5.4366,-14.9005,-16.8387,-29.5806,-20.7444,-4.7556,3.1424,44.6276,38.6192,39.1,35.6325,7.5257,-14.705,-21.7591,-22.7583,-21.5148,-20.9443,-19.1716,-4.4592,15.53,26.9277,23.6343,18.6833,3.194,-6.7183,-16.6303,-21.8938,-28.8223,-35.6731,-32.2255,5.4945,18.5239,15.3944,18.5048,13.8211,-5.7626,-7.8926,-22.2026,-22.316,-29.8647,-23.3603,-18.1632,13.9645,35.7286,47.3563,41.4969,26.7932,7.0429,2.7752,-12.6681,-14.6786,-15.3272,-17.2152,-14.7241,1.0335,31.9058,34.4182,38.0937,21.9824,-3.7925,-14.8035,-16.0897,-21.9256,-24.8392,-28.8996,-26.8725,-9.3999,8.9801,30.4716,24.7257,15.5692,4.2328,-10.0333,-10.8878,-19.5583,-29.8274,-16.7019,-7.6994,13.4541,30.1181,28.3762,30.1373,28.2366,8.5893,-4.4557,null,-28.5862,-20.1796,-27.2193,-21.4557,null,21.7768,37.2516,31.1788,15.581,null,-13.2338,-15.1431,-18.674,-29.0061,-28.3988,null,2.3629,25.4553,34.6003,32.5943,null,2.6463,-5.9131,-11.4924,-15.2569,null,-32.5798,-15.4588,7.1505,18.9328,null,null,18.3455,0.4382,-10.8988,-20.1517,null,-35.0085,-36.2236,-31.158,-13.9462,null,25.9541,35.3264,19.3862,3.0891,null,-13.2888,-23.7088,-44.8905,-31.9401,null,null,29.537,38.4469,43.135,null,null,-2.5854,-25.4007,-21.9403,-26.3896,null,-14.7249,1.3577,27.7513,26.5882,null,null,3.3609,-15.016,-11.714,null,-15.7245,-10.9016,-7.8919,0.514,null,null,null,null,null,null,null,null,null,null,null,8.8242,25.5577,null,null,7.4203,0.5135,-4.908,-10.208,-20.202,-18.991,-18.8276,-14.4326,3.5437,31.3523,33.933,25.6851,26.9897,15.1926,6.3253,-5.5845,-14.2657,-18.3846,-19.4167,-7.3161,15.3423,50.2289,41.1017,34.2884,42.971,23.5609,5.3817,-5.1076,-10.4047,-16.0947,-23.7424,-12.4076,7.6673,24.1309,44.5741,37.7589,30.0331,16.0074,5.8102,-9.0806,0.8036,-13.1,-8.2913,9.733,21.2086,40.2425,23.6762,35.4719,23.2198,19.1986,2.2238,-6.3161,-7.1458,-11.7237,-20.4881,-16.2878,-0.9139,20.8394,37.2266,30.0196,29.1109,15.7496,3.0616,-8.8593,-4.0934,-15.3605,-24.174,-12.8456,16.0299,35.2429,35.6337,33.9031,34.0289,null,null],"n":[0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,0,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]},"haor":{"y0":2002,"v":[null,null,null,-13.8668,-8.3519,null,null,40.4042,23.9709,20.0854,1.0034,-7.0404,-10.7966,-19.3075,-27.262,-17.8002,-13.5346,null,31.5208,27.3039,26.377,20.0106,4.9094,-5.4366,-14.9005,-16.8387,-29.5806,-20.7444,-4.7556,3.1424,44.6276,38.6192,39.1,35.6325,7.5257,-14.705,-21.7591,-22.7583,-21.5148,-20.9443,-19.1716,-4.4592,15.53,26.9277,23.6343,18.6833,3.194,-6.7183,-16.6303,-21.8938,-28.8223,-35.6731,-32.2255,5.4945,18.5239,15.3944,18.5048,13.8211,-5.7626,-7.8926,-22.2026,-22.316,-29.8647,-23.3603,-18.1632,13.9645,35.7286,47.3563,41.4969,26.7932,7.0429,2.7752,-12.6681,-14.6786,-15.3272,-17.2152,-14.7241,1.0335,31.9058,34.4182,38.0937,21.9824,-3.7925,-14.8035,-16.0897,-21.9256,-24.8392,-28.8996,-26.8725,-9.3999,8.9801,30.4716,24.7257,15.5692,4.2328,-10.0333,-10.8878,-19.5583,-29.8274,-16.7019,-7.6994,13.4541,30.1181,28.3762,30.1373,28.2366,8.5893,-4.4557,null,-28.5862,-20.1796,-27.2193,-21.4557,null,21.7768,37.2516,31.1788,15.581,null,-13.2338,-15.1431,-18.674,-29.0061,-28.3988,null,2.3629,25.4553,34.6003,32.5943,null,2.6463,-5.9131,-11.4924,-15.2569,null,-32.5798,-15.4588,7.1505,18.9328,null,null,18.3455,0.4382,-10.8988,-20.1517,null,-35.0085,-36.2236,-31.158,-13.9462,null,25.9541,35.3264,19.3862,3.0891,null,-13.2888,-23.7088,-44.8905,-31.9401,null,null,29.537,38.4469,43.135,null,null,-2.5854,-25.4007,-21.9403,-26.3896,null,-14.7249,1.3577,27.7513,26.5882,null,null,3.3609,-15.016,-11.714,null,-15.7245,-10.9016,-7.8919,0.514,null,null,null,null,null,null,null,null,null,null,null,8.8242,25.5577,null,null,7.4203,0.5135,-4.908,-10.208,-20.202,-18.991,-18.8276,-14.4326,3.5437,31.3523,33.933,25.6851,26.9897,15.1926,6.3253,-5.5845,-14.2657,-18.3846,-19.4167,-7.3161,15.3423,50.2289,41.1017,34.2884,42.971,23.5609,5.3817,-5.1076,-10.4047,-16.0947,-23.7424,-12.4076,7.6673,24.1309,44.5741,37.7589,30.0331,16.0074,5.8102,-9.0806,0.8036,-13.1,-8.2913,9.733,21.2086,40.2425,23.6762,35.4719,23.2198,19.1986,2.2238,-6.3161,-7.1458,-11.7237,-20.4881,-16.2878,-0.9139,20.8394,37.2266,30.0196,29.1109,15.7496,3.0616,-8.8593,-4.0934,-15.3605,-24.174,-12.8456,16.0299,35.2429,35.6337,33.9031,34.0289,null,null],"n":[0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0,1,1,1,2,0,0,1,1,1,0,0,1,1,1,1,0,1,1,1,1,0,0,1,1,1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0]}}}};
+
+(function () {
+  const wrap = document.getElementById('dt-wrap');
+  if (!wrap || typeof TrendStats === 'undefined' || !DETECTIVE.data) return;
+  const tip = document.getElementById('dt-tip');
+  const NS = 'http://www.w3.org/2000/svg';
+
+  // min: months that must have data for a year to count. GRACE accepts 2 of
+  // the 5 dry-season months, as script 16 did for 2002, which starts in April.
+  const VARS = {
+    tws: { label: 'Water stored on and under the land', short: 'Water storage', unit: 'cm', rate: 'cm/yr', dp: 2, agg: 'mean',
+      min: { year: 9, dry: 2, wet: 3 },
+      def: '<b>NASA GRACE and GRACE-FO</b> (JPL mascon RL06.3Mv04). The twin satellites weigh the water held in soil, groundwater, rivers and lakes from orbit. Shown as an anomaly in centimetres of water against the 2004&ndash;2009 average.',
+      note: 'No GRACE data in 2018, between the two missions, and late-GRACE years miss some months (battery management): a year counts if it has at least 9 of 12 months, 2 of the 5 dry-season months or 3 of the 6 wet-season months. A mascon cell spans about 300 km, so GRACE sees regional water storage, not a single district.' },
+    gpm: { label: 'Rainfall (GPM)', short: 'Rainfall', unit: 'mm', rate: 'mm/yr', dp: 1, agg: 'sum',
+      def: '<b>NASA GPM IMERG V07.</b> Rainfall from the Global Precipitation Measurement mission, merging microwave and infrared satellite estimates. Total over the season, in millimetres.' },
+    chirps: { label: 'Rainfall, 45-year record (CHIRPS)', short: 'Rainfall (CHIRPS)', unit: 'mm', rate: 'mm/yr', dp: 1, agg: 'sum',
+      def: '<b>CHIRPS v2.0</b>, from the UCSB Climate Hazards Center: satellite rainfall estimates blended with rain-gauge records, back to 1981. Partner data, not NASA. Its longer record shows how the period you choose changes what is significant.' },
+    ndvi: { label: 'Plant greenness (MODIS NDVI)', short: 'Greenness (NDVI)', unit: '', rate: 'per yr', dp: 4, agg: 'mean',
+      def: '<b>NASA MODIS on Terra</b> (MOD13A3 v061). The Normalized Difference Vegetation Index: how green and dense vegetation is, from 0 for bare ground to about 0.9 for dense crops or forest.' },
+    lst: { label: 'Ground surface temperature (MODIS)', short: 'Surface temperature', unit: '&deg;C', rate: '&deg;C/yr', dp: 3, agg: 'mean',
+      def: '<b>NASA MODIS on Terra</b> (MOD11A2 v061). Daytime temperature of the ground surface itself, not the air, from 8-day composites averaged by month.',
+      note: 'Clouds hide the ground in the monsoon, so wet-season values rest on fewer clear days than dry-season ones.' },
+    soil: { label: 'Soil moisture (GLDAS model)', short: 'Soil moisture', unit: 'mm', rate: 'mm/yr', dp: 2, agg: 'mean',
+      def: '<b>NASA GLDAS-2.1 Noah</b>, a land-surface model that combines satellite and ground observations with physics. Water held in the root zone of the soil, in millimetres.' },
+  };
+  const REGIONS = {
+    barind: { label: 'Barind Tract (NW)', col: '#f85149' },
+    coastal: { label: 'Coastal south (SW)', col: '#58a6ff' },
+    haor: { label: 'Haor basin (NE)', col: '#3fb950' },
+    dhaka: { label: 'Dhaka region', col: '#ffa657' },
+    bd: { label: 'All Bangladesh', col: '#e2c26f' },
+  };
+  const SEASONS = {
+    year: { label: 'Whole year', months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+    dry: { label: 'Dry season, Jan&ndash;May', months: [1, 2, 3, 4, 5] },
+    wet: { label: 'Wet season, Jun&ndash;Nov', months: [6, 7, 8, 9, 10, 11] },
+  };
+  const CASES = {
+    1: { v: 'tws', r: ['barind', 'coastal', 'haor'], s: 'dry', y0: 2002, y1: 2017,
+      text: '<b>PRAAN&rsquo;s own investigation.</b> Dry-season water storage over three regions, 2002&ndash;2017, the GRACE years. The Barind Tract and the coastal south fall significantly; the haor basin does not. Move the end year to 2024 to add GRACE-FO.' },
+    2: { v: 'tws', r: ['barind', 'haor'], s: 'dry', y0: 2002, y1: 2024,
+      text: '<b>The challenge&rsquo;s own puzzle.</b> One variable can move one way in one region and the other way in another. Over the full 2002&ndash;2024 record the Barind keeps falling while the haor basin tilts upward. Check the table: is the haor rise significant?' },
+    3: { v: 'lst', r: ['dhaka', 'bd'], s: 'year', y0: 2001, y1: 2025,
+      text: '<b>A null result is a result.</b> Is Dhaka&rsquo;s ground getting hotter? Over 2001&ndash;2025 MODIS shows no significant trend in daytime surface temperature, for the Dhaka region or for Bangladesh as a whole. A good detective reports that instead of hunting for the answer they expected. Try the dry season alone.' },
+  };
+
+  const st = { v: 'tws', r: ['barind', 'coastal', 'haor'], s: 'dry', y0: 2002, y1: 2017 };
+  const range = v => {
+    let lo = Infinity, hi = -Infinity;
+    for (const k in DETECTIVE.data[v]) { const d = DETECTIVE.data[v][k]; lo = Math.min(lo, d.y0); hi = Math.max(hi, d.y0 + d.v.length / 12 - 1); }
+    return [lo, hi];
+  };
+
+  function yearly(v, r, s) {
+    const d = DETECTIVE.data[v][r];
+    if (!d) return { years: [], values: [] };
+    const months = SEASONS[s].months, meta = VARS[v];
+    const need = meta.min ? meta.min[s] : months.length;
+    const years = [], values = [];
+    for (let k = 0; k < d.v.length / 12; k++) {
+      let sv = 0, sw = 0, cnt = 0;
+      for (const m of months) {
+        const i = k * 12 + m - 1, x = d.v[i];
+        if (x == null) continue;
+        const w = d.n ? d.n[i] : 1;
+        sv += x * w; sw += w; cnt++;
+      }
+      years.push(d.y0 + k);
+      values.push(cnt >= need && sw > 0 ? (meta.agg === 'sum' ? sv : sv / sw) : null);
+    }
+    return { years, values };
+  }
+
+  const fmt = (x, dp) => (x < 0 ? '&minus;' : '') + Math.abs(x).toFixed(dp);
+  const sfmt = (x, dp) => (x > 0 ? '+' : x < 0 ? '&minus;' : '') + Math.abs(x).toFixed(dp);
+  const pfmt = p => p < 0.001 ? '&lt; 0.001' : '= ' + p.toPrecision(2);
+  const el = (tag, attrs, txt) => {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (txt != null) e.textContent = txt;
+    return e;
+  };
+
+  function analyseAll() {
+    return st.r.map(r => {
+      const y = yearly(st.v, r, st.s);
+      const yrs = [], vals = [];
+      y.years.forEach((yr, i) => { if (yr >= st.y0 && yr <= st.y1) { yrs.push(yr); vals.push(y.values[i]); } });
+      return { r, all: y, a: TrendStats.analyse(yrs, vals) };
+    });
+  }
+  const verdict = a => {
+    if (!a || a.n < 8) return 'Too few years to test (needs 8)';
+    if (a.p < 0.05) return a.slope > 0 ? 'Rising, significant' : 'Falling, significant';
+    return 'No significant trend' + (a.slope > 0 ? ', tilts up' : a.slope < 0 ? ', tilts down' : '');
+  };
+
+  function renderChart(res) {
+    const W = Math.max(280, wrap.clientWidth), small = W < 560, H = small ? 280 : 360;
+    const m = { l: small ? 44 : 56, r: 12, t: 18, b: 30 };
+    const [xa, xb] = range(st.v), x0 = xa - 0.5, x1 = xb + 0.5;
+    let lo = Infinity, hi = -Infinity;
+    res.forEach(o => o.all.values.forEach(v => { if (v != null) { lo = Math.min(lo, v); hi = Math.max(hi, v); } }));
+    if (!isFinite(lo)) { lo = 0; hi = 1; }
+    const pad = (hi - lo) * 0.08 || 1; lo -= pad; hi += pad;
+    const X = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+    const Y = v => m.t + (hi - v) / (hi - lo) * (H - m.t - m.b);
+    const fs = small ? 10 : 11, meta = VARS[st.v];
+    const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H });
+    // selected window
+    svg.appendChild(el('rect', { x: X(st.y0 - 0.5), y: m.t, width: X(st.y1 + 0.5) - X(st.y0 - 0.5), height: H - m.t - m.b, fill: '#e2c26f', opacity: 0.06 }));
+    // y grid
+    const step = niceStep((hi - lo) / (small ? 4 : 6));
+    for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) {
+      svg.appendChild(el('line', { x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v), stroke: '#2a5664', 'stroke-width': 1 }));
+      svg.appendChild(el('text', { x: m.l - 6, y: Y(v) + 3.5, 'text-anchor': 'end', 'font-size': fs, fill: '#9db7bb' }, fmtTick(v, step)));
+    }
+    const xs = (xb - xa) > 30 ? 10 : small ? 4 : 2;
+    for (let yr = Math.ceil(xa / xs) * xs; yr <= xb; yr += xs)
+      svg.appendChild(el('text', { x: X(yr), y: H - m.b + 18, 'text-anchor': 'middle', 'font-size': fs, fill: '#9db7bb' }, yr));
+    svg.appendChild(el('text', { x: 4, y: m.t - 5, 'font-size': fs, fill: '#9db7bb' }, meta.unit.replace('&deg;', '°') || 'index'));
+    res.forEach(o => {
+      const col = REGIONS[o.r].col;
+      let d = '', pen = false;
+      o.all.years.forEach((yr, i) => {
+        const v = o.all.values[i];
+        if (v == null) { pen = false; return; }
+        d += (pen ? 'L' : 'M') + X(yr).toFixed(1) + ' ' + Y(v).toFixed(1) + ' ';
+        pen = true;
+      });
+      svg.appendChild(el('path', { d, fill: 'none', stroke: col, 'stroke-width': 1.8, 'stroke-linejoin': 'round', opacity: 0.9 }));
+      o.all.years.forEach((yr, i) => {
+        const v = o.all.values[i];
+        if (v == null) return;
+        const inWin = yr >= st.y0 && yr <= st.y1;
+        svg.appendChild(el('circle', { cx: X(yr), cy: Y(v), r: small ? 2.2 : 2.8, fill: col, opacity: inWin ? 1 : 0.35 }));
+      });
+      const a = o.a;
+      if (a && a.n >= 3 && isFinite(a.slope)) {
+        const ya = a.slope * a.x0 + a.intercept, yb = a.slope * a.x1 + a.intercept;
+        svg.appendChild(el('line', { x1: X(a.x0), y1: Y(ya), x2: X(a.x1), y2: Y(yb), stroke: col, 'stroke-width': 2.2, 'stroke-dasharray': '6 4' }));
+      }
+    });
+    const guide = el('line', { y1: m.t, y2: H - m.b, stroke: '#eaf3f2', 'stroke-width': 1, opacity: 0, 'pointer-events': 'none' });
+    svg.appendChild(guide);
+    const hit = el('rect', { x: m.l, y: m.t, width: W - m.l - m.r, height: H - m.t - m.b, fill: 'transparent' });
+    svg.appendChild(hit);
+    const move = ev => {
+      const rect = svg.getBoundingClientRect();
+      const px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - rect.left;
+      const yr = Math.round(x0 + (px - m.l) / (W - m.l - m.r) * (x1 - x0));
+      if (yr < xa || yr > xb) return;
+      guide.setAttribute('x1', X(yr)); guide.setAttribute('x2', X(yr)); guide.setAttribute('opacity', 0.35);
+      let html = '<b>' + yr + '</b>';
+      res.forEach(o => {
+        const i = o.all.years.indexOf(yr), v = i < 0 ? null : o.all.values[i];
+        html += '<div class="row"><span style="color:' + REGIONS[o.r].col + '">' + REGIONS[o.r].label + '</span><span>'
+          + (v == null ? 'no data' : fmt(v, meta.dp) + ' ' + meta.unit) + '</span></div>';
+      });
+      tip.innerHTML = html; tip.style.display = 'block';
+      const tw = tip.offsetWidth;
+      tip.style.left = Math.min(Math.max(X(yr) + 12, 0), W - tw) + 'px';
+      tip.style.top = (m.t + 4) + 'px';
+    };
+    const hide = () => { tip.style.display = 'none'; guide.setAttribute('opacity', 0); };
+    hit.addEventListener('mousemove', move); hit.addEventListener('mouseleave', hide);
+    hit.addEventListener('touchstart', move, { passive: true }); hit.addEventListener('touchmove', move, { passive: true });
+    wrap.querySelectorAll('svg').forEach(n => n.remove());
+    wrap.appendChild(svg);
+  }
+  function niceStep(raw) {
+    const e = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / e;
+    return (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * e;
+  }
+  const fmtTick = (v, step) => {
+    const dp = Math.max(0, -Math.floor(Math.log10(step)));
+    return (v < 0 ? '−' : '') + Math.abs(v).toFixed(dp);
+  };
+
+  function renderText(res) {
+    const meta = VARS[st.v], o = res[0], a = o.a, span = st.y0 + '&ndash;' + st.y1;
+    const where = REGIONS[o.r].label + (res.length > 1 ? ' (first of ' + res.length + ' regions)' : '');
+    let how = '&mdash;', howp = '', sig = '&mdash;', sigp = '';
+    if (a && a.n >= 3) {
+      how = sfmt(a.slope, meta.dp) + ' ' + meta.rate;
+      howp = 'About ' + sfmt(a.slope * (a.x1 - a.x0), meta.dp) + (meta.unit ? ' ' + meta.unit : '') + ' over ' + a.x0 + '&ndash;' + a.x1
+        + '. 95% confidence interval ' + fmt(a.lo, meta.dp) + ' to ' + fmt(a.hi, meta.dp) + '.';
+    }
+    if (!a || a.n < 8) { sig = 'Cannot tell yet'; sigp = 'The test needs at least 8 years of data. Widen the years.'; }
+    else if (a.p < 0.05) { sig = 'Yes, p ' + pfmt(a.p); sigp = 'A pattern this consistent would be unlikely without a real trend.'; }
+    else { sig = 'No, p ' + pfmt(a.p); sigp = 'This record cannot tell the trend from natural variation. A longer one might.'; }
+    document.getElementById('dt-answer').innerHTML =
+      '<div><div class="q">What is changing?</div><div class="a">' + meta.short + '</div><p>' + SEASONS[st.s].label + ', each year&rsquo;s ' + (meta.agg === 'sum' ? 'total' : 'average') + '.</p></div>'
+      + '<div><div class="q">Where?</div><div class="a">' + where + '</div><p>' + span + ', ' + (a ? a.n : 0) + ' years with data.</p></div>'
+      + '<div><div class="q">How much?</div><div class="a">' + how + '</div><p>' + howp + '</p></div>'
+      + '<div><div class="q">Is it significant?</div><div class="a">' + sig + '</div><p>' + sigp + '</p></div>';
+    let t = '<thead><tr><th>Region</th><th class="num">Change per year</th><th class="num hide-sm">95% interval</th><th class="num">p</th><th>Verdict</th></tr></thead><tbody>';
+    res.forEach(q => {
+      const b = q.a, ok = b && b.n >= 3;
+      t += '<tr><td><span class="dot" style="background:' + REGIONS[q.r].col + '"></span>' + REGIONS[q.r].label + '</td>'
+        + '<td class="num">' + (ok ? sfmt(b.slope, meta.dp) + ' ' + meta.rate : '&mdash;') + '</td>'
+        + '<td class="num hide-sm">' + (ok ? fmt(b.lo, meta.dp) + ' to ' + fmt(b.hi, meta.dp) : '&mdash;') + '</td>'
+        + '<td class="num">' + (ok && b.n >= 8 ? pfmt(b.p) : '&mdash;') + '</td>'
+        + '<td>' + verdict(b) + '</td></tr>';
+    });
+    document.getElementById('dt-table').innerHTML = t + '</tbody>';
+    document.getElementById('dt-def').innerHTML = meta.def;
+    document.getElementById('dt-varnote').innerHTML = meta.note || '';
+    const same = st.v === 'tws' && st.r.includes('dhaka');
+    document.getElementById('dt-regnote').innerHTML = same
+      ? 'GRACE cannot separate the Dhaka region from the haor basin: both sit in one ~300 km mascon cell and return the same series. Treat them as one sample.' : '';
+  }
+
+  function chips(id, items, isOn, onClick) {
+    const box = document.getElementById(id);
+    box.innerHTML = '';
+    Object.entries(items).forEach(([k, o]) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed', isOn(k));
+      b.innerHTML = (o.col ? '<span class="sw" style="background:' + o.col + '"></span>' : '') + o.label;
+      b.addEventListener('click', () => onClick(k));
+      box.appendChild(b);
+    });
+  }
+  function years() {
+    const [a, b] = range(st.v);
+    st.y0 = Math.min(Math.max(st.y0, a), b - 7); st.y1 = Math.max(Math.min(st.y1, b), st.y0 + 7);
+    ['dt-y0', 'dt-y1'].forEach((id, j) => {
+      const s = document.getElementById(id);
+      s.innerHTML = '';
+      for (let y = a; y <= b; y++) {
+        if (j === 0 ? y > b - 7 : y < a + 7) continue;
+        const o = document.createElement('option'); o.value = y; o.textContent = y; s.appendChild(o);
+      }
+      s.value = j === 0 ? st.y0 : st.y1;
+    });
+  }
+  let activeCase = null;
+  function render() {
+    chips('dt-var', VARS, k => k === st.v, k => {
+      st.v = k; const [a, b] = range(k); st.y0 = a; st.y1 = b; clearCase(); render();
+    });
+    chips('dt-reg', REGIONS, k => st.r.includes(k), k => {
+      if (st.r.includes(k)) { if (st.r.length > 1) st.r = st.r.filter(x => x !== k); }
+      else st.r = Object.keys(REGIONS).filter(x => st.r.includes(x) || x === k);
+      clearCase(); render();
+    });
+    chips('dt-season', SEASONS, k => k === st.s, k => { st.s = k; clearCase(); render(); });
+    years();
+    const res = analyseAll();
+    renderChart(res); renderText(res);
+    document.querySelectorAll('.dt-case').forEach(b => b.setAttribute('aria-pressed', b.dataset.case === activeCase));
+    document.getElementById('dt-case-text').innerHTML = activeCase ? CASES[activeCase].text
+      : 'Pick a case above, or set your own question with the three steps below.';
+  }
+  function clearCase() { activeCase = null; }
+  function openCase(c) {
+    const k = CASES[c];
+    Object.assign(st, { v: k.v, r: k.r.slice(), s: k.s, y0: k.y0, y1: k.y1 });
+    activeCase = String(c); render();
+  }
+  document.getElementById('dt-y0').addEventListener('change', e => { st.y0 = +e.target.value; clearCase(); render(); });
+  document.getElementById('dt-y1').addEventListener('change', e => { st.y1 = +e.target.value; clearCase(); render(); });
+  document.querySelectorAll('.dt-case').forEach(b => b.addEventListener('click', () => openCase(b.dataset.case)));
+  document.querySelectorAll('[data-open-case]').forEach(a => a.addEventListener('click', () => openCase(a.dataset.openCase)));
+  document.getElementById('dt-csv').addEventListener('click', () => {
+    const res = analyseAll(), meta = VARS[st.v];
+    const unit = meta.unit.replace('&deg;', 'deg ') || 'index';
+    let csv = 'variable,season,region,year,value_' + unit.trim().replace(' ', '_') + ',in_selected_years\n';
+    res.forEach(o => o.all.years.forEach((yr, i) => {
+      const v = o.all.values[i];
+      csv += [st.v, st.s, o.r, yr, v == null ? '' : v, yr >= st.y0 && yr <= st.y1].join(',') + '\n';
+    }));
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    const a = document.createElement('a');
+    a.href = url; a.download = `praan_${st.v}_${st.s}_${st.y0}-${st.y1}.csv`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 120); });
+  openCase(1);
+})();
+</script>
+
 </body>
 </html>

@@ -216,6 +216,8 @@ it in a browser, there is no build step.
 | 19–20 | Observed ward growth 2000–2020; does the ASI predict it? (it does not) |
 | 21 | Rebuild the site's map data from the committed CSVs |
 | 22 | GRACE minus GLDAS soil/snow/canopy — groundwater separation (not on the site yet) |
+| 23 | **Trend Detective data: six NASA and partner variables, five regions, monthly** |
+| 24 | Checks the page's in-browser trend statistics against scripts 16 and 18 |
 
 Run order for Phase 3: `10` → `15` (15 reads the deduplicated frame written
 by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
@@ -227,7 +229,9 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
   script 11 uses `NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI` (JPL RL06.3Mv04,
   band `lwe_thickness`). Watkins et al. (2015), Wiese et al. (2016)
 - MODIS Terra NDVI — `MODIS/061/MOD13A3` (scripts 01, 03, 18) — Didan (2021)
-- GLDAS-2.1 Noah — `NASA/GLDAS/V021/NOAH/G025/T3H` (script 22, not yet run) — Beaudoing & Rodell (2020)
+- MODIS Terra LST — `MODIS/061/MOD11A2` (script 23) — Wan, Hook & Hulley (2021)
+- GPM IMERG V07 — `NASA/GPM_L3/IMERG_MONTHLY_V07` (script 23) — Huffman et al. (2023)
+- GLDAS-2.1 Noah — `NASA/GLDAS/V021/NOAH/G025/T3H` (script 23; script 22, groundwater separation, not yet run) — Beaudoing & Rodell (2020)
 - CHIRPS Rainfall v2.0 — `UCSB-CHG/CHIRPS/PENTAD` — Funk et al. (2015)
 - WorldPop 2020 — WorldPop Global Project, University of Southampton
 - JRC GHSL P2023A — `JRC/GHSL/P2023A/GHS_BUILT_S` — Pesaresi et al. (2023)
@@ -247,6 +251,10 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
 - `docs/REFERENCES.md` — full citations for every dataset, paper and tool
 - `CORRECTIONS.md` — errors we found in our own work, and the fixes
 - `JUDGE_QA.md` — prepared answers for judging
+
+The site's Trend Detective (scripts 23, 24 and `notebooks/site/trend_stats.js`)
+lets a user pick a variable, region, season and years and runs the trend
+test in the browser.
 
 The site runs offline: Leaflet and the fonts are bundled in `deploy/`,
 and the map data is inline.
