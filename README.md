@@ -33,13 +33,16 @@ is not explained by rainfall variability.
 > `11_grace_fo_extension.py` into the committed
 > `data/processed/grace_mascon_tws_raw.csv`. Regressing that file over the
 > GRACE era reproduces the published figures exactly: slope
-> **-0.898 cm/yr, r = -0.678, p = 0.0039** (2002-2017, n = 16); over the
-> full GRACE + GRACE-FO record, **-0.431 cm/yr, r = -0.491, p = 0.0203**
+> **-1.013 cm/yr, r = -0.763, p = 0.0006** (2002-2017, n = 16); over the
+> full GRACE + GRACE-FO record, **-0.513 cm/yr, r = -0.579, p = 0.0047**
 > (2002-2024, n = 22, 2018 absent). The MASCON band is in centimetres.
+> Each January-May value averages the images whose *midpoint* falls in
+> those months, on the product's native 0.5° grid (`notebooks/grace_season.py`;
+> CORRECTIONS.md section 12 explains why both matter).
 > Those are the OLS figures. The website reports the rank-based versions
 > from script 18 (`outputs/robust_trend_stats.csv`): Sen's slope
-> **-0.90 cm/yr**, Mann-Kendall **p = 0.010** (2002-2017), and
-> **-0.57 cm/yr, p = 0.018** over 2002-2024. Each is checked for serial
+> **-1.04 cm/yr**, Mann-Kendall **p = 0.0046** (2002-2017), and
+> **-0.56 cm/yr, p = 0.0075** over 2002-2024. Each is checked for serial
 > correlation with the Hamed-Rao method; the correction is only ever
 > allowed to make a p-value larger, and for the Barind it finds no
 > significant autocorrelation once the trend is removed.
@@ -70,7 +73,7 @@ where `D_ref` is the fitted deficit during the 2006/07 monga survey — the
 period in which the 36% anchor was observed. ε is an assumed scenario
 parameter, not an estimate. Ratios are unit-free, so the coupling is
 unaffected by the units question above. Under the coupled central case
-(ε = 0.15) the estimate rises to 809,478 arrivals; the uncoupled 766,489
+(ε = 0.15) the estimate rises to 821,208 arrivals; the uncoupled 766,489
 remains the published headline.
 
 **Layer 3 — The City (Scenario framework)**

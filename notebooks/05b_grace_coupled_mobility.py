@@ -29,9 +29,9 @@ THE COUPLING
     in the raw GRACE export.
 
 CHOOSING EPSILON — AND WHY IT MUST BE SMALL
-    D_2026 / D_2006-07 = 1.44 on the committed MASCON series. A proportional
-    response (EPSILON = 1) would give 0.36 * 1.44 = 0.52, past the 0.50 cap,
-    which binds for any EPSILON >= 0.90. Mobility does not scale
+    D_2026 / D_2006-07 = 1.58 on the committed MASCON series. A proportional
+    response (EPSILON = 1) would give 0.36 * 1.58 = 0.57, past the 0.50 cap,
+    which binds for any EPSILON >= 0.71. Mobility does not scale
     linearly with water deficit: irrigation investment, remittances,
     adaptation and alternative livelihoods all damp the response. EPSILON is
     therefore a small, explicitly stated assumption, and it is the honest

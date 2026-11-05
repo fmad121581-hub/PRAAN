@@ -38,6 +38,7 @@ OUTPUT
     outputs/regional_trend_summary.txt
 """
 import ee, pandas as pd, numpy as np, itertools, time, os
+import grace_season
 from scipy import stats
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -74,7 +75,7 @@ if any(d not in available for ds in REGIONS.values() for d in ds):
     print('  ' + ', '.join(sorted(available)))
     raise SystemExit('Fix the district names above before extracting.')
 
-mascon = ee.ImageCollection('NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI').select('lwe_thickness')
+mascon = grace_season.mascon()   # image midpoints, native grid: see grace_season.py
 
 rows = []
 for region, districts in REGIONS.items():
@@ -82,15 +83,10 @@ for region, districts in REGIONS.items():
     print(f'\nExtracting {region} ...')
     for year in range(START, END + 1):
         try:
-            col = mascon.filterDate(ee.Date.fromYMD(year, 1, 1),
-                                    ee.Date.fromYMD(year, 5, 31))
-            n = col.size().getInfo()
+            v, n = grace_season.season_mean(mascon, geom, year, 1, 5)
             if n == 0:
                 rows.append({'region': region, 'year': year, 'tws': np.nan, 'n_images': 0})
                 continue
-            v = col.mean().reduceRegion(reducer=ee.Reducer.mean(), geometry=geom,
-                                        scale=55000, maxPixels=1e9,
-                                        bestEffort=True).getInfo().get('lwe_thickness')
             rows.append({'region': region, 'year': year, 'tws': v, 'n_images': n})
             time.sleep(0.2)
         except Exception as e:

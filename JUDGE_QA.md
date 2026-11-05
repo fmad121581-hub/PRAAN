@@ -33,23 +33,25 @@ Never say "GRACE proves groundwater depletion in the Barind Tract."
 
 **If they press on significance**, you are on stronger ground than OLS:
 
-> "OLS gives p = 0.0039, but it assumes each year is independent of the
-> last. We publish a rank-based Mann-Kendall test instead: p = 0.0103,
-> Sen's slope −0.905 cm/yr. We also ran the Hamed-Rao check for serial
-> correlation. The raw series has lag-1 autocorrelation of +0.72, but
+> "OLS gives p = 0.0006, but it assumes each year is independent of the
+> last. We publish a rank-based Mann-Kendall test instead: p = 0.0046,
+> Sen's slope −1.04 cm/yr. We also ran the Hamed-Rao check for serial
+> correlation. The raw series has lag-1 autocorrelation of +0.76, but
 > almost all of that is the trend itself — once the trend is removed there
 > is no significant autocorrelation left, so the correction changes
 > nothing. We publish the more conservative number either way."
 
-**If they ask why the haor basin's slope (−0.60 cm/yr) is "not
-significant" when the coastal south's (−0.56) is:**
+**If they ask why the haor basin's slope (−0.54 cm/yr) is "not
+significant" when the coastal south's (−0.63) is, over 2002–2017:**
 
 > "Significance depends on the noise as well as the slope. The haor basin is
 > the wettest part of the country and its year-to-year swings are far
 > larger, so a slope of that size can't be told apart from chance there
-> (p = 0.22). Over the full record it even turns positive. The coastal
+> (p = 0.26). Over the full record it even turns positive. The coastal
 > series is much steadier, so a similar slope is clearly detectable
-> (p = 0.0079). We report the test result, not the slope alone."
+> (p = 0.017). We report the test result, not the slope alone — and
+> that cuts both ways: once GRACE-FO is added the coastal decline is no
+> longer significant (p = 0.54), and we say so."
 
 ### 2. "Your mobility rate comes from a famine survey. Why does that transfer to slow groundwater decline?"
 
@@ -67,8 +69,8 @@ significant" when the coastal south's (−0.56) is:**
 Make sure you can show this:
 
 > "It drives it. The mobility rate scales with the GRACE deficit relative to
-> the 2006/07 baseline. Half the observed slope gives 791,000 arrivals, the
-> observed slope 809,000, a 50% steeper slope 825,000. If the trend were
+> the 2006/07 baseline. Half the observed slope gives 798,000 arrivals, the
+> observed slope 821,000, a 50% steeper slope 839,000. If the trend were
 > different, the planning output would be different."
 
 Have `phase2_coupled_summary.txt` open in a tab.
@@ -164,8 +166,8 @@ wrong claim.
 
 ## Do not do these
 
-- Don't quote the −0.898 / r = −0.678 OLS figures as the headline. The
-  site leads with Sen's slope and Mann-Kendall (−0.90 cm/yr, p = 0.010).
+- Don't quote the −1.013 / r = −0.763 OLS figures as the headline. The
+  site leads with Sen's slope and Mann-Kendall (−1.04 cm/yr, p = 0.0046).
   `grace_mascon_tws_raw.csv` is committed and reproduces both; if a judge
   opens `phase2_summary.txt` (the older LAND product, r = −0.921), say which
   product the site uses. `14_reconcile_grace.py` shows the two side by side.

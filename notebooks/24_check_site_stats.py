@@ -15,13 +15,11 @@ WHAT IT CHECKS
     2. The 95% confidence interval for Sen's slope against
        scipy.stats.theilslopes on the same series.
     3. The JS erfc against Python's math.erfc over a range of inputs.
-    4. If data/processed/detective_monthly.csv exists: a report (not a
-       pass/fail test) of how the Trend Detective's GRACE dry-season series
-       differs from script 16's. They are built differently on purpose:
-       script 16 filtered images by start date (stamped the last day of the
-       previous month, so its "January-May" is February-May) and reduced a
-       resampled composite; script 23 places images by midpoint and reduces
-       on the mascon product's own 0.5 degree grid. See CORRECTIONS.md.
+    4. If data/processed/detective_monthly.csv exists: the January-May
+       GRACE means rebuilt from its monthly values, as the page does, against
+       data/processed/grace_regional_tws.csv (script 16). Both place images
+       by midpoint and use the mascon product's native grid
+       (notebooks/grace_season.py), so they must agree.
 
     Needs Node.js. No Earth Engine.
 
@@ -97,7 +95,7 @@ for x, got in zip(erfc_x, js['erfc']):
 
 print(f'{len(series)} series and {len(erfc_x)} erfc values compared')
 
-# ── report: Trend Detective GRACE (true Jan-May, native grid) vs script 16 ─
+# ── monthly -> January-May GRACE, as the page aggregates it ──────────────
 mpath = DATA + 'detective_monthly.csv'
 if os.path.exists(mpath):
     m = pd.read_csv(mpath)
@@ -108,13 +106,18 @@ if os.path.exists(mpath):
            .agg(w=('w', 'sum'), n=('n', 'sum')).reset_index())
     got['tws'] = got.w / got.n
     got['region'] = got.region.map(names)
-    cmp = reg.dropna(subset=['tws']).merge(got.dropna(), on=['region', 'year'], suffixes=('_16', '_23'))
-    print('GRACE dry season, Trend Detective minus script 16 (cm), by region:')
-    for r, d in cmp.groupby('region'):
-        diff = d.tws_23 - d.tws_16
-        print(f'  {r:20s} mean {diff.mean():+.2f}, largest {diff.abs().max():.2f}, {len(d)} years')
+    want = reg.dropna(subset=['tws'])
+    cmp = want.merge(got.dropna(subset=['region']), on=['region', 'year'], suffixes=('_16', '_23'))
+    worst = (cmp.tws_16 - cmp.tws_23).abs().max()
+    print(f'GRACE Jan-May from monthly: {len(cmp)} region-years, largest difference {worst:.2e} cm')
+    if len(cmp) != len(want):
+        fails.append(f'GRACE Jan-May: {len(cmp)} region-years matched, script 16 has {len(want)}')
+    if (cmp.n_images != cmp.n).any():
+        fails.append('GRACE Jan-May: image counts differ from script 16')
+    if worst > 1e-6:
+        fails.append(f'GRACE Jan-May differs from script 16 by up to {worst:.3g} cm')
 else:
-    print('detective_monthly.csv not found; run script 23 for the GRACE report')
+    print('detective_monthly.csv not found; run script 23 for the aggregation check')
 
 if fails:
     print('\nMISMATCHES:'); print('\n'.join('  ' + f for f in fails))

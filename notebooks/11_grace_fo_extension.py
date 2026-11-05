@@ -30,6 +30,7 @@ import matplotlib.patches as mpatches
 from scipy import stats
 import os
 import time
+import grace_season
 
 # ─────────────────────────────────────────────
 # 0. INITIALISE EARTH ENGINE
@@ -66,8 +67,7 @@ study_area = rajshahi_div.geometry()
 # Band: lwe_thickness (cm) — equivalent water thickness anomaly
 # Scale: 0.5° (~55 km) but mascon resolution is effectively ~300 km
 
-mascon = ee.ImageCollection('NASA/GRACE/MASS_GRIDS_V04/MASCON_CRI') \
-           .select('lwe_thickness')
+mascon = grace_season.mascon()   # image midpoints, native grid: see grace_season.py
 
 GRACE_START = 2002
 GRACE_END   = 2024   # update this each year
@@ -83,16 +83,10 @@ all_records = []
 
 for year in range(GRACE_START, GRACE_END + 1):
     try:
-        # Pre-Aman season: Jan–May captures groundwater drawdown
-        # from Boro (dry season) irrigation — same window as Script 01
-        start = ee.Date.fromYMD(year, 1, 1)
-        end   = ee.Date.fromYMD(year, 5, 31)
-
-        # Mean TWS anomaly over the season
-        seasonal_mean = mascon.filterDate(start, end).mean()
-
-        # Check if images exist for this period
-        count = mascon.filterDate(start, end).size().getInfo()
+        # Pre-Aman season: Jan–May captures groundwater drawdown from Boro
+        # (dry season) irrigation. Images placed by midpoint, mean on the
+        # mascon product's native 0.5 degree grid (grace_season.py).
+        tws_val, count = grace_season.season_mean(mascon, study_area, year, 1, 5)
 
         if count == 0:
             print(f"  – {year}: no GRACE images for Jan–May (gap year)")
@@ -102,17 +96,6 @@ for year in range(GRACE_START, GRACE_END + 1):
                 'image_count' : 0
             })
             continue
-
-        # Extract mean over study area
-        stats_dict = seasonal_mean.reduceRegion(
-            reducer   = ee.Reducer.mean(),
-            geometry  = study_area,
-            scale     = 55000,    # ~MASCON resolution
-            maxPixels = 1e9,
-            bestEffort= True
-        ).getInfo()
-
-        tws_val = stats_dict.get('lwe_thickness', np.nan)
 
         all_records.append({
             'year'        : year,

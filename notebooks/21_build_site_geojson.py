@@ -104,6 +104,23 @@ if start < 0:
 end = s.find('};', start) + 2
 s = s[:start] + blob + s[end:]
 
+# ── hero chart: Barind dry-season GRACE series (script 16) ────────────────
+reg = pd.read_csv(DATA + 'grace_regional_tws.csv')
+b = reg[reg.region == 'Barind Tract (NW)'].set_index('year').sort_index()
+years = list(range(int(b.index.min()), int(b.index.max()) + 1))
+trend = {'years': years,
+         'series': {'barind': {'tws': [None if pd.isna(b.tws.get(y)) else round(float(b.tws[y]), 2) for y in years],
+                               'n': [int(b.n_images.get(y, 0)) for y in years]}},
+         'barind_baseline': round(float(b.loc[2002:2004, 'tws'].mean()), 2),
+         'barind_plateau': round(float(b.loc[2011:2017, 'tws'].mean()), 2)}
+start = s.find('const TREND = ')
+if start < 0:
+    raise SystemExit('TREND block not found in ' + html_path)
+end = s.find(';\n', start) + 1
+s = s[:start] + 'const TREND = ' + json.dumps(trend, separators=(',', ':')) + ';' + s[end:]
+print(f"hero: Barind 2002-04 {trend['barind_baseline']} cm, 2011-17 {trend['barind_plateau']} cm, "
+      f"drop {trend['barind_baseline'] - trend['barind_plateau']:.2f} cm")
+
 # ── Trend Detective: statistics code and monthly data ─────────────────────
 a, b = '/* TREND_STATS:BEGIN */\n', '/* TREND_STATS:END */'
 i, j = s.find(a), s.find(b)

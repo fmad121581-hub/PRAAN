@@ -2,25 +2,25 @@ PRAAN Phase 2 — GRACE-coupled mobility scenarios
 ============================================================
 
 GRACE trend (committed grace_mascon_tws_raw.csv, n=22):
-  slope = -0.4308 per year, r = -0.491, p = 2.03e-02
+  slope = -0.5131 per year, r = -0.579, p = 4.71e-03
   NOTE: units follow the raw GEE export; the coupling uses ratios only
   and is therefore unaffected by the cm/m labelling question.
 
-Deficit ratio 2026 vs 2006/07: 1.439
+Deficit ratio 2026 vs 2006/07: 1.584
 
 Coupling: rate = clip(0.36 * (D_t/D_ref)^EPSILON, 0.2, 0.5)
 EPSILON is a scenario parameter, not an estimate.
 
     scenario  epsilon  mobility_rate_uncoupled  mobility_rate_coupled  dhaka_city_arrivals_uncoupled  dhaka_city_arrivals_coupled
-conservative     0.05                     0.20                 0.3666                         425827                       780559
-     central     0.15                     0.36                 0.3802                         766489                       809478
-        high     0.35                     0.50                 0.4089                        1064569                       870570
+conservative     0.05                     0.20                 0.3684                         425827                       784311
+     central     0.15                     0.36                 0.3857                         766489                       821208
+        high     0.35                     0.50                 0.4228                        1064569                       900291
 
 HEADLINE IN USE: uncoupled (original 0.36 anchor)
   central arrivals = 766,489
 
 WHY EPSILON IS SMALL
-  D_2026/D_ref = 1.44. A proportional response (EPSILON=1) implies a
-  0.52 mobility rate, past the 0.5 cap, which binds for any
-  EPSILON >= 0.90. Mobility is damped relative to
+  D_2026/D_ref = 1.58. A proportional response (EPSILON=1) implies a
+  0.57 mobility rate, past the 0.5 cap, which binds for any
+  EPSILON >= 0.71. Mobility is damped relative to
   water stress by irrigation investment, remittances and adaptation.

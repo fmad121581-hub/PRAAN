@@ -17,10 +17,11 @@ demo) · Md. Fardeen Al Mahin (design and submission)
 PRAAN is a trend detective for Bangladesh's groundwater. Using NASA GRACE and
 GRACE-FO, we measured dry-season water storage from 2002 to 2024 in three
 regions of Bangladesh with the same extraction and the same trend test. The
-Barind Tract in the northwest is falling by 0.90 cm a year (Mann-Kendall
-p = 0.010), the coastal south by 0.56 cm a year (p = 0.0079), while the haor
-basin in the northeast shows no significant trend and tilts upward over the
-full record. Over the same Barind districts and season, MODIS vegetation is
+Barind Tract in the northwest is falling by 1.04 cm a year over 2002–2017
+(Mann-Kendall p = 0.0046) and the decline holds over the full 2002–2024
+record. The coastal south fell over 2002–2017 (p = 0.017) but not
+significantly once GRACE-FO is added, and the haor basin in the northeast
+shows no significant trend and tilts upward over the full record. Over the same Barind districts and season, MODIS vegetation is
 rising significantly and CHIRPS rainfall shows no significant trend: the land
 is getting greener while the water under it runs down, which points to
 irrigation pumping rather than drought.
@@ -72,9 +73,11 @@ three independent regions, which is what GRACE's resolution supports.
 
 *How much and how significant.* Sen's slope and the Mann-Kendall test, with
 a Hamed-Rao check for serial correlation that is only ever allowed to make a
-p-value larger. Barind: −0.90 cm/yr, p = 0.010 (2002–2017) and −0.57 cm/yr,
-p = 0.018 (2002–2024). Coastal south: −0.56 cm/yr, p = 0.0079. Haor basin:
-not significant in either window.
+p-value larger. Barind: −1.04 cm/yr, p = 0.0046 (2002–2017) and −0.56 cm/yr,
+p = 0.0075 (2002–2024). Coastal south: −0.63 cm/yr, p = 0.017 (2002–2017),
+not significant over 2002–2024 (p = 0.54). Haor basin: not significant in
+either window. GRACE images are placed by their midpoint date and averaged
+on the product's native grid (CORRECTIONS.md section 12).
 
 *The tool.* The Trend Detective answers the same four questions for any
 variable, region, season and period a user picks: six variables from GRACE

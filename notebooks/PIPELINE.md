@@ -10,6 +10,7 @@ No `_FIXED` suffixes any more. Superseded versions live in `archive/`.
 | 02 | `02_bbs_yield_processing.py` | `bbs_yield_anomaly.csv` |
 | 03 | `03_signal_validation.py` | `validation_results.txt` |
 | 04 | `04_grace_analysis.py` | `grace_trend.png` |
+| — | `grace_season.py` | not run directly: the one GRACE seasonal-mean method (image midpoints, native grid), imported by 11 and 16 |
 | 11 | `11_grace_fo_extension.py` | **`grace_mascon_tws_raw.csv`** — the product the site publishes |
 | 11b | `11b_grace_fo_chart.py` | `grace_fo_extended_trend.png` |
 | 14 | `14_reconcile_grace.py` | checks every GRACE CSV agrees with the site; `--apply` rewrites the figures |
@@ -82,9 +83,9 @@ predicted. Rebuilt from year-2000 inputs only the index predicts nothing
 (rho = −0.154, p = 0.19), so arrivals are now allocated on population alone
 and `ALLOCATION = 'population'` in script 15.
 
-**What 18 settled.** OLS gives the Barind GRACE trend p = 0.0039.
-Mann-Kendall gives p = 0.0103, and the site publishes that. The raw series
-has lag-1 autocorrelation of +0.724, but almost all of it is trend: the
+**What 18 settled.** OLS gives the Barind GRACE trend p = 0.0006.
+Mann-Kendall gives p = 0.0046, and the site publishes that. The raw series
+has lag-1 autocorrelation of +0.76, but almost all of it is trend: the
 Hamed-Rao check on the detrended series finds nothing significant, so the
 correction leaves the p-value unchanged. The correction is floored at 1, so
 it can raise a p-value but never lower one.

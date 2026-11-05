@@ -8,25 +8,25 @@ Question : does the same variable trend differently by region?
 PAIRWISE SEPARATION
 ----------------------------------------------------------------------
                                     pair  mean_abs_diff_cm  correlation
- Barind Tract (NW) vs Central Floodplain             6.025        0.477
- Barind Tract (NW) vs Coastal South (SW)             5.446        0.931
-    Barind Tract (NW) vs Haor Basin (NE)             6.018        0.475
-Central Floodplain vs Coastal South (SW)             5.999        0.454
-   Central Floodplain vs Haor Basin (NE)             0.052        1.000
-   Coastal South (SW) vs Haor Basin (NE)             5.974        0.452
+ Barind Tract (NW) vs Central Floodplain             6.517        0.313
+ Barind Tract (NW) vs Coastal South (SW)             4.035        0.808
+    Barind Tract (NW) vs Haor Basin (NE)             6.517        0.313
+Central Floodplain vs Coastal South (SW)             3.856        0.765
+   Central Floodplain vs Haor Basin (NE)             0.000        1.000
+   Coastal South (SW) vs Haor Basin (NE)             3.856        0.765
 
-"Central Floodplain" and "Haor Basin (NE)" differ by 0.052 cm (correlation 1.000). They fall inside the same
+"Central Floodplain" and "Haor Basin (NE)" differ by 0.000 cm (correlation 1.000). They fall inside the same
 GRACE mascon cell and are one signal, not two. Only Haor Basin (NE) is reported.
 
 TRENDS
 ----------------------------------------------------------------------
             region    period  n  slope_cm_yr       r      p              verdict
- Barind Tract (NW) 2002-2017 16      -0.8976 -0.6776 0.0039  significant decline
- Barind Tract (NW) 2002-2024 22      -0.4308 -0.4912 0.0203  significant decline
-Coastal South (SW) 2002-2017 16      -0.5718 -0.7217 0.0016  significant decline
-Coastal South (SW) 2002-2024 22      -0.2638 -0.4734 0.0261  significant decline
-   Haor Basin (NE) 2002-2017 16      -0.3091 -0.2242 0.4040 no significant trend
-   Haor Basin (NE) 2002-2024 22       0.3590  0.3402 0.1213 no significant trend
+ Barind Tract (NW) 2002-2017 16      -1.0128 -0.7631 0.0006  significant decline
+ Barind Tract (NW) 2002-2024 22      -0.5131 -0.5795 0.0047  significant decline
+Coastal South (SW) 2002-2017 16      -0.5930 -0.6929 0.0029  significant decline
+Coastal South (SW) 2002-2024 22      -0.0914 -0.1532 0.4962 no significant trend
+   Haor Basin (NE) 2002-2017 16      -0.3516 -0.2921 0.2724 no significant trend
+   Haor Basin (NE) 2002-2024 22       0.3553  0.3694 0.0907 no significant trend
 
 HOW TO STATE THIS
 ----------------------------------------------------------------------
