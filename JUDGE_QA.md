@@ -18,16 +18,24 @@ Answer it before they do — it is now in your Limitations section.
 > so what GRACE gives us is a northwest-Bangladesh water-balance trend. We
 > measured how bad that is rather than guessing: we ran the same variable,
 > same season, same method over four regions of the country. Three are
-> genuinely separate signals — every pair differs by 5 to 6 cm — but the
-> northeast haor basin and the central floodplain come back 0.05 cm apart
+> genuinely separate signals — every pair differs by 4 to 6.5 cm — but the
+> northeast haor basin and the central floodplain come back identical,
 > with a correlation of 1.000. Sylhet and Dhaka are inside one mascon cell.
 > Bangladesh is about 400 km across and a mascon resolves about 300, so the
 > country supports roughly three independent samples, not four, and we
-> report three. The groundwater interpretation then comes from pairing the
-> regional trend with BWDB/BMDA tube-well records showing water-table
+> report three. The groundwater interpretation comes from two things.
+> First, we subtract the soil, snow and canopy water in NASA's GLDAS model
+> from GRACE, and the Barind's dry-season remainder still falls: −0.65 cm
+> a year over 2002–2017, p = 0.017, about two-thirds of the decline.
+> Second, we pair that with BWDB/BMDA tube-well records showing water-table
 > decline averaging 0.2-0.4 m/yr across Rajshahi district (2000-2013), and
 > over 0.6 m/yr in the fastest-depleting upazilas such as Tanore (Aziz et
-> al. 2015). Satellite for the trend, ground data for the cause."
+> al. 2015). Satellite for the trend, a NASA model to take out the soil
+> water, ground data for the cause."
+
+If they ask what is left in the remainder: groundwater **plus surface
+water**. GLDAS Noah has no rivers or wetlands and no irrigation, which is
+why we use the dry season and call it an estimate.
 
 Never say "GRACE proves groundwater depletion in the Barind Tract."
 
@@ -128,9 +136,10 @@ wrong claim.
 
 ### 7. "The challenge asks for a tool. Where is it?"
 
-> "Scroll to Be the trend detective. Pick any of six variables — GRACE
-> water storage, GPM and CHIRPS rainfall, MODIS greenness and ground
-> temperature, GLDAS soil moisture — any of five regions, a season and a
+> "Scroll to Be the trend detective. Pick any of seven variables — GRACE
+> water storage, a groundwater estimate from GRACE minus GLDAS, GPM and
+> CHIRPS rainfall, MODIS greenness and ground temperature, GLDAS soil
+> moisture — any of five regions, a season and a
 > range of years. It draws the record and runs Sen's slope with a 95%
 > confidence interval and the Mann-Kendall test right in the page, with
 > the same code as our Python pipeline, which script 24 checks against

@@ -17,6 +17,10 @@ VARIABLES
     ndvi   MODIS Terra MOD13A3 v061 monthly NDVI                     unitless
     lst    MODIS Terra MOD11A2 v061 8-day daytime land surface temp  deg C
     soil   GLDAS-2.1 Noah root-zone soil moisture (RootMoist_inst)   mm
+    land   GLDAS-2.1 Noah soil moisture 0-200 cm (four layers) + snow
+           water equivalent + canopy water                           mm
+           Not shown on its own: script 22 subtracts it from GRACE to
+           estimate groundwater.
 
 REGIONS (GAUL 2015 level 2 districts, as script 16)
     barind  Rajshahi, Naogaon, Natore, Nawabganj
@@ -33,15 +37,15 @@ GRACE MONTHS
     is the number of images in that month. The page takes an n-weighted mean
     over a season, which equals the mean of all images in it.
 
-    Script 16 filtered by start date over 1 January - 31 May, so its
-    "January-May" series is really February-May. Script 24 checks that the
-    February-May means rebuilt from this file match script 16 exactly.
+    Scripts 11 and 16 use the same rule through grace_season.py, and script
+    24 checks that the January-May means rebuilt from this file match
+    script 16 exactly.
 
 NATIVE GRID
     Averaging images in Earth Engine drops their projection, and a reduction
     at a nominal `scale` then resamples onto a grid with a different
     alignment. For GRACE over the small coastal region that moved values by
-    several centimetres (script 16 had this). Every monthly image here is
+    several centimetres (script 16 once had this). Every monthly image here is
     reduced on its source dataset's own grid (crs and transform of the first
     image), so each region's mean uses the pixels the product actually has.
 
@@ -125,6 +129,11 @@ VARS = {
     'soil': dict(col='NASA/GLDAS/V021/NOAH/G025/T3H', band='RootMoist_inst',
                  years=(2001, 2025), reducer=ee.Reducer.mean(),
                  prep=lambda img, d: img),
+    'land': dict(col='NASA/GLDAS/V021/NOAH/G025/T3H',
+                 band=['SoilMoi0_10cm_inst', 'SoilMoi10_40cm_inst', 'SoilMoi40_100cm_inst',
+                       'SoilMoi100_200cm_inst', 'SWE_inst', 'CanopInt_inst'],
+                 years=(2001, 2025), reducer=ee.Reducer.mean(),
+                 prep=lambda img, d: img.reduce(ee.Reducer.sum())),
 }
 
 ONLY = sys.argv[1:]

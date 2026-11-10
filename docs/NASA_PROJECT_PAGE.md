@@ -24,15 +24,18 @@ significantly once GRACE-FO is added, and the haor basin in the northeast
 shows no significant trend and tilts upward over the full record. Over the same Barind districts and season, MODIS vegetation is
 rising significantly and CHIRPS rainfall shows no significant trend: the land
 is getting greener while the water under it runs down, which points to
-irrigation pumping rather than drought.
+irrigation pumping rather than drought. Subtracting the soil, snow and canopy
+water in NASA's GLDAS model from GRACE leaves a remainder, groundwater plus
+surface water, that still falls significantly (−0.65 cm a year, p = 0.017).
 
 Anyone can repeat the investigation. The site's Trend Detective lets a user
-choose one of six variables (GRACE/GRACE-FO water storage, GPM rainfall,
-CHIRPS rainfall, MODIS vegetation greenness, MODIS land surface temperature,
-GLDAS soil moisture), any of five regions, a season and a range of years. It
+choose one of seven variables (GRACE/GRACE-FO water storage, a groundwater
+estimate from GRACE minus GLDAS, GPM rainfall, CHIRPS rainfall, MODIS
+vegetation greenness, MODIS land surface temperature, GLDAS soil moisture),
+any of five regions, a season and a range of years. It
 draws the record and runs Sen's slope with a 95% confidence interval and the
 Mann-Kendall test in the browser, with code checked against our Python
-analysis. Three worked cases, one of them a null result, show how to read
+analysis. Four worked cases, one of them a null result, show how to read
 it, and it works offline.
 
 We then follow that trend to where its consequences may land. Using census
@@ -74,27 +77,31 @@ three independent regions, which is what GRACE's resolution supports.
 *How much and how significant.* Sen's slope and the Mann-Kendall test, with
 a Hamed-Rao check for serial correlation that is only ever allowed to make a
 p-value larger. Barind: −1.04 cm/yr, p = 0.0046 (2002–2017) and −0.56 cm/yr,
-p = 0.0075 (2002–2024). Coastal south: −0.63 cm/yr, p = 0.017 (2002–2017),
+p = 0.0077 (2002–2024). Coastal south: −0.63 cm/yr, p = 0.017 (2002–2017),
 not significant over 2002–2024 (p = 0.54). Haor basin: not significant in
 either window. GRACE images are placed by their midpoint date and averaged
 on the product's native grid (CORRECTIONS.md section 12).
 
 *The tool.* The Trend Detective answers the same four questions for any
-variable, region, season and period a user picks: six variables from GRACE
+variable, region, season and period a user picks: seven variables from GRACE
 and GRACE-FO, GPM, MODIS, GLDAS and CHIRPS, extracted as monthly means over
 five regions (script 23) and embedded in the page. The statistics run in
 the browser from one source file that a test (script 24) checks against our
 Python pipeline and scipy. Plain-language definitions sit beside every
-variable and statistical term, and three worked cases guide a first-time
+variable and statistical term, and four worked cases guide a first-time
 user, including one where the answer is "no significant trend".
 
 *Why.* MODIS NDVI over the same districts and season rises significantly,
 and CHIRPS rainfall shows no significant trend over 39 years. Together these
 point to irrigation extraction, consistent with Bangladesh Water Development
 Board tube-well records (Aziz et al. 2015). GRACE measures total water
-storage, not groundwater alone; a GLDAS-2.1 step that subtracts soil
-moisture, snow and canopy water is written (script 22) but not yet run, so
-we make no groundwater-only claim.
+storage, not groundwater alone, so we subtract the soil moisture, snow and
+canopy water in NASA's GLDAS-2.1 Noah model (the water-balance method of
+Rodell et al. 2009). The Barind's dry-season remainder still falls: −0.65
+cm/yr over 2002–2017 (p = 0.017) and −0.42 cm/yr over 2002–2024
+(p = 0.047), about two-thirds of the full decline. That remainder still
+includes surface water, and GLDAS does not model irrigation, so we call it
+a groundwater estimate, not a measurement.
 
 *So what.* Using BBS census data, a migration scenario and an Absorption
 Stress Index built from WorldPop density, JRC built-up surface, JRC flood
@@ -146,10 +153,9 @@ what to claim. Details and example prompts: `docs/AI_USE.md`.
 - MODIS Terra land surface temperature (MOD11A2 v061) — Trend Detective
   variable (daytime ground temperature).
 - GPM IMERG V07 monthly precipitation — Trend Detective rainfall variable.
-- GLDAS-2.1 Noah — root-zone soil moisture as a Trend Detective variable.
-  Subtracting GLDAS soil, snow and canopy water from GRACE to separate
-  groundwater (script 22) is written but not yet run, so no result from it
-  is claimed.
+- GLDAS-2.1 Noah — soil moisture (0–200 cm), snow and canopy water,
+  subtracted from GRACE to estimate groundwater plus surface water
+  (script 22); root-zone soil moisture as a Trend Detective variable.
 
 Other sources on top of NASA data: CHIRPS rainfall (also a Trend Detective
 variable, for its record back to 1981), WorldPop, JRC GHSL, JRC

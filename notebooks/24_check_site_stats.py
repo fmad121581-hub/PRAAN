@@ -21,6 +21,13 @@ WHAT IT CHECKS
        by midpoint and use the mascon product's native grid
        (notebooks/grace_season.py), so they must agree.
 
+    5. If outputs/gldas_groundwater_stats.csv exists (script 22): the
+       groundwater-estimate trends, rebuilt from the monthly file the way
+       the page aggregates them and run through the page's code.
+    6. The figures printed in outputs/PRAAN.html: every headline number
+       (slopes, p-values, the dry-season drop) is recomputed from the CSVs
+       and must appear in the page text, so the prose cannot go stale.
+
     Needs Node.js. No Earth Engine.
 
 RUN
@@ -119,7 +126,84 @@ if os.path.exists(mpath):
 else:
     print('detective_monthly.csv not found; run script 23 for the aggregation check')
 
+# ── groundwater estimate: page aggregation + page statistics vs script 22 ─
+gpath, spath = DATA + 'gldas_regional_storage.csv', OUT + 'gldas_groundwater_stats.csv'
+gstats = None
+if os.path.exists(gpath) and os.path.exists(spath):
+    gw = pd.read_csv(gpath)
+    gw = gw[gw.month.between(1, 5)]
+    yr = (gw.assign(w=gw.gws_cm * gw.n).groupby(['region', 'year'])
+          .agg(w=('w', 'sum'), n=('n', 'sum'), months=('month', 'size')).reset_index())
+    yr = yr[yr.months >= 2]
+    yr['gws'] = yr.w / yr.n
+    gseries = {}
+    for rk, d in yr.groupby('region'):
+        for label, sub in [('2002-2017', d[d.year <= 2017]), ('2002-2024', d)]:
+            gseries[f'{rk}|{label}'] = sub.sort_values('year')[['year', 'gws']].values.tolist()
+    res = subprocess.run(['node', '-e', node_src, JS], input=json.dumps({'series': gseries, 'erfc': []}),
+                         capture_output=True, text=True, encoding='utf-8')
+    if res.returncode:
+        sys.exit('node failed:\n' + res.stderr)
+    gjs = json.loads(res.stdout)['series']
+    gstats = pd.read_csv(spath)
+    want = gstats[gstats.column == 'gws_cm'].set_index(['region_key', 'period'])
+    for k, a in gjs.items():
+        rk, label = k.split('|')
+        r = want.loc[(rk, label)]
+        check(f'groundwater {k} Sen slope', a['slope'], r.sens_slope_cm_yr)
+        check(f'groundwater {k} Mann-Kendall p', a['p'], r.mk_p)
+        check(f'groundwater {k} CI low', a['lo'], r.ci_low)
+        check(f'groundwater {k} CI high', a['hi'], r.ci_high)
+    print(f'groundwater estimate: {len(gjs)} series compared')
+else:
+    print('gldas_groundwater_stats.csv not found; run script 22 for the groundwater check')
+
+# ── the figures printed on the page ──────────────────────────────────────
+html_path = OUT + 'PRAAN.html'
+if os.path.exists(html_path):
+    import re
+    h = open(html_path, encoding='utf-8').read()
+    h = re.sub(r'const (WARD_GEO|DETECTIVE|TREND) = .*', '', h)
+    for ent, ch_ in [('&nbsp;', ' '), (' ', ' '), ('&minus;', '-'), ('−', '-'), ('&ndash;', '-'), ('–', '-')]:
+        h = h.replace(ent, ch_)
+    pf = lambda v: f'{v:.2g}'
+    R = lambda name: ref.loc[name]
+    b17, b24 = R('Barind Tract (NW) 2002-2017'), R('Barind Tract (NW) 2002-2024')
+    c17, c24 = R('Coastal South (SW) 2002-2017'), R('Coastal South (SW) 2002-2024')
+    h17, h24 = R('Haor Basin (NE) 2002-2017'), R('Haor Basin (NE) 2002-2024')
+    bar = reg[reg.region == 'Barind Tract (NW)'].set_index('year').tws
+    drop = bar.loc[2002:2004].mean() - bar.loc[2011:2017].mean()
+    expect = [
+        ('Barind 2002-2017 slope', f'-{abs(b17.sens_slope):.2f} cm/yr'),
+        ('Barind 2002-2017 p', f'p = {pf(b17.mk_p_autocorr_corrected)}'),
+        ('Barind 2002-2024 slope', f'-{abs(b24.sens_slope):.2f} cm/yr'),
+        ('Barind 2002-2024 p', f'p = {pf(b24.mk_p_autocorr_corrected)}'),
+        ('Coastal 2002-2017 slope', f'-{abs(c17.sens_slope):.2f} cm/yr'),
+        ('Coastal 2002-2017 p', f'p = {pf(c17.mk_p_autocorr_corrected)}'),
+        ('Coastal 2002-2024 slope', f'-{abs(c24.sens_slope):.2f} cm/yr'),
+        ('Coastal 2002-2024 p', f'p = {pf(c24.mk_p_autocorr_corrected)}'),
+        ('Haor 2002-2017 slope', f'-{abs(h17.sens_slope):.2f} cm/yr'),
+        ('Haor 2002-2017 p', f'p = {pf(h17.mk_p_autocorr_corrected)}'),
+        ('Haor 2002-2024 slope', f'+{h24.sens_slope:.2f} cm/yr'),
+        ('Haor 2002-2024 p', f'p = {pf(h24.mk_p_autocorr_corrected)}'),
+        ('Barind OLS p', f'p = {pf(b17.ols_p)}'),
+        ('Barind lag-1 autocorrelation', f'+{b17.lag1_autocorr:.2f}'),
+        ('dry-season drop', f'{drop:.0f} cm'),
+    ]
+    if gstats is not None:
+        gb = gstats[(gstats.region_key == 'barind') & (gstats.column == 'gws_cm')].set_index('period')
+        expect += [
+            ('Barind groundwater 2002-2017 slope', f'-{abs(gb.sens_slope_cm_yr["2002-2017"]):.2f} cm/yr'),
+            ('Barind groundwater 2002-2017 p', f'p = {pf(gb.mk_p["2002-2017"])}'),
+            ('Barind groundwater 2002-2024 slope', f'-{abs(gb.sens_slope_cm_yr["2002-2024"]):.2f} cm/yr'),
+            ('Barind groundwater 2002-2024 p', f'p = {pf(gb.mk_p["2002-2024"])}'),
+        ]
+    missing = [(k, v) for k, v in expect if v not in h]
+    print(f'page text: {len(expect) - len(missing)} of {len(expect)} published figures found')
+    for k, v in missing:
+        fails.append(f'page text: {k} should read "{v}" and that string is not in PRAAN.html')
+
 if fails:
     print('\nMISMATCHES:'); print('\n'.join('  ' + f for f in fails))
     sys.exit(1)
-print('PASS: the page computes the same trend statistics as the Python pipeline')
+print('PASS: the page computes the same trend statistics as the Python pipeline, and prints its figures')

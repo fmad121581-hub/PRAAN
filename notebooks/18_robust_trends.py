@@ -41,6 +41,26 @@ def sens_slope(y, x):
     return float(np.median(s)) if s else np.nan
 
 
+def tie_ranks(v):
+    """Ranks from 0, with ties sharing their average rank. Detrending by
+    Sen's slope always leaves two points exactly level (the median slope
+    passes through a pair), and floating-point noise would otherwise decide
+    their order differently on different machines. Values closer than 1e-9
+    of the series' range count as tied."""
+    v = np.asarray(v, float)
+    order = np.argsort(v, kind='stable')
+    tol = 1e-9 * (v.max() - v.min())
+    ranks = np.empty(len(v))
+    i = 0
+    while i < len(v):
+        j = i
+        while j + 1 < len(v) and v[order[j + 1]] - v[order[j]] <= tol:
+            j += 1
+        ranks[order[i:j + 1]] = (i + j) / 2
+        i = j + 1
+    return ranks
+
+
 def mann_kendall(y, autocorr_correction=True):
     """Mann-Kendall trend test. With autocorr_correction, applies the
     Hamed-Rao variance inflation for serially correlated data."""
@@ -60,7 +80,7 @@ def mann_kendall(y, autocorr_correction=True):
         x = np.arange(n)
         slope = sens_slope(y, x)
         detr = y - slope * x
-        r = np.argsort(np.argsort(detr))
+        r = tie_ranks(detr)
         rbar, rvar = r.mean(), r.var()
         acc = 0.0
         if rvar > 0:

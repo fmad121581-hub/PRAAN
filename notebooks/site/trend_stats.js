@@ -90,9 +90,18 @@ const TrendStats = (() => {
       const idx = y.map((_, i) => i);
       const sl = sensSlope(y, idx);
       const detr = y.map((val, i) => val - sl * i);
+      // Ranks from 0, ties sharing their average rank (as tie_ranks in
+      // script 18): detrending by Sen's slope always leaves two points
+      // exactly level, and float noise must not decide their order.
       const order = idx.slice().sort((a, b) => detr[a] - detr[b] || a - b);
+      const tol = 1e-9 * (Math.max(...detr) - Math.min(...detr));
       const r = new Array(n);
-      order.forEach((k, rank) => { r[k] = rank; });
+      for (let i = 0; i < n;) {
+        let j = i;
+        while (j + 1 < n && detr[order[j + 1]] - detr[order[j]] <= tol) j++;
+        for (let k = i; k <= j; k++) r[order[k]] = (i + j) / 2;
+        i = j + 1;
+      }
       const rbar = (n - 1) / 2;
       const rvar = r.reduce((a, q) => a + (q - rbar) ** 2, 0) / n;
       let acc = 0;

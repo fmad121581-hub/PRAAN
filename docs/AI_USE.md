@@ -15,7 +15,7 @@ We used two AI tools while building it.
 
 | Tool | Maker | Used for | Extent |
 |---|---|---|---|
-| Claude (Claude Opus 5 and 5.5, in chat and Claude Code) | Anthropic | Helping write and debug analysis scripts and website code, reviewing statistical methods, reviewing documentation | Extensive |
+| Claude (Claude Opus 5, Opus 5.5 and Fable 5.2, in chat and Claude Code) | Anthropic | Helping write and debug analysis scripts and website code, reviewing statistical methods, reviewing documentation | Extensive |
 | Perplexity | Perplexity AI | Finding literature and data sources | Light |
 
 ## Claude

@@ -23,6 +23,11 @@ scenarios → Dhaka ward absorption stress
 
 NASA GRACE/GRACE-FO reveals persistent water-storage depletion consistent
 with groundwater stress in the Barind Tract districts of Rajshahi Division.
+Subtracting the soil moisture, snow and canopy water in NASA's GLDAS-2.1
+Noah model from GRACE leaves a dry-season remainder (groundwater plus
+surface water) that still falls: −0.65 cm/yr over 2002–2017 (p = 0.017) and
+−0.42 cm/yr over 2002–2024 (p = 0.047), about two-thirds of the full
+decline (`22_gldas_groundwater.py`).
 CHIRPS rainfall shows no statistically significant linear correlation with
 Aman rice yield (r = −0.266, p = 0.142, n = 32), and rainfall itself has no
 significant trend (Mann-Kendall p = 0.063 over 1984–2022), so the depletion
@@ -42,7 +47,7 @@ is not explained by rainfall variability.
 > Those are the OLS figures. The website reports the rank-based versions
 > from script 18 (`outputs/robust_trend_stats.csv`): Sen's slope
 > **-1.04 cm/yr**, Mann-Kendall **p = 0.0046** (2002-2017), and
-> **-0.56 cm/yr, p = 0.0075** over 2002-2024. Each is checked for serial
+> **-0.56 cm/yr, p = 0.0077** over 2002-2024. Each is checked for serial
 > correlation with the Hamed-Rao method; the correction is only ever
 > allowed to make a p-value larger, and for the Barind it finds no
 > significant autocorrelation once the trend is removed.
@@ -218,9 +223,10 @@ it in a browser, there is no build step.
 | 18 | Sen's slope + Mann-Kendall with Hamed-Rao check — the published trend statistics |
 | 19–20 | Observed ward growth 2000–2020; does the ASI predict it? (it does not) |
 | 21 | Rebuild the site's map data from the committed CSVs |
-| 22 | GRACE minus GLDAS soil/snow/canopy — groundwater separation (not on the site yet) |
-| 23 | **Trend Detective data: six NASA and partner variables, five regions, monthly** |
-| 24 | Checks the page's in-browser trend statistics against scripts 16 and 18 |
+| 22 | **GRACE minus GLDAS soil/snow/canopy: the groundwater estimate** (offline, from script 23's data) |
+| 23 | **Trend Detective data: NASA and partner variables over five regions, monthly** |
+| 24 | Checks the page's in-browser statistics, and every figure printed on it, against the pipeline |
+| 25 | Draws the link-preview image (`deploy/og.png`) from the committed CSVs |
 
 Run order for Phase 3: `10` → `15` (15 reads the deduplicated frame written
 by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
@@ -234,7 +240,7 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
 - MODIS Terra NDVI — `MODIS/061/MOD13A3` (scripts 01, 03, 18) — Didan (2021)
 - MODIS Terra LST — `MODIS/061/MOD11A2` (script 23) — Wan, Hook & Hulley (2021)
 - GPM IMERG V07 — `NASA/GPM_L3/IMERG_MONTHLY_V07` (script 23) — Huffman et al. (2023)
-- GLDAS-2.1 Noah — `NASA/GLDAS/V021/NOAH/G025/T3H` (script 23; script 22, groundwater separation, not yet run) — Beaudoing & Rodell (2020)
+- GLDAS-2.1 Noah — `NASA/GLDAS/V021/NOAH/G025/T3H` (scripts 22 and 23) — Beaudoing & Rodell (2020)
 - CHIRPS Rainfall v2.0 — `UCSB-CHG/CHIRPS/PENTAD` — Funk et al. (2015)
 - WorldPop 2020 — WorldPop Global Project, University of Southampton
 - JRC GHSL P2023A — `JRC/GHSL/P2023A/GHS_BUILT_S` — Pesaresi et al. (2023)

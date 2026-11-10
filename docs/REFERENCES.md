@@ -20,9 +20,12 @@ Every dataset, paper, tool and asset PRAAN draws on.
 - **GPM IMERG Final Precipitation, monthly, V07** (`NASA/GPM_L3/IMERG_MONTHLY_V07`), via
   Google Earth Engine. Script 23. Huffman, G. J., et al. (2023). NASA GES DISC.
 - **GLDAS-2.1 Noah, 3-hourly, 0.25°** (`NASA/GLDAS/V021/NOAH/G025/T3H`), via Google
-  Earth Engine. Script 23 (root-zone soil moisture); script 22 (written, not yet run). Beaudoing, H., & Rodell, M. (2020). NASA GES DISC.
+  Earth Engine. Script 23 (extraction); script 22 (groundwater estimate, GRACE minus GLDAS). Beaudoing, H., & Rodell, M. (2020). NASA GES DISC.
   Rodell, M., et al. (2004). The Global Land Data Assimilation System. *Bulletin of
   the American Meteorological Society*, 85(3), 381–394.
+  Method of subtracting GLDAS land water from GRACE: Rodell, M., Velicogna, I., &
+  Famiglietti, J. S. (2009). Satellite-based estimates of groundwater depletion in
+  India. *Nature*, 460, 999–1002.
 
 ## Partner and third-party data
 

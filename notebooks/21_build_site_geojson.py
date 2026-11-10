@@ -20,7 +20,9 @@ WHAT IT DOES
     - inlines notebooks/site/trend_stats.js (the Trend Detective's
       statistics, checked by script 24) between the TREND_STATS markers
     - rebuilds `const DETECTIVE` from data/processed/detective_monthly.csv
-      (script 23), if that file exists
+      (script 23) and the groundwater estimate in gldas_regional_storage.csv
+      (script 22), if those files exist
+    - rebuilds `const TREND` (the hero chart) from grace_regional_tws.csv
 
 NO EARTH ENGINE NEEDED.
 
@@ -129,10 +131,15 @@ if i < 0 or j < 0:
 js = open(BASE + 'notebooks/site/trend_stats.js', encoding='utf-8').read()
 s = s[:i + len(a)] + js + s[j:]
 
-DET_DP = {'tws': 4, 'gpm': 1, 'chirps': 1, 'ndvi': 4, 'lst': 2, 'soil': 2}
+DET_DP = {'tws': 4, 'gws': 4, 'gpm': 1, 'chirps': 1, 'ndvi': 4, 'lst': 2, 'soil': 2}
 det_path = DATA + 'detective_monthly.csv'
 if os.path.exists(det_path):
     m = pd.read_csv(det_path)
+    m = m[m.variable != 'land']          # GLDAS land water is an input to script 22, not a tool variable
+    gws_path = DATA + 'gldas_regional_storage.csv'
+    if os.path.exists(gws_path):         # groundwater estimate, GRACE minus GLDAS (script 22)
+        gw = pd.read_csv(gws_path)
+        m = pd.concat([m, gw.assign(variable='gws', value=gw.gws_cm)[list(m.columns)]], ignore_index=True)
     det = {}
     for (var, reg), d in m.groupby(['variable', 'region']):
         y0, y1 = int(d.year.min()), int(d.year.max())
@@ -143,7 +150,7 @@ if os.path.exists(det_path):
             v[k] = round(float(val), DET_DP[var])
             n[k] = int(cnt)
         entry = {'y0': y0, 'v': v}
-        if var == 'tws':      # GRACE seasons are image-weighted means, as script 16
+        if var in ('tws', 'gws'):   # GRACE seasons are image-weighted means, as script 16
             entry['n'] = n
         det.setdefault(var, {})[reg] = entry
     det_blob = 'const DETECTIVE = ' + json.dumps({'data': det}, separators=(',', ':')) + ';'

@@ -66,13 +66,14 @@ attacked once before a judge attacks it.
 | 19 | `19_validate_asi.py` | `ward_observed_growth.csv` — WorldPop and GHSL growth per ward | yes |
 | 20 | `20_predictive_validation.py` | `predictive_validation.*` — does the ASI predict growth? | no |
 | 21 | `21_build_site_geojson.py` | rewrites `WARD_GEO` in `outputs/PRAAN.html`, mirrors to `deploy/index.html` | no |
-| 23 | `23_detective_monthly.py` | `detective_monthly.csv` — monthly means of six variables over five regions, for the Trend Detective tool | yes |
+| 23 | `23_detective_monthly.py` | `detective_monthly.csv` — monthly means of the Trend Detective variables, and GLDAS land water for script 22, over five regions | yes |
 | 24 | `24_check_site_stats.py` | checks the page's trend statistics and GRACE aggregation against scripts 16 and 18 (needs Node.js) | no |
-| 22 | `22_gldas_groundwater.py` | `gldas_regional_storage.csv`, `gldas_groundwater_*` — TWS minus GLDAS soil/snow/canopy, to separate groundwater. Not on the site yet | yes |
+| 22 | `22_gldas_groundwater.py` | `gldas_regional_storage.csv`, `gldas_groundwater_*` — GRACE minus GLDAS soil/snow/canopy: the groundwater estimate on the site and in the Trend Detective | no |
+| 25 | `25_og_card.py` | `deploy/og.png`, the link-preview image, drawn from the CSVs (needs Chrome or Edge) | no |
 
-Run 16 before 17, 19 before 20, and 23 before 21 (21 inlines the Trend
-Detective's data and statistics code). Run 24 after any change to
-`notebooks/site/trend_stats.js`. Scripts 17, 18, 20, 21 and 24 read committed
+Run 16 before 17, 19 before 20, 23 before 22, and 22 before 21 (21 inlines
+the Trend Detective's data and statistics code). Run 24 last: it checks the
+page's statistics and every figure printed on it against the CSVs. Scripts 17, 18, 20, 21 and 24 read committed
 CSVs, so they re-run in seconds without Earth Engine.
 
 **What 20 settled.** The arrival-allocation rule used to be
@@ -98,7 +99,11 @@ python 15_dissolve_and_rank.py      # the published ranking
 python 05b_grace_coupled_mobility.py
 python 14_reconcile_grace.py
 python 20_predictive_validation.py  # re-checks the allocation rule
-python 21_build_site_geojson.py     # rewrites the map data in the page
+python 18_robust_trends.py          # the published trend statistics
+python 22_gldas_groundwater.py      # the groundwater estimate (GRACE minus GLDAS)
+python 21_build_site_geojson.py     # rewrites the map, hero and Trend Detective data in the page
+python 24_check_site_stats.py       # the page's statistics and printed figures match the CSVs
+python 25_og_card.py                # the link-preview image
 ```
 
 Script 21 also copies the page to `deploy/index.html`, which is what
