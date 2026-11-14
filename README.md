@@ -253,6 +253,20 @@ by 10 and does its own sensitivity run). See `notebooks/PIPELINE.md`.
 - Khalily M.A.B., Khandker S.R., Samad H.A. (2006/07). *Seasonal Migration and
   Coping Strategies: The Monga Context in Bangladesh.* World Bank / BRAC
 
+## Use of AI
+
+PRAAN itself contains no AI and calls no AI service. No dataset, number,
+chart or image in this repository is AI-generated: all of them come from the
+scripts in `notebooks/` run on open data.
+
+The code is AI-assisted. Working from our instructions, Claude (Anthropic)
+helped write and debug the analysis scripts and the website code, review our
+statistical methods and edit documentation; commits it helped write carry a
+`Co-Authored-By: Claude` line in the git history. Perplexity helped find
+literature and data sources. The team chose the problem, data and methods,
+ran and checked every script, and decided what to claim. Full record:
+[`docs/AI_USE.md`](docs/AI_USE.md).
+
 ## Documentation
 
 - `docs/NASA_PROJECT_PAGE.md` — the text submitted on the NASA project page
